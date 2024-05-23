@@ -1,0 +1,15 @@
+nav{
+  position: fixed;
+  top: 0px;
+  width: 100%;
+}
+
+form{
+  color: black;
+}
+
+.sticky{
+  position: fixed;
+  top: 0;
+  width: 100%;
+}

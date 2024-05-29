@@ -7,8 +7,7 @@ import {AuthenticationService} from "../../Service/authentication.service";
   selector: 'app-login',
   standalone: true,
   imports: [
-    ReactiveFormsModule
-  ],
+    ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -37,12 +36,15 @@ export class LoginComponent {
   }
 
   tryLogin(value: any) {
-    this.authService.doLogin(value)
+    this.router.navigate(["/dashboard"]);
+   /* this.authService.doLogin(value)
       .then(res => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate([{path: "/dashboard"}]);
       }, err => {
         console.log(err);
         this.errorMessage = err.message;
       });
+
+    */
   }
 }

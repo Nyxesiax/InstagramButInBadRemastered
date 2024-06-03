@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
+import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {AuthenticationService} from "../../Service/authentication.service";
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLinkActive,
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -37,12 +39,15 @@ export class LoginComponent {
   }
 
   tryLogin(value: any) {
-    this.authService.doLogin(value)
+    this.router.navigate(["/dashboard"]);
+   /* this.authService.doLogin(value)
       .then(res => {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate([{path: "/dashboard"}]);
       }, err => {
         console.log(err);
         this.errorMessage = err.message;
       });
+
+    */
   }
 }

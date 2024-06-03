@@ -23,6 +23,25 @@ export class AuthenticationService {
     });
   }
 
+  doRegister(value: { email: string; password: string; }) {
+    console.log('email: ' + value.email);
+    console.log('pass: ' + value.password);
+    return new Promise<any>((resolve, reject) => {
+/*
+      firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
+        .then(res => {
+          return this.db.collection('users').doc(res.user.uid).set({
+            email: value.email
+          }).then(() => {
+            resolve(res);
+          });
+        }, err => reject(err));
+
+ */
+    });
+
+  }
+
   isAuthenticated(): boolean {
     return false;
   }

@@ -2,14 +2,13 @@
   <img src="../../../assets/Main_icon.jpg" height="3.5%" width="3.5%"/>
   <!--<a class="navbar-brand" (click)="signOut()" style="cursor: pointer">Instagram but in bad</a> -->
 
-  <a class="navbar-brand" style="cursor: pointer">Instagram but in bad</a>
+  <a id="nameMargin" class="navbar-brand" style="cursor: pointer">Instagram but in bad</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
   <div> <!--*ngIf="isAuthenticated() === true; else nothing"---->
-    <div>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <!-- <li class="nav-item active">
@@ -26,6 +25,7 @@
             <!-- <a class="nav-link" href="#" tabindex="-1" aria-disabled="false">Upload</a> -->
             <a class="nav-link" routerLink="/uploadImage" routerLinkActive="active">Upload</a>
           </li>
+
           <!--<li class="nav-item active">
             <a class="nav-link" routerLink="/login" routerLinkActive="active" (click)="signOut()">Logout</a>
           </li> -->
@@ -36,14 +36,12 @@
             <img [src]="user.userProfile" height="40px" width="40px">
           </li> -->
         </ul>
-        <label>
-         <!-- <input [(ngModel)]="searchterm" type="text">-->
-          <input type="text">
-        </label>
-        < <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <!-- <input [(ngModel)]="searchterm" type="text">-->
+        <input type="text">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search </button>
         <!--button type="button" class="btn btn-light" (click)="search()">Search</button> -->
-        </div>
-    </div>
+        <button routerLink="/loginWindow" id="logout" class="btn btn-dark my-2 my-sm-0 "><img src="assets/logout-removebg-preview.png" height="30px" width="30px"> </button>
+      </div>
   </div>
 </nav>
 <ng-template #nothing>

@@ -32,6 +32,7 @@ export class RegisterComponent implements OnInit{
     //this.createForm();
     this.registerForm = this.fb.group({
       email: ['', Validators.required],
+      username: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
@@ -39,11 +40,15 @@ export class RegisterComponent implements OnInit{
   createForm() {
     this.registerForm = this.fb.group({
       email: ['', Validators.required ],
+      username: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
 
-  tryRegister(value: {email: string, password: string}) {
+  tryRegister(value: {email: string, username: string, password: string}) {
+    alert("E-Mail: " + value.email);
+    alert("Username: " + value.username);
+    alert("Password: " + value.password);
     this.router.navigate(["/dashboard"]);
     /*this.authenticationService.doRegister(value)
       .then(res => {

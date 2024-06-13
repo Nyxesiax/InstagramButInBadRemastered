@@ -38,7 +38,9 @@ export class LoginComponent {
     });
   }
 
-  tryLogin(value: any) {
+  tryLogin(value: {email: string, password: string}) {
+    alert("E-Mail: " + value.email);
+    alert("Password: " + value.password);
     this.router.navigate(["/dashboard"]);
    /* this.authService.doLogin(value)
       .then(res => {

@@ -19,6 +19,7 @@ app.use(express.static(path.join(__dirname, '/dist/instagram-but-in-bad-remaster
 // listen (start app with node server.js) ======================================
 app.listen(8081, function(){
   console.log("App listening on port 8081");
+  console.log("http://localhost:8081")
 });
 
 // application -------------------------------------------------------------

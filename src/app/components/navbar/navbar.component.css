@@ -13,3 +13,11 @@ form{
   top: 0;
   width: 100%;
 }
+
+#logout{
+  float: right;
+}
+
+#nameMargin{
+  margin-left: 1%;
+}

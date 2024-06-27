@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {AuthenticationService} from "../../Service/authentication.service";
-import {response} from "express";
+import {ERROR} from "@angular/compiler-cli/src/ngtsc/logging/src/console_logger";
 
 @Component({
   selector: 'app-registerWindow',
@@ -48,14 +48,13 @@ export class RegisterComponent implements OnInit{
   }
 
   tryRegister(value: {email: string, username: string, password: string}) {
-    alert("E-Mail: " + value.email);
-    alert("Username: " + value.username);
-    alert("Password: " + value.password);
-    console.log(value)
+    console.log("value:" + value)
     this.authenticationService.doRegister(value).subscribe(response => {
-      console.log(response);
+      alert("Response: " + JSON.stringify(response))
+      if ("") {
+        this.router.navigate(["/dashboard"]);
+      }
     });
-    this.router.navigate(["/dashboard"]);
     /*this.authenticationService.doRegister(value)
       .then(res => {
         console.log(res);

@@ -30,7 +30,7 @@ export class AuthenticationService {
     console.log('email: ' + value.email);
     console.log("username: " + value.username);
     console.log('pass: ' + value.password);
-    return this.http.post(`${this.apiUrl}/registerUser`, value);
+    return this.http.post(`${this.apiUrl}/registerWindow`, value);
   }
 
   isAuthenticated(): boolean {

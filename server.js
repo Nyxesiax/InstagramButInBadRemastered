@@ -61,16 +61,18 @@ app.get('/users', function(req,res)
   })
 });
 
-app.post('/registerUser', function(req,res) {
+app.post('/registerWindow', function(req,res) {
   const user = req.body;
   const sql = "insert into users (email, username, password) values (?, ?, ?)";
   con.query(sql, [user.email, user.username, user.password], function(err,result) {
     if(err) {
       console.log("err branch")
       console.log(err);
+      return res.send(err)
     } else {
       console.log("success")
       console.log(result)
+      return res.send("success")
     }
   });
 })

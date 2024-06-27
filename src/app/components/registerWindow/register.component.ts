@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {AuthenticationService} from "../../Service/authentication.service";
+import {response} from "express";
 
 @Component({
   selector: 'app-registerWindow',
@@ -12,7 +13,8 @@ import {AuthenticationService} from "../../Service/authentication.service";
     RouterLinkActive
   ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+  styleUrl: './register.component.css',
+  providers: [AuthenticationService]
 })
 export class RegisterComponent implements OnInit{
   @Component({
@@ -31,9 +33,9 @@ export class RegisterComponent implements OnInit{
     private fb: FormBuilder) {
     //this.createForm();
     this.registerForm = this.fb.group({
-      email: ['', Validators.required],
-      username: ['', Validators.required],
-      password: ['', Validators.required]
+      email: ['hallo@test.de', Validators.required],
+      username: ['Hallo', Validators.required],
+      password: ['Hallo12345', Validators.required]
     });
   }
 
@@ -49,6 +51,10 @@ export class RegisterComponent implements OnInit{
     alert("E-Mail: " + value.email);
     alert("Username: " + value.username);
     alert("Password: " + value.password);
+    console.log(value)
+    this.authenticationService.doRegister(value).subscribe(response => {
+      console.log(response);
+    });
     this.router.navigate(["/dashboard"]);
     /*this.authenticationService.doRegister(value)
       .then(res => {

@@ -29,20 +29,19 @@ app.get('/', function(req,res)
   res.sendFile('index.html', { root: __dirname}+'/dist/instagram-but-in-bad-remastered/browser' );    //TODO rename to your app-name
 });
 
+const con = mysql.createConnection({
+  database: "instagram_bad",
+  host: "127.0.0.1",
+  port: "3306",
+  user: "root",
+  password: "passwort12.",
+  ssl: {
+    rejectUnauthorized: false
+  }
+});
+
 app.get('/users', function(req,res)
 {
-
-  const con = mysql.createConnection({
-    database: "instagram_bad",
-    host: "127.0.0.1",
-    port: "3306",
-    user: "root",
-    password: "passwort12.",
-    ssl: {
-      rejectUnauthorized: false
-    }
-  });
-
   con.connect(function(err)
   {
     if(err)
@@ -61,3 +60,17 @@ app.get('/users', function(req,res)
     })
   })
 });
+
+app.post('/registerUser', function(req,res) {
+  const user = req.body;
+  const sql = "insert into users (email, username, password) values (?, ?, ?)";
+  con.query(sql, [user.email, user.username, user.password], function(err,result) {
+    if(err) {
+      console.log("err branch")
+      console.log(err);
+    } else {
+      console.log("success")
+      console.log(result)
+    }
+  });
+})

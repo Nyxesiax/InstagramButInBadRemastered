@@ -5,6 +5,7 @@ import {RegisterComponent} from "./components/registerWindow/register.component"
 
 export const routes: Routes = [{
   path: "",
+  redirectTo: "loginWindow",
   component: LoginComponent},
   {
     path: "loginWindow",

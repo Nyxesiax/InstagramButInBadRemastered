@@ -25,7 +25,7 @@ export class AuthenticationService {
     return this.http.post(`${this.apiUrl}/registerWindow`, value);
   }
 
-  isAuthenticated(): boolean {
+  isLoggedIn(): boolean {
     return false;
   }
 }

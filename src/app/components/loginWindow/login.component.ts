@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {AuthenticationService} from "../../Service/authentication.service";
+import {User} from "../../entities/user/user";
 
 @Component({
   selector: 'app-login',
@@ -18,11 +19,13 @@ export class LoginComponent {
 
   loginForm: FormGroup;
   errorMessage = '';
+  username: string | undefined;
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    //private user: User
   ) {
     //this.createForm()
     this.loginForm = this.fb.nonNullable.group({
@@ -31,24 +34,21 @@ export class LoginComponent {
     });
   }
 
-  createForm() {
-    this.loginForm = this.fb.nonNullable.group({
-      email: ['hallo@test.de', Validators.required],
-      password: ['Hallo12345', Validators.required]
-    });
-  }
-
   tryLogin(value: {email: string, password: string}) {
-    // console.log("E-Mail: " + value.email);
-    // console.log("Password: " + value.password);
+    console.log("E-Mail: " + value.email);
+    console.log("Password: " + value.password);
     this.authService.doLogin(value).subscribe(response => {
-      // console.log("TryLogin")
-      // console.log(response)
-      // alert("Welcome " + response[0].email)
-      this.router.navigate(["/dashboard"]);
-    }, error => {
-      // console.log("Login failed " + error);
+      if (response.length > 0) {
+        console.log("TryLogin")
+        console.log(response)
+        alert("Welcome " + response[0].username)
+        localStorage.setItem("email", response[0].email);
+        localStorage.setItem("username", response[0].username);
+        localStorage.setItem("password", response[0].password);
+        this.router.navigate(["/dashboard"]);
+      } else {
+        this.errorMessage = 'Invalid email or password';
       }
-      );
+    });
   }
 }

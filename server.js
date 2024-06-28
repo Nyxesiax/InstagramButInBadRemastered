@@ -93,12 +93,17 @@ app.post('/registerWindow', function(req,res) {
 app.get('/loginWindow', function(req,res){
   const email = req.query.email;
   const password = req.query.password;
-  const sql = 'select email, password from users where email = ? and password = ?'
+  const sql = 'select email, username, password from users where email = ? and password = ?'
   con.query(sql, [email, password], function(err,result) {
     if(err) {
       return res.send(err)
+    }
+    if (result.length > 0) {
+      console.log('Login successful:', result);
+      return res.send(result);
     } else {
-      return res.send(result)
+      console.log('Invalid credentials');
+      return res.send({ error: 'Invalid email or password' });
     }
   })
 })

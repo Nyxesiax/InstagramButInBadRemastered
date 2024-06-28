@@ -55,10 +55,7 @@ export class RegisterComponent implements OnInit{
       }
       if (response === "1") {
         alert("Your account has been created")
-        localStorage.setItem("email", value.email);
-        localStorage.setItem("username", value.username);
-        localStorage.setItem("password", value.password);
-        this.router.navigate(["/dashboard"]);
+        this.router.navigate(["/loginWindow"]);
       }
     });
   }

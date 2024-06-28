@@ -78,7 +78,7 @@ app.post('/registerWindow', function(req,res) {
 app.get('/loginWindow', function(req,res){
   const email = req.query.email;
   const password = req.query.password;
-  const sql = 'select email, username, password from users where email = ? and password = ?'
+  const sql = 'select * from users where email = ? and password = ?'
   con.query(sql, [email, password], function(err,result) {
     if(err) {
       console.log("Error")

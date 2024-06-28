@@ -68,11 +68,11 @@ app.post('/registerWindow', function(req,res) {
     if(err) {
       console.log("err branch")
       console.log(err);
-      return res.send(err)
+      return res.json("0")
     } else {
       console.log("success")
       console.log(result)
-      return res.send("success")
+      return res.json("1")
     }
   });
 })

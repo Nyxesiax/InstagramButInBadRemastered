@@ -50,23 +50,14 @@ export class RegisterComponent implements OnInit{
   tryRegister(value: {email: string, username: string, password: string}) {
     console.log("value:" + value)
     this.authenticationService.doRegister(value).subscribe(response => {
-      alert("Response: " + JSON.stringify(response))
-      if ("") {
+      if (response === "0") {
+        alert("The Username or E-Mail address already exists");
+      }
+      if (response === "1") {
+        alert("Your account has been created")
         this.router.navigate(["/dashboard"]);
       }
     });
-    /*this.authenticationService.doRegister(value)
-      .then(res => {
-        console.log(res);
-        this.errorMessage = '';
-        this.successMessage = 'Your account has been created';
-      }, err => {
-        console.log(err);
-        this.errorMessage = err.message;
-        this.successMessage = '';
-      });
-
-     */
   }
 
   ngOnInit() {

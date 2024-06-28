@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
-import {User} from "../entities/user/user";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +8,7 @@ import {User} from "../entities/user/user";
 export class AuthenticationService {
 
   private apiUrl = 'http://localhost:8081';
-  constructor(private http: HttpClient, private user: User) { }
+  constructor(private http: HttpClient) { }
 
   doLogin(value: { email: string; password: string; }) {
     console.log('value email: ' + value.email);
@@ -27,6 +26,6 @@ export class AuthenticationService {
   }
 
   isLoggedIn(): boolean {
-    return this.user.loggedIn;
+    return false;
   }
 }

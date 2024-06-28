@@ -11,10 +11,12 @@ import {Router} from "@angular/router";
 
 export class DashbardComponent implements OnInit{
 
-  username : string | undefined;
+  username: string | null;
 
   constructor(public router: Router) {
+    this.username = localStorage.getItem('username');
   }
+
 
 
   ngOnInit(): void {

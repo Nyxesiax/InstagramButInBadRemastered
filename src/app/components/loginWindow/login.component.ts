@@ -19,12 +19,13 @@ export class LoginComponent {
 
   loginForm: FormGroup;
   errorMessage = '';
+  username: string | undefined;
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private authService: AuthenticationService,
-    private user: User
+    //private user: User
   ) {
     //this.createForm()
     this.loginForm = this.fb.nonNullable.group({
@@ -40,9 +41,10 @@ export class LoginComponent {
       if (response.length > 0) {
         console.log("TryLogin")
         console.log(response)
-        alert("Welcome " + response[0].email)
-        this.user.loggedIn = true;
-        //localStorage.setItem("user",)
+        alert("Welcome " + response[0].username)
+        localStorage.setItem("email", response[0].email);
+        localStorage.setItem("username", response[0].username);
+        localStorage.setItem("password", response[0].password);
         this.router.navigate(["/dashboard"]);
       } else {
         this.errorMessage = 'Invalid email or password';

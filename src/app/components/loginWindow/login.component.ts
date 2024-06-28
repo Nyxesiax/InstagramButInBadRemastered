@@ -42,23 +42,15 @@ export class LoginComponent {
     console.log("E-Mail: " + value.email);
     console.log("Password: " + value.password);
     this.authService.doLogin(value).subscribe(response => {
-      console.log("TryLogin")
-      console.log(response)
-      alert("Welcome " + response[0].email)
-      this.router.navigate(["/dashboard"]);
-    }, error => {
-      console.log("Login failed " + error);
+      if (response.length > 0) {
+        console.log("TryLogin")
+        console.log(response)
+        alert("Welcome " + response[0].email)
+        //localStorage.setItem("user",)
+        this.router.navigate(["/dashboard"]);
+      } else {
+        this.errorMessage = 'Invalid email or password';
       }
-      );
-
-   /* this.authService.doLogin(value)
-      .then(res => {
-        this.router.navigate([{path: "/dashboard"}]);
-      }, err => {
-        console.log(err);
-        this.errorMessage = err.message;
-      });
-
-    */
+    });
   }
 }

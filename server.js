@@ -84,10 +84,13 @@ app.get('/loginWindow', function(req,res){
       console.log("Error")
       console.log(err);
       return res.send(err)
+    }
+    if (result.length > 0) {
+      console.log('Login successful:', result);
+      return res.send(result);
     } else {
-      console.log("Result")
-      console.log(result)
-      return res.send(result)
+      console.log('Invalid credentials');
+      return res.send({ error: 'Invalid email or password' });
     }
   })
 })

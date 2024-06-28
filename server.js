@@ -61,15 +61,30 @@ app.get('/users', function(req,res)
   })
 });
 
+app.get('/user', function(req,res)
+{
+  const id = req.query.id;
+  const sql = 'select * from users where id = ?'
+  con.query(sql, id, function(err,result) {
+    if(err) {
+      console.log("Error user")
+      console.log(err);
+      return res.send(err)
+    } else {
+      console.log("Result user")
+      console.log(result)
+      return res.send(result)
+    }
+  })
+});
+
 app.post('/registerWindow', function(req,res) {
   const user = req.body;
   const sql = "insert into users (email, username, password) values (?, ?, ?)";
   con.query(sql, [user.email, user.username, user.password], function(err,result) {
     if(err) {
-      console.log(err);
       return res.json("0")
     } else {
-      console.log(result)
       return res.json("1")
     }
   });
@@ -81,12 +96,8 @@ app.get('/loginWindow', function(req,res){
   const sql = 'select email, password from users where email = ? and password = ?'
   con.query(sql, [email, password], function(err,result) {
     if(err) {
-      console.log("Error")
-      console.log(err);
       return res.send(err)
     } else {
-      console.log("Result")
-      console.log(result)
       return res.send(result)
     }
   })

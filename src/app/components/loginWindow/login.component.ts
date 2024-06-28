@@ -39,26 +39,16 @@ export class LoginComponent {
   }
 
   tryLogin(value: {email: string, password: string}) {
-    console.log("E-Mail: " + value.email);
-    console.log("Password: " + value.password);
+    // console.log("E-Mail: " + value.email);
+    // console.log("Password: " + value.password);
     this.authService.doLogin(value).subscribe(response => {
-      console.log("TryLogin")
-      console.log(response)
-      alert("Welcome " + response[0].email)
+      // console.log("TryLogin")
+      // console.log(response)
+      // alert("Welcome " + response[0].email)
       this.router.navigate(["/dashboard"]);
     }, error => {
-      console.log("Login failed " + error);
+      // console.log("Login failed " + error);
       }
       );
-
-   /* this.authService.doLogin(value)
-      .then(res => {
-        this.router.navigate([{path: "/dashboard"}]);
-      }, err => {
-        console.log(err);
-        this.errorMessage = err.message;
-      });
-
-    */
   }
 }

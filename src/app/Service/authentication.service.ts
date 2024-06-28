@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
 import {HttpClient, HttpParams} from "@angular/common/http";
+import {User} from "../entities/user/user";
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 export class AuthenticationService {
 
   private apiUrl = 'http://localhost:8081';
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private user: User) { }
 
   doLogin(value: { email: string; password: string; }) {
     console.log('value email: ' + value.email);
@@ -25,7 +26,7 @@ export class AuthenticationService {
     return this.http.post(`${this.apiUrl}/registerWindow`, value);
   }
 
-  isAuthenticated(): boolean {
-    return false;
+  isLoggedIn(): boolean {
+    return this.user.loggedIn;
   }
 }

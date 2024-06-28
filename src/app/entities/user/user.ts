@@ -7,7 +7,8 @@ export class User
     private _email: string,
     private _password: string,
     private _bio: string,
-    private _score: number
+    private _score: number,
+    private _loggedIn: boolean
   )
   {
     this._id = _id;
@@ -16,6 +17,15 @@ export class User
     this._password = _password;
     this._bio = _bio;
     this._score = _score;
+    this._loggedIn = false;
+  }
+
+  get loggedIn(): boolean {
+    return this._loggedIn;
+  }
+
+  set loggedIn(value: boolean) {
+    this._loggedIn = value;
   }
 
   get id(): number {

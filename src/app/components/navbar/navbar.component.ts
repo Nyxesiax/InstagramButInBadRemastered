@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit {
  */
   isAuthenticated() {
     // console.log(this.authService.isAuthenticated());
-    return this.authService.isAuthenticated();
+    //return this.authService.isAuthenticated();
   }
 
   /*

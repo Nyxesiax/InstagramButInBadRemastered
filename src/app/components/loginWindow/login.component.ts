@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {AuthenticationService} from "../../Service/authentication.service";
+import {User} from "../../entities/user/user";
 
 @Component({
   selector: 'app-login',
@@ -22,16 +23,10 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private user: User
   ) {
     //this.createForm()
-    this.loginForm = this.fb.nonNullable.group({
-      email: ['hallo@test.de', Validators.required],
-      password: ['Hallo12345', Validators.required]
-    });
-  }
-
-  createForm() {
     this.loginForm = this.fb.nonNullable.group({
       email: ['hallo@test.de', Validators.required],
       password: ['Hallo12345', Validators.required]
@@ -46,6 +41,7 @@ export class LoginComponent {
         console.log("TryLogin")
         console.log(response)
         alert("Welcome " + response[0].email)
+        this.user.loggedIn = true;
         //localStorage.setItem("user",)
         this.router.navigate(["/dashboard"]);
       } else {

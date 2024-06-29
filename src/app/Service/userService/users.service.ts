@@ -7,7 +7,6 @@ interface User {
   email: string;
   username: string;
   password: string;
-  post_id: string;
   bio: string;
   score: number;
 }

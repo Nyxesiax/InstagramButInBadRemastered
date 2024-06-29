@@ -14,6 +14,26 @@ interface Comment {
   providedIn: 'root'
 })
 export class CommentsService {
+  private apiUrl = 'http://localhost:8081/comments';
+  constructor(private http: HttpClient) { }
 
-  constructor() { }
+  getComments(): Observable<Comment[]> {
+    return this.http.get<Comment[]>(this.apiUrl);
+  }
+
+  getComment(id: number): Observable<Comment> {
+    return this.http.get<Comment>(`${this.apiUrl}/${id}`);
+  }
+
+  addItem(comment: Comment): Observable<Comment> {
+    return this.http.post<Comment>(this.apiUrl, comment);
+  }
+
+  updateItem(id: number, comment: Comment): Observable<Comment> {
+    return this.http.put<Comment>(`${this.apiUrl}/${id}`, comment);
+  }
+
+  deleteItem(id: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`);
+  }
 }

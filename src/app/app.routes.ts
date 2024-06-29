@@ -2,6 +2,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from "./components/loginWindow/login.component";
 import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {RegisterComponent} from "./components/registerWindow/register.component";
+import {UserProfileComponent} from "./components/user-profile/user-profile.component";
 import {FormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
@@ -18,8 +19,11 @@ export const routes: Routes = [{
     component: DashboardComponent},
   {
     path: "registerWindow",
-    component: RegisterComponent
-  }];
+    component: RegisterComponent},
+  {
+    path: "userProfile",
+    component: UserProfileComponent
+}];
 
 @NgModule({
   imports: [
@@ -29,3 +33,4 @@ export const routes: Routes = [{
   ],
   bootstrap: []
 })export class AppModule { }
+

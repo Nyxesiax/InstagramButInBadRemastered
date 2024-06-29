@@ -2,9 +2,9 @@ import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import {AuthenticationService} from "./Service/authentication.service";
 import {provideHttpClient} from "@angular/common/http";
+import {UsersService} from "./Service/userService/users.service";
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideHttpClient(), AuthenticationService]
+  providers: [provideRouter(routes), provideHttpClient(), UsersService]
 };

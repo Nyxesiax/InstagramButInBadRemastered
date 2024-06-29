@@ -22,13 +22,6 @@ app.listen(8081, function(){
   console.log("http://localhost:8081")
 });
 
-// application -------------------------------------------------------------
-app.get('/', function(req,res)
-{
-  //res.send("Hello World123");
-  res.sendFile('index.html', { root: __dirname}+'/dist/instagram-but-in-bad-remastered/browser' );    //TODO rename to your app-name
-});
-
 const con = mysql.createConnection({
   database: "instagram_bad",
   host: "127.0.0.1",
@@ -44,35 +37,6 @@ con.connect(err => {
   if (err) throw err;
   console.log('MySQL connected...');
 });
-
-app.post('/registerWindow', function(req,res) {
-  const user = req.body;
-  const sql = "insert into users (email, username, password) values (?, ?, ?)";
-  con.query(sql, [user.email, user.username, user.password], function(err,result) {
-    if(err) {
-      return res.json("0")
-    } else {
-      return res.json("1")
-    }
-  });
-})
-
-app.post('/loginWindow', function(req,res){
-  const email = req.body.email;
-  const password = req.body.password;
-  const sql = 'select * from users where email = ? and password = ?'
-
-  con.query(sql, [email, password], function(err,result) {
-    if(err) {
-      return res.json(err)
-    }
-    if (result.length > 0) {
-      return res.json(result);
-    } else {
-      return res.json({ error: 'Invalid email or password' });
-    }
-  })
-})
 
 
 // CRUD for posts __________________________________________________________________________________________
@@ -158,7 +122,7 @@ app.post('/comments',  (req, res) =>
   const newComment = req.body;
   con.query('INSERT INTO comments SET ?', newComment, (err, result) => {
     if (err) throw err;
-    res.json({ id: result.insertId, ...newComment });
+    return res.json({ id: result.insertId, ...newComment });
   });
 });
 
@@ -204,7 +168,7 @@ app.get('/users/:id', (req, res) => {
 // Authenticate user by name and password
 app.post('/users/authenticate', (req, res) => {
   const { name, password } = req.body;
-  con.query('SELECT * FROM users WHERE name = ? AND password = ?', [name, password], (err, results) => {
+  con.query('SELECT * FROM users WHERE email = ? AND password = ?', [name, password], (err, results) => {
     if (err) throw err;
     if (results.length > 0) {
       res.json(results[0]);
@@ -218,8 +182,16 @@ app.post('/users',  (req, res) =>
 {
   const newUser = req.body;
   con.query('INSERT INTO users SET ?', newUser, (err, result) => {
-    if (err) throw err;
-    res.json({ id: result.insertId, ...newUser });
+    if(err) {
+      if(err.code === "ER_DUP_ENTRY")
+      {
+        return res.status(409).json({message: 'Username or email already exists' });
+      } else {
+        return res.status(500).json({message: 'Internal Server Error'});
+      }
+    } else {
+      return res.json({ id: result.insertId, ...newUser })
+    }
   });
 });
 

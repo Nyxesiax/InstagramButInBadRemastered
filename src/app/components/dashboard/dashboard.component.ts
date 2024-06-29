@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {PostsService} from "../../Service/postService/posts.service";
+import {UsersService} from "../../Service/userService/users.service";
 
 interface Post {
   postId?: number;
@@ -35,6 +36,7 @@ export class DashboardComponent implements OnInit
   constructor(
     private router: Router,
     private fb: FormBuilder,
+    private userService: UsersService,
     private postsService: PostsService
   ) {
     this.username = localStorage.getItem('username');

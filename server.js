@@ -22,6 +22,13 @@ app.listen(8081, function(){
   console.log("http://localhost:8081")
 });
 
+// application -------------------------------------------------------------
+app.get('/', function(req,res)
+{
+  //res.send("Hello World123");
+  res.sendFile('index.html', { root: __dirname}+'/dist/instagram-but-in-bad-remastered/browser' );    //TODO rename to your app-name
+});
+
 const con = mysql.createConnection({
   database: "instagram_bad",
   host: "127.0.0.1",
@@ -54,6 +61,23 @@ app.get('/users', function(req,res)
   })
 });
 
+app.get('/user', function(req,res)
+{
+  const id = req.query.id;
+  const sql = 'select * from users where id = ?'
+  con.query(sql, id, function(err,result) {
+    if(err) {
+      console.log("Error user")
+      console.log(err);
+      return res.send(err)
+    } else {
+      console.log("Result user")
+      console.log(result)
+      return res.send(result)
+    }
+  })
+});
+
 app.post('/registerWindow', function(req,res) {
   const user = req.body;
   const sql = "insert into users (email, username, password) values (?, ?, ?)";
@@ -78,8 +102,6 @@ app.post('/loginWindow', function(req,res){
 
   con.query(sql, [email, password], function(err,result) {
     if(err) {
-      console.log("Error")
-      console.log(err);
       return res.json(err)
     }
     if (result.length > 0) {
@@ -91,13 +113,6 @@ app.post('/loginWindow', function(req,res){
     }
   })
 })
-
-// application -------------------------------------------------------------
-app.get('/*', function(req,res)
-{
-  //res.send("Hello World123");
-  res.sendFile(path.join(__dirname, '/dist/instagram-but-in-bad-remastered/browser/index.html'));     //TODO rename to your app-name
-});
 
 
 // CRUD for posts __________________________________________________________________________________________
@@ -263,4 +278,12 @@ app.delete('/users/:id', (req, res) => {
     if (err) throw err;
     res.json({ message: 'User deleted' });
   });
+
+// application -------------------------------------------------------------
+app.get('/*', function(req,res)
+{
+  //res.send("Hello World123");
+  res.sendFile(path.join(__dirname, '/dist/instagram-but-in-bad-remastered/browser/index.html'));     //TODO rename to your app-name
 });
+
+

@@ -14,8 +14,8 @@ export class AuthenticationService {
     console.log('value email: ' + value.email);
     console.log('value pass: ' + value.password);
     console.log("Value: " + value);
-    const params = new HttpParams().set('email', value.email).set('password', value.password);
-    return this.http.get<any>(`${this.apiUrl}/loginWindow`, {params});
+   // const params = new HttpParams().set('email', value.email).set('password', value.password);
+    return this.http.post<any>(`${this.apiUrl}/loginWindow`, value);
   }
 
   doRegister(value: { email: string; username: string, password: string; }) : Observable<any> {

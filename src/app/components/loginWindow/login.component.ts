@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {AuthenticationService} from "../../Service/authentication.service";
+import {User} from "../../entities/user/user";
 
 @Component({
   selector: 'app-login',
@@ -18,11 +19,13 @@ export class LoginComponent {
 
   loginForm: FormGroup;
   errorMessage = '';
+  username: string | undefined;
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    //private user: User
   ) {
     //this.createForm()
     this.loginForm = this.fb.nonNullable.group({
@@ -31,25 +34,25 @@ export class LoginComponent {
     });
   }
 
-  createForm() {
-    this.loginForm = this.fb.nonNullable.group({
-      email: ['hallo@test.de', Validators.required],
-      password: ['Hallo12345', Validators.required]
-    });
-  }
-
   tryLogin(value: {email: string, password: string}) {
-    alert("E-Mail: " + value.email);
-    alert("Password: " + value.password);
-    this.router.navigate(["/dashboard"]);
-   /* this.authService.doLogin(value)
-      .then(res => {
-        this.router.navigate([{path: "/dashboard"}]);
-      }, err => {
-        console.log(err);
-        this.errorMessage = err.message;
-      });
+    console.log("E-Mail: " + value.email);
+    console.log("Password: " + value.password);
+    this.authService.doLogin(value).subscribe(response => {
+      console.log("TryLogin")
+      console.log(response)
+      if (response.length > 0) {
+        alert("Welcome " + response[0].username)
+        localStorage.setItem("id", response[0].id);
+        localStorage.setItem("email", response[0].email);
+        localStorage.setItem("username", response[0].username);
+        localStorage.setItem("password", response[0].password);
+        localStorage.setItem("bio", response[0].bio);
+        localStorage.setItem("score", response[0].score);
 
-    */
+        this.router.navigate(["/dashboard"]);
+      } else {
+        this.errorMessage = 'Invalid email or password';
+      }
+    });
   }
 }

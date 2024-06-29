@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -13,17 +13,9 @@ export class AuthenticationService {
   doLogin(value: { email: string; password: string; }) {
     console.log('value email: ' + value.email);
     console.log('value pass: ' + value.password);
-    return new Promise<any>((resolve, reject) => {
-
-     /* firebase.auth().signInWithEmailAndPassword(value.email, value.password)
-        .then(res => {
-          console.log('You are: ' + JSON.stringify(res));
-          this.userbla.email = res.user.email;
-          resolve(res);
-        }, err => reject(err)), localStorage.clear();
-
-      */
-    });
+    console.log("Value: " + value);
+   // const params = new HttpParams().set('email', value.email).set('password', value.password);
+    return this.http.post<any>(`${this.apiUrl}/loginWindow`, value);
   }
 
   doRegister(value: { email: string; username: string, password: string; }) : Observable<any> {
@@ -33,7 +25,7 @@ export class AuthenticationService {
     return this.http.post(`${this.apiUrl}/registerWindow`, value);
   }
 
-  isAuthenticated(): boolean {
+  isLoggedIn(): boolean {
     return false;
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthenticationService} from "../../Service/authentication.service";
 import {NgIf} from "@angular/common";
-import {RouterLink} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 
 
 @Component({
@@ -24,7 +24,7 @@ export class NavbarComponent implements OnInit {
 
     startobs = this.startAt.asObservable();
     endobs = this.endAt.asObservable(); */
-  constructor(public authService: AuthenticationService) {
+  constructor(public authService: AuthenticationService, public router: Router) {
     this.searchterm = '';
 
   }
@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit {
  */
   isAuthenticated() {
     // console.log(this.authService.isAuthenticated());
-    return this.authService.isAuthenticated();
+    //return this.authService.isAuthenticated();
   }
 
   /*
@@ -59,5 +59,10 @@ export class NavbarComponent implements OnInit {
   }
 
  */
+
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/loginWindow']);
+  }
 }
 

@@ -48,11 +48,4 @@ export class UsersService {
   deleteItem(id: number): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`);
   }
-
-  doRegister(value: { email: string; username: string, password: string; }) : Observable<any> {
-    console.log("EMail: " + value.email);
-    console.log("Username: " + value.username);
-    console.log("Password: " + value.password);
-    return this.http.post(`${this.apiUrlNormal}/registerWindow`, value);
-  }
 }

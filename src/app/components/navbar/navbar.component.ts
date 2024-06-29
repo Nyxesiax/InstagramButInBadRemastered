@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthenticationService} from "../../Service/authentication.service";
 import {NgIf} from "@angular/common";
 import {Router, RouterLink} from "@angular/router";
+import {UsersService} from "../../Service/userService/users.service";
 
 
 @Component({
@@ -24,7 +24,7 @@ export class NavbarComponent implements OnInit {
 
     startobs = this.startAt.asObservable();
     endobs = this.endAt.asObservable(); */
-  constructor(public authService: AuthenticationService, public router: Router) {
+  constructor(public usersService: UsersService, public router: Router) {
     this.searchterm = '';
 
   }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {catchError, Observable, throwError} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {ERROR} from "@angular/compiler-cli/src/ngtsc/logging/src/console_logger";
 import e from "express";
 
@@ -36,9 +36,8 @@ export class UsersService {
 
   addUser(user: User): Observable<User> {
     return this.http.post<User>(this.apiUrl, user).pipe(
-      catchError(error => {
-        return throwError(error);
-      }))
+      catchError(this.handleError)
+    );
   };
 
   updateItem(id: number, user: User): Observable<User> {
@@ -47,5 +46,15 @@ export class UsersService {
 
   deleteItem(id: number): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`);
+  }
+
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'An unknown error occurred!';
+    if (error.status === 409) {
+      errorMessage = 'The Username or E-Mail address already exists';
+    } else if (error.status === 500) {
+      errorMessage = 'Internal Server Error';
+    }
+    return throwError(() => new Error(errorMessage));
   }
 }

@@ -197,7 +197,7 @@ app.post('/comments',  (req, res) =>
   const newComment = req.body;
   con.query('INSERT INTO comments SET ?', newComment, (err, result) => {
     if (err) throw err;
-    res.json({ id: result.insertId, ...newComment });
+    return res.json({ id: result.insertId, ...newComment });
   });
 });
 
@@ -244,7 +244,6 @@ app.get('/users/:id', (req, res) => {
 app.post('/users/authenticate', (req, res) => {
   const { name, password } = req.body;
   con.query('SELECT * FROM users WHERE email = ? AND password = ?', [name, password], (err, results) => {
-    console.log(results)
     if (err) throw err;
     if (results.length > 0) {
       res.json(results[0]);
@@ -257,14 +256,15 @@ app.post('/users/authenticate', (req, res) => {
 app.post('/users',  (req, res) =>
 {
   const newUser = req.body;
-  console.log(newUser.username);
-  console.log(newUser.email);
-  console.log(newUser.password);
   con.query('INSERT INTO users SET ?', newUser, (err, result) => {
     if(err) {
-      throw err;
+      if(err.code === "ER_DUP_ENTRY")
+      {
+        return res.status(409).json({message: 'Username or email already exists' });
+      } else {
+        return res.status(500).json({message: 'Internal Server Error'});
+      }
     } else {
-      console.log(result)
       return res.json({ id: result.insertId, ...newUser })
     }
   });

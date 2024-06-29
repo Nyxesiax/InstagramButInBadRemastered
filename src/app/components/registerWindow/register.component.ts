@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit{
   })
 
   registerForm: FormGroup;
-  errorMessage = '';
+  errorMessage: string | null=null;
   successMessage = '';
 
   constructor(
@@ -47,10 +47,7 @@ export class RegisterComponent implements OnInit{
   }
 
   tryRegister(value: {email: string, username: string, password: string}) {
-    console.log("value:" + value)
     this.userService.addUser(value).subscribe(response => {
-      console.log("In TryRegister");
-      console.log(response);
         alert("Your account has been created")
         this.router.navigate(["/loginWindow"]);
     }, error => {

@@ -211,3 +211,64 @@ app.delete('/comments/:id', (req, res) => {
     res.json({ message: 'Comment deleted' });
   });
 });
+
+// CRUD for Users __________________________________________________________________________________________
+// Get all users
+app.get('/users', (req, res) => {
+  db.query('SELECT * FROM users', (err, results) => {
+    if (err) throw err;
+    res.json(results);
+  });
+});
+
+// Get user by ID
+app.get('/users/:id', (req, res) => {
+  const { id } = req.params;
+  db.query('SELECT * FROM users WHERE id = ?', [id], (err, results) => {
+    if (err) throw err;
+    if (results.length > 0) {
+      res.json(results[0]);
+    } else {
+      res.status(404).json({ message: 'User not found' });
+    }
+  });
+});
+
+// Authenticate user by name and password
+app.post('/users/authenticate', (req, res) => {
+  const { name, password } = req.body;
+  db.query('SELECT * FROM users WHERE name = ? AND password = ?', [name, password], (err, results) => {
+    if (err) throw err;
+    if (results.length > 0) {
+      res.json(results[0]);
+    } else {
+      res.status(401).json({ message: 'Invalid credentials' });
+    }
+  });
+});
+
+app.post('/users',  (req, res) =>
+{
+  const newUser = req.body;
+  con.query('INSERT INTO users SET ?', newUser, (err, result) => {
+    if (err) throw err;
+    res.json({ id: result.insertId, ...newUser });
+  });
+});
+
+app.put('/users/:id', (req, res) => {
+  const updatedUser = req.body;
+  const { id } = req.params;
+  db.query('UPDATE users SET ? WHERE id = ?', [updatedUser, id], (err) => {
+    if (err) throw err;
+    res.json({ id, ...updatedUser });
+  });
+});
+
+app.delete('/users/:id', (req, res) => {
+  const { id } = req.params;
+  db.query('DELETE FROM users WHERE id = ?', [id], (err) => {
+    if (err) throw err;
+    res.json({ message: 'User deleted' });
+  });
+});

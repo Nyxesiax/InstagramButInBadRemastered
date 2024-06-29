@@ -19,12 +19,14 @@ export class DashboardComponent
 {
 
   dashboardForm: FormGroup;
+  username: string | null;
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
     private userService: UserService
   ) {
+    this.username = localStorage.getItem('username');
     this.dashboardForm = this.fb.nonNullable.group({
       id: [1, Validators.required]
     });

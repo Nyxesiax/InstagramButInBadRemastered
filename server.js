@@ -107,3 +107,107 @@ app.get('/loginWindow', function(req,res){
     }
   })
 })
+
+// CRUD for posts __________________________________________________________________________________________
+app.get('/posts', (req, res) =>
+{
+  con.query('SELECT * FORM posts', (err, results) =>
+  {
+    if(err) throw err;
+    res.json(results)
+  })
+})
+
+app.get('/posts/:id', (req, res) =>
+{
+  const {id} = req.params;
+  con.query('SELECT * FORM posts where id = ?', [id], (err, results) =>
+  {
+    if(err) throw err;
+    if (results.length > 0)
+    {
+      res.json(results[0]);
+    } else
+    {
+      res.status(404).json({message: 'Item not found'});
+    }
+  });
+});
+
+app.post('/posts',  (req,res) =>
+{
+  const newPost = req.body;
+  con.query('INSERT INTO posts SET ?', newPost, (err, result) => {
+    if (err) throw err;
+    res.json({ id: result.insertId, ...newPost });
+  });
+});
+
+app.put('/posts/:id', (req, res) => {
+  const updatedPost = req.body;
+  const { id } = req.params;
+  db.query('UPDATE posts SET ? WHERE id = ?', [updatedPost, id], (err) => {
+    if (err) throw err;
+    res.json({ id, ...updatedPost });
+  });
+});
+
+app.delete('/posts/:id', (req, res) => {
+  const { id } = req.params;
+  db.query('DELETE FROM posts WHERE id = ?', [id], (err) => {
+    if (err) throw err;
+    res.json({ message: 'Post deleted' });
+  });
+});
+
+// CRUD for Comments __________________________________________________________________________________________
+app.get('/comments', (req, res) =>
+{
+  con.query('SELECT * FORM comments', (err, results) =>
+  {
+    if(err) throw err;
+    res.json(results)
+  })
+})
+
+app.get('/comments/:id', (req, res) =>
+{
+  const {id} = req.params;
+  con.query('SELECT * FORM comments WHERE id = ?', [id], (err, results) =>
+  {
+    if(err) throw err;
+    if (results.length > 0)
+    {
+      res.json(results[0]);
+    } else
+    {
+      res.status(404).json({message: 'Comment not found'});
+    }
+  });
+});
+
+app.post('/comments',  (req, res) =>
+{
+  const newComment = req.body;
+  con.query('INSERT INTO comments SET ?', newComment, (err, result) => {
+    if (err) throw err;
+    res.json({ id: result.insertId, ...newComment });
+  });
+});
+
+app.put('/comments/:id', (req, res) => {
+  const updatedComment = req.body;
+  const { id } = req.params;
+  db.query('UPDATE comments SET ? WHERE id = ?', [updatedComment, id], (err) => {
+    if (err) throw err;
+    res.json({ id, ...updatedComment });
+  });
+});
+
+app.delete('/comments/:id', (req, res) => {
+  const { id } = req.params;
+  db.query('DELETE FROM comments WHERE id = ?', [id], (err) => {
+    if (err) throw err;
+    res.json({ message: 'Comment deleted' });
+  });
+});

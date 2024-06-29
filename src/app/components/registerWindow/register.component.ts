@@ -55,7 +55,7 @@ export class RegisterComponent implements OnInit{
       }
       if (response === "1") {
         alert("Your account has been created")
-        this.router.navigate(["/dashboard"]);
+        this.router.navigate(["/loginWindow"]);
       }
     });
   }

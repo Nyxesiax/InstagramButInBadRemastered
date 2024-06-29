@@ -16,7 +16,28 @@ interface Post {
 @Injectable({
   providedIn: 'root'
 })
-export class PostsService {
+export class PostsService
+{
   private apiUrl = 'http://localhost:8081/posts';
-  constructor() { }
+  constructor(private http: HttpClient) { }
+
+  getPosts(): Observable<Post[]> {
+    return this.http.get<Post[]>(this.apiUrl);
+  }
+
+  getPost(id: number): Observable<Post> {
+    return this.http.get<Post>(`${this.apiUrl}/${id}`);
+  }
+
+  addPost(post: Post): Observable<Post> {
+    return this.http.post<Post>(this.apiUrl, post);
+  }
+
+  updatePost(id: number, post: Post): Observable<Post> {
+    return this.http.put<Post>(`${this.apiUrl}/${id}`, post);
+  }
+
+  deletePost(id: number): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`);
+  }
 }

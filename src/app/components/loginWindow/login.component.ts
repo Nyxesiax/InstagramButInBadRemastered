@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
-import {AuthenticationService} from "../../Service/authentication.service";
-import {User} from "../../entities/user/user";
+import {UsersService} from "../../Service/userService/users.service";
 
 @Component({
   selector: 'app-login',
@@ -24,7 +23,7 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private authService: AuthenticationService,
+    private usersService: UsersService,
     //private user: User
   ) {
     //this.createForm()
@@ -37,7 +36,7 @@ export class LoginComponent {
   tryLogin(value: {email: string, password: string}) {
     console.log("E-Mail: " + value.email);
     console.log("Password: " + value.password);
-    this.authService.doLogin(value).subscribe(response => {
+    this.usersService.doLogin(value).subscribe(response => {
       console.log("TryLogin")
       console.log(response)
       if (response.length > 0) {

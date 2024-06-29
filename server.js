@@ -32,7 +32,7 @@ const con = mysql.createConnection({
     rejectUnauthorized: false
   }
 });
-
+/*
 app.get('/users', function(req,res)
 {
   con.connect(function(err)
@@ -71,14 +71,22 @@ app.get('/user', function(req,res)
   })
 });
 
+
+ */
 app.post('/registerWindow', function(req,res) {
   const user = req.body;
+  console.log("In Registration Window");
+  console.log(user.email)
+  console.log(user.username)
+  console.log(user.password)
   const sql = "insert into users (email, username, password) values (?, ?, ?)";
   console.log("In RegistryWindow Query")
   con.query(sql, [user.email, user.username, user.password], function(err,result) {
     if(err) {
+      console.log(err);
       return res.json("0")
     } else {
+      console.log(result)
       return res.json("1")
     }
   });
@@ -104,6 +112,7 @@ app.post('/loginWindow', function(req,res){
     }
   })
 })
+
 
 // CRUD for posts __________________________________________________________________________________________
 app.get('/posts', (req, res) =>
@@ -276,3 +285,5 @@ app.get('/*', function(req,res)
   //res.send("Hello World123");
   res.sendFile(path.join(__dirname, '/dist/instagram-but-in-bad-remastered/browser/index.html'));     //TODO rename to your app-name
 });
+
+

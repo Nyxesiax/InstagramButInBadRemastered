@@ -33,16 +33,13 @@ export class DashboardComponent
     });
   }
 
-  /*
-  getUser(value: {id: number})
-  {
-    console.log("dashboard id: " + value)
-    this.userService.getUserByID(value).subscribe((res) => {
-      alert("did that" + JSON.stringify(res))
-    }, err => {
-      alert("shit not right" + err)
-    })
-  }
-
-   */
+  // getUser(value: {id: number})
+  // {
+  //   console.log("dashboard id: " + value)
+  //   this.userService.getUserByID(value).subscribe(res => {
+  //     alert("did that" + JSON.stringify(res))
+  //   }, err => {
+  //     alert("shit not right" + err)
+  //   })
+  // }
 }

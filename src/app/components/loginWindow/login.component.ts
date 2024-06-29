@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {AuthenticationService} from "../../Service/authentication.service";
-import {User} from "../../entities/user/user";
 
 @Component({
   selector: 'app-login',

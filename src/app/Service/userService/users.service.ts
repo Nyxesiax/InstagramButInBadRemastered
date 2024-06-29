@@ -7,8 +7,8 @@ interface User {
   email: string;
   username: string;
   password: string;
-  bio: string;
-  score: number;
+  bio?: string;
+  score?: number;
 }
 
 @Injectable({
@@ -30,15 +30,15 @@ export class UsersService {
     return this.http.post<User>(`${this.apiUrl}/authenticate`, { name, password });
   }
 
-  addItem(user: User): Observable<User> {
+  addUser(user: User): Observable<User> {
     return this.http.post<User>(this.apiUrl, user);
   }
 
-  updateItem(id: number, user: User): Observable<User> {
+  updateUser(id: number, user: User): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/${id}`, user);
   }
 
-  deleteItem(id: number): Observable<{ message: string }> {
+  deleteUser(id: number): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`);
   }
 }

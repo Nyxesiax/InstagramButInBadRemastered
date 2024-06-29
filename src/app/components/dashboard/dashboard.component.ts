@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
-import {UserService} from "../../Service/user.service";
+import {UsersService} from "../../Service/userService/users.service";
+
 
 @Component({
   selector: 'app-dashboard',
@@ -24,7 +25,7 @@ export class DashboardComponent
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private userService: UserService
+    private userService: UsersService
   ) {
     this.username = localStorage.getItem('username');
     this.dashboardForm = this.fb.nonNullable.group({
@@ -32,13 +33,16 @@ export class DashboardComponent
     });
   }
 
+  /*
   getUser(value: {id: number})
   {
     console.log("dashboard id: " + value)
-    this.userService.getUserByID(value).subscribe(res => {
+    this.userService.getUserByID(value).subscribe((res) => {
       alert("did that" + JSON.stringify(res))
     }, err => {
       alert("shit not right" + err)
     })
   }
+
+   */
 }

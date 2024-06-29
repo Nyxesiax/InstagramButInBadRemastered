@@ -24,7 +24,6 @@ export const routes: Routes = [{
     path: "userProfile",
     component: UserProfileComponent
 }];
-  }];
 
 @NgModule({
   imports: [
@@ -34,3 +33,4 @@ export const routes: Routes = [{
   ],
   bootstrap: []
 })export class AppModule { }
+

@@ -263,11 +263,12 @@ app.put('/users/:id', (req, res) => {
 });
 
 app.delete('/users/:id', (req, res) => {
-  const { id } = req.params;
+  const {id} = req.params;
   db.query('DELETE FROM users WHERE id = ?', [id], (err) => {
     if (err) throw err;
-    res.json({ message: 'User deleted' });
+    res.json({message: 'User deleted'});
   });
+});
 
 // application -------------------------------------------------------------
 app.get('/*', function(req,res)

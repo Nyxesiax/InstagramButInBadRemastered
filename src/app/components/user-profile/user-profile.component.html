@@ -1,34 +1,37 @@
-<h1>Profile of {{username}}</h1>
-<div class="container">
-  <div class="row">
-    <!-- PicArray ASYNC durchgehen weil observable -->
-    <!--    <div ngFor="let pic of posts | async; let i = index" class="col-12 col-sm-6 col-lg-2 mr-lg-1 post" >-->
-    <!--      <img [src]="pic.picture.URL" (click)="showDetails(pic)">-->
-    <!--      <button type="submit" class="btn btn-success" (click)="likesUp(pic)"> Like </button>-->
-    <!--      <button type="submit" class="btn btn-danger" (click)="likesDown(pic)"> Dislike </button>-->
-    <!--      <div> <b> Likes: {{pic.picture.likes}} </b> </div>-->
-
-    Username: {{username}}<br/>
-    Email: {{email}}<br/>
-    Bio: {{bio}}<br/>
-    Score: {{score}}<br/>
-<!--
-    <divngFor="let post of ownerPosts | async; let i = index" class="col-12 col-sm-6 col-lg-4 post card" style="width: 18rem;">
-    <div class="card-header">
-      <h5>{{post.owner}}</h5>
-    </div>
-    <img class="card-img-top" [src]="post.picture.URL" (click)="showDetails(post)" alt="Card image cap">
-    <div class="card-body">
-      <h5 class="card-title">{{post.picture.description}}</h5>
-      <h6 class="card-title">Tags: {{post.picture.tags}}</h6>
-      <p class="card-text">{{post.picture.timestamp}}</p>
-      <p class="card-text">Likes: {{post.picture.likes}}</p>
-      <button type="submit" class="btn btn-success" (click)="likesUp(post)"> Like </button>
-      <button type="submit" class="btn btn-danger" (click)="likesDown(post)"> Dislike </button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile</title>
+</head>
+<body>
+<div class="container mt-5">
+  <div class="card">
+    <img class="card-img-top mx-auto mt-4" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;" src="https://via.placeholder.com/150" alt="Profile Picture">
+    <div class="card-body text-center">
+      <h2 class="card-title">{{username}}</h2>
+      <p class="card-text">{{bio}}</p>
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <table class="table table-bordered">
+            <tbody>
+            <tr>
+              <th scope="row">Email</th>
+              <td>{{email}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Score</th>
+              <td>{{score}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
--->
-  <!-- <p>Uploaded: {{pic.date | date:'short':'+0100' }}</p> -->
-  <!-- https://www.angularjswiki.com/angular/angular-date-pipe-formatting-date-times-in-angular-with-examples/ -->
 </div>
 
+
+</body>
+</html>

@@ -1,8 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
-import {AuthenticationService} from "../../Service/authentication.service";
-import {ERROR} from "@angular/compiler-cli/src/ngtsc/logging/src/console_logger";
+import {UsersService} from "../../Service/userService/users.service";
 
 @Component({
   selector: 'app-registerWindow',
@@ -14,7 +13,7 @@ import {ERROR} from "@angular/compiler-cli/src/ngtsc/logging/src/console_logger"
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
-  providers: [AuthenticationService]
+  providers: [UsersService]
 })
 export class RegisterComponent implements OnInit{
   @Component({
@@ -24,11 +23,11 @@ export class RegisterComponent implements OnInit{
   })
 
   registerForm: FormGroup;
-  errorMessage = '';
+  errorMessage: string | null=null;
   successMessage = '';
 
   constructor(
-    private authenticationService: AuthenticationService,
+    private userService: UsersService,
     private router: Router,
     private fb: FormBuilder) {
     //this.createForm();
@@ -48,15 +47,11 @@ export class RegisterComponent implements OnInit{
   }
 
   tryRegister(value: {email: string, username: string, password: string}) {
-    console.log("value:" + value)
-    this.authenticationService.doRegister(value).subscribe(response => {
-      if (response === "0") {
-        alert("The Username or E-Mail address already exists");
-      }
-      if (response === "1") {
+    this.userService.addUser(value).subscribe(response => {
         alert("Your account has been created")
         this.router.navigate(["/loginWindow"]);
-      }
+    }, error => {
+        this.errorMessage = "The Username or E-Mail address already exists";
     });
   }
 

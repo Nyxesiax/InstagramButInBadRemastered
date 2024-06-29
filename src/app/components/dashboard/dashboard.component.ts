@@ -1,7 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
-import {UserService} from "../../Service/user.service";
+import {PostsService} from "../../Service/postService/posts.service";
+import {UsersService} from "../../Service/userService/users.service";
+
+interface Post {
+  postId?: number;
+  userId: number;
+  caption: string
+  title: string;
+  body: string;
+  image: number;
+  score: number;
+  data?: Date;
+}
 
 @Component({
   selector: 'app-dashboard',
@@ -15,16 +27,17 @@ import {UserService} from "../../Service/user.service";
   styleUrl: './dashboard.component.css'
 })
 
-export class DashboardComponent
+export class DashboardComponent implements OnInit
 {
-
+  posts: Post[] = [];
   dashboardForm: FormGroup;
   username: string | null;
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private userService: UserService
+    private userService: UsersService,
+    private postsService: PostsService
   ) {
     this.username = localStorage.getItem('username');
     this.dashboardForm = this.fb.nonNullable.group({
@@ -32,13 +45,11 @@ export class DashboardComponent
     });
   }
 
-  getUser(value: {id: number})
+  ngOnInit(): void
   {
-    console.log("dashboard id: " + value)
-    this.userService.getUserByID(value).subscribe(res => {
-      alert("did that" + JSON.stringify(res))
-    }, err => {
-      alert("shit not right" + err)
-    })
+    this.postsService.getPosts().subscribe(posts =>
+    {
+      this.posts = posts
+    });
   }
 }

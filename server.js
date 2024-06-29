@@ -22,6 +22,13 @@ app.listen(8081, function(){
   console.log("http://localhost:8081")
 });
 
+// application -------------------------------------------------------------
+app.get('/', function(req,res)
+{
+  //res.send("Hello World123");
+  res.sendFile('index.html', { root: __dirname}+'/dist/instagram-but-in-bad-remastered/browser' );    //TODO rename to your app-name
+});
+
 const con = mysql.createConnection({
   database: "instagram_bad",
   host: "127.0.0.1",
@@ -77,8 +84,10 @@ app.post('/registerWindow', function(req,res) {
   console.log("In RegistryWindow Query")
   con.query(sql, [user.email, user.username, user.password], function(err,result) {
     if(err) {
+      console.log(err);
       return res.json("0")
     } else {
+      console.log(result)
       return res.json("1")
     }
   });
@@ -104,6 +113,7 @@ app.post('/loginWindow', function(req,res){
     }
   })
 })
+
 
 // CRUD for posts __________________________________________________________________________________________
 app.get('/posts', (req, res) =>
@@ -263,11 +273,12 @@ app.put('/users/:id', (req, res) => {
 });
 
 app.delete('/users/:id', (req, res) => {
-  const { id } = req.params;
+  const {id} = req.params;
   db.query('DELETE FROM users WHERE id = ?', [id], (err) => {
     if (err) throw err;
-    res.json({ message: 'User deleted' });
+    res.json({message: 'User deleted'});
   });
+});
 
 // application -------------------------------------------------------------
 app.get('/*', function(req,res)
@@ -275,3 +286,5 @@ app.get('/*', function(req,res)
   //res.send("Hello World123");
   res.sendFile(path.join(__dirname, '/dist/instagram-but-in-bad-remastered/browser/index.html'));     //TODO rename to your app-name
 });
+
+

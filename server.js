@@ -14,19 +14,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // configuration =================
-app.use(express.static(path.join(__dirname, '/dist/instagram-but-in-bad-remastered/browser')));  //TODO rename to your app-name
+app.use(express.static(path.join(__dirname, '/dist/instagram-but-in-bad-remastered/browser/')));  //TODO rename to your app-name
 
 // listen (start app with node server.js) ======================================
 app.listen(8081, function(){
   console.log("App listening on port 8081");
   console.log("http://localhost:8081")
-});
-
-// application -------------------------------------------------------------
-app.get('/', function(req,res)
-{
-  //res.send("Hello World123");
-  res.sendFile('index.html', { root: __dirname}+'/dist/instagram-but-in-bad-remastered/browser' );    //TODO rename to your app-name
 });
 
 const con = mysql.createConnection({
@@ -64,6 +57,7 @@ app.get('/users', function(req,res)
 app.post('/registerWindow', function(req,res) {
   const user = req.body;
   const sql = "insert into users (email, username, password) values (?, ?, ?)";
+  console.log("In RegistryWindow Query")
   con.query(sql, [user.email, user.username, user.password], function(err,result) {
     if(err) {
       console.log(err);
@@ -75,22 +69,32 @@ app.post('/registerWindow', function(req,res) {
   });
 })
 
-app.get('/loginWindow', function(req,res){
-  const email = req.query.email;
-  const password = req.query.password;
+app.post('/loginWindow', function(req,res){
+  const email = req.body.email;
+  const password = req.body.password;
+  console.log(email);
+  console.log(password);
   const sql = 'select * from users where email = ? and password = ?'
+
   con.query(sql, [email, password], function(err,result) {
     if(err) {
       console.log("Error")
       console.log(err);
-      return res.send(err)
+      return res.json(err)
     }
     if (result.length > 0) {
       console.log('Login successful:', result);
-      return res.send(result);
+      return res.json(result);
     } else {
       console.log('Invalid credentials');
-      return res.send({ error: 'Invalid email or password' });
+      return res.json({ error: 'Invalid email or password' });
     }
   })
 })
+
+// application -------------------------------------------------------------
+app.get('/*', function(req,res)
+{
+  //res.send("Hello World123");
+  res.sendFile(path.join(__dirname, '/dist/instagram-but-in-bad-remastered/browser/index.html'));     //TODO rename to your app-name
+});

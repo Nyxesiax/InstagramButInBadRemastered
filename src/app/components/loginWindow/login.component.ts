@@ -38,9 +38,9 @@ export class LoginComponent {
     console.log("E-Mail: " + value.email);
     console.log("Password: " + value.password);
     this.authService.doLogin(value).subscribe(response => {
+      console.log("TryLogin")
+      console.log(response)
       if (response.length > 0) {
-        console.log("TryLogin")
-        console.log(response)
         alert("Welcome " + response[0].username)
         localStorage.setItem("id", response[0].id);
         localStorage.setItem("email", response[0].email);

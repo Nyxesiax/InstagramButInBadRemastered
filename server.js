@@ -152,7 +152,7 @@ app.post('/posts',  (req,res) =>
 app.put('/posts/:id', (req, res) => {
   const updatedPost = req.body;
   const { id } = req.params;
-  db.query('UPDATE posts SET ? WHERE id = ?', [updatedPost, id], (err) => {
+  con.query('UPDATE posts SET ? WHERE id = ?', [updatedPost, id], (err) => {
     if (err) throw err;
     res.json({ id, ...updatedPost });
   });
@@ -204,7 +204,7 @@ app.post('/comments',  (req, res) =>
 app.put('/comments/:id', (req, res) => {
   const updatedComment = req.body;
   const { id } = req.params;
-  db.query('UPDATE comments SET ? WHERE id = ?', [updatedComment, id], (err) => {
+  con.query('UPDATE comments SET ? WHERE id = ?', [updatedComment, id], (err) => {
     if (err) throw err;
     res.json({ id, ...updatedComment });
   });
@@ -212,7 +212,7 @@ app.put('/comments/:id', (req, res) => {
 
 app.delete('/comments/:id', (req, res) => {
   const { id } = req.params;
-  db.query('DELETE FROM comments WHERE id = ?', [id], (err) => {
+  con.query('DELETE FROM comments WHERE id = ?', [id], (err) => {
     if (err) throw err;
     res.json({ message: 'Comment deleted' });
   });
@@ -221,7 +221,7 @@ app.delete('/comments/:id', (req, res) => {
 // CRUD for Users __________________________________________________________________________________________
 // Get all users
 app.get('/users', (req, res) => {
-  db.query('SELECT * FROM users', (err, results) => {
+  con.query('SELECT * FROM users', (err, results) => {
     if (err) throw err;
     res.json(results);
   });
@@ -230,7 +230,7 @@ app.get('/users', (req, res) => {
 // Get user by ID
 app.get('/users/:id', (req, res) => {
   const { id } = req.params;
-  db.query('SELECT * FROM users WHERE id = ?', [id], (err, results) => {
+  con.query('SELECT * FROM users WHERE id = ?', [id], (err, results) => {
     if (err) throw err;
     if (results.length > 0) {
       res.json(results[0]);
@@ -243,7 +243,8 @@ app.get('/users/:id', (req, res) => {
 // Authenticate user by name and password
 app.post('/users/authenticate', (req, res) => {
   const { name, password } = req.body;
-  db.query('SELECT * FROM users WHERE name = ? AND password = ?', [name, password], (err, results) => {
+  con.query('SELECT * FROM users WHERE email = ? AND password = ?', [name, password], (err, results) => {
+    console.log(results)
     if (err) throw err;
     if (results.length > 0) {
       res.json(results[0]);
@@ -256,16 +257,23 @@ app.post('/users/authenticate', (req, res) => {
 app.post('/users',  (req, res) =>
 {
   const newUser = req.body;
+  console.log(newUser.username);
+  console.log(newUser.email);
+  console.log(newUser.password);
   con.query('INSERT INTO users SET ?', newUser, (err, result) => {
-    if (err) throw err;
-    res.json({ id: result.insertId, ...newUser });
+    if(err) {
+      throw err;
+    } else {
+      console.log(result)
+      return res.json({ id: result.insertId, ...newUser })
+    }
   });
 });
 
 app.put('/users/:id', (req, res) => {
   const updatedUser = req.body;
   const { id } = req.params;
-  db.query('UPDATE users SET ? WHERE id = ?', [updatedUser, id], (err) => {
+  con.query('UPDATE users SET ? WHERE id = ?', [updatedUser, id], (err) => {
     if (err) throw err;
     res.json({ id, ...updatedUser });
   });
@@ -273,7 +281,7 @@ app.put('/users/:id', (req, res) => {
 
 app.delete('/users/:id', (req, res) => {
   const {id} = req.params;
-  db.query('DELETE FROM users WHERE id = ?', [id], (err) => {
+  con.query('DELETE FROM users WHERE id = ?', [id], (err) => {
     if (err) throw err;
     res.json({message: 'User deleted'});
   });

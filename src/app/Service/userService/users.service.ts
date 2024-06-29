@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
-import {Observable} from "rxjs";
+import {catchError, Observable, throwError} from "rxjs";
 import {HttpClient} from "@angular/common/http";
+import {ERROR} from "@angular/compiler-cli/src/ngtsc/logging/src/console_logger";
+import e from "express";
 
 interface User {
   id?: number;
   email: string;
   username: string;
   password: string;
-  bio: string;
-  score: number;
+  bio?: string;
+  score?: number;
 }
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class UsersService {
   private apiUrl = 'http://localhost:8081/users';
   private apiUrlNormal = 'http://localhost:8081';
@@ -31,9 +34,12 @@ export class UsersService {
     return this.http.post<User>(`${this.apiUrl}/authenticate`, { name, password });
   }
 
-  addItem(user: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl, user);
-  }
+  addUser(user: User): Observable<User> {
+    return this.http.post<User>(this.apiUrl, user).pipe(
+      catchError(error => {
+        return throwError(error);
+      }))
+  };
 
   updateItem(id: number, user: User): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/${id}`, user);
@@ -48,11 +54,5 @@ export class UsersService {
     console.log("Username: " + value.username);
     console.log("Password: " + value.password);
     return this.http.post(`${this.apiUrlNormal}/registerWindow`, value);
-  }
-
-  doLogin(value: { email: string; password: string; }) {
-    console.log("EMail: " + value.email);
-    console.log("Password: " + value.password);
-    return this.http.post<any>(`${this.apiUrlNormal}/loginWindow`, value);
   }
 }

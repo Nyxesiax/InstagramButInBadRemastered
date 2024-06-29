@@ -36,22 +36,24 @@ export class LoginComponent {
   tryLogin(value: {email: string, password: string}) {
     console.log("E-Mail: " + value.email);
     console.log("Password: " + value.password);
-    this.usersService.doLogin(value).subscribe(response => {
+    this.usersService.authenticateUser(value.email, value.password).subscribe(response => {
       console.log("TryLogin")
       console.log(response)
-      if (response.length > 0) {
-        alert("Welcome " + response[0].username)
-        localStorage.setItem("id", response[0].id);
-        localStorage.setItem("email", response[0].email);
-        localStorage.setItem("username", response[0].username);
-        localStorage.setItem("password", response[0].password);
-        localStorage.setItem("bio", response[0].bio);
-        localStorage.setItem("score", response[0].score);
+      if (response != null) {
+        alert("Welcome " + response.username)
+        localStorage.setItem("id", JSON.stringify(response.id));
+        localStorage.setItem("email", response.email);
+        localStorage.setItem("username", response.username);
+        localStorage.setItem("password", response.password);
+        localStorage.setItem("bio", <string>response.bio);
+        localStorage.setItem("score", JSON.stringify(response.score));
 
         this.router.navigate(["/dashboard"]);
       } else {
         this.errorMessage = 'Invalid email or password';
       }
+
+
     });
   }
 }

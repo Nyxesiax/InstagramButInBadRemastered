@@ -48,15 +48,13 @@ export class RegisterComponent implements OnInit{
 
   tryRegister(value: {email: string, username: string, password: string}) {
     console.log("value:" + value)
-    this.userService.doRegister(value).subscribe(response => {
+    this.userService.addUser(value).subscribe(response => {
       console.log("In TryRegister");
-      if (response === "0") {
-        alert("The Username or E-Mail address already exists");
-      }
-      if (response === "1") {
+      console.log(response);
         alert("Your account has been created")
         this.router.navigate(["/loginWindow"]);
-      }
+    }, error => {
+        this.errorMessage = "The Username or E-Mail address already exists";
     });
   }
 

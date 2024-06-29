@@ -42,7 +42,7 @@ con.connect(err => {
 // CRUD for posts __________________________________________________________________________________________
 app.get('/posts', (req, res) =>
 {
-  con.query('SELECT * FORM posts', (err, results) =>
+  con.query('SELECT * FROM posts', (err, results) =>
   {
     if(err) throw err;
     res.json(results)
@@ -52,7 +52,7 @@ app.get('/posts', (req, res) =>
 app.get('/posts/:id', (req, res) =>
 {
   const {id} = req.params;
-  con.query('SELECT * FORM posts where id = ?', [id], (err, results) =>
+  con.query('SELECT * FROM posts where id = ?', [id], (err, results) =>
   {
     if(err) throw err;
     if (results.length > 0)
@@ -94,7 +94,7 @@ app.delete('/posts/:id', (req, res) => {
 // CRUD for Comments __________________________________________________________________________________________
 app.get('/comments', (req, res) =>
 {
-  con.query('SELECT * FORM comments', (err, results) =>
+  con.query('SELECT * FROM comments', (err, results) =>
   {
     if(err) throw err;
     res.json(results)
@@ -104,7 +104,7 @@ app.get('/comments', (req, res) =>
 app.get('/comments/:id', (req, res) =>
 {
   const {id} = req.params;
-  con.query('SELECT * FORM comments WHERE id = ?', [id], (err, results) =>
+  con.query('SELECT * FROM comments WHERE id = ?', [id], (err, results) =>
   {
     if(err) throw err;
     if (results.length > 0)

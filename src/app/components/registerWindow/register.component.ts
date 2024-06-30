@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {UsersService} from "../../Service/userService/users.service";
+import {NavbarComponent} from "../navbar/navbar.component";
 
 @Component({
   selector: 'app-registerWindow',
@@ -9,7 +10,8 @@ import {UsersService} from "../../Service/userService/users.service";
   imports: [
     ReactiveFormsModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    NavbarComponent
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',

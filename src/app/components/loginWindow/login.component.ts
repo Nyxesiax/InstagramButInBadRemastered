@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {UsersService} from "../../Service/userService/users.service";
+import {NavbarComponent} from "../navbar/navbar.component";
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,8 @@ import {UsersService} from "../../Service/userService/users.service";
   imports: [
     ReactiveFormsModule,
     RouterLinkActive,
-    RouterLink
+    RouterLink,
+    NavbarComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -19,6 +21,8 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage = '';
   username: string | undefined;
+
+  private isAuthenticated = false;
 
   constructor(
     private router: Router,

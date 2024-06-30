@@ -2,18 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import {NgIf} from "@angular/common";
 import {Router, RouterLink} from "@angular/router";
 import {UsersService} from "../../Service/userService/users.service";
+import {PostComponent} from "../post/post.component";
 
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgIf, RouterLink],
+  imports: [NgIf, RouterLink, PostComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
 
 export class NavbarComponent implements OnInit {
   searchterm: string;
+  postToggle: boolean;
   /*
 
     startAt = new Subject();
@@ -26,6 +28,7 @@ export class NavbarComponent implements OnInit {
     endobs = this.endAt.asObservable(); */
   constructor(public usersService: UsersService, public router: Router) {
     this.searchterm = '';
+    this.postToggle = false;
 
   }
 /*
@@ -50,6 +53,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
   }
+
 /*
   search() {
     console.log(this.searchterm);
@@ -59,6 +63,8 @@ export class NavbarComponent implements OnInit {
   }
 
  */
+
+
 
   logout() {
     localStorage.clear();

@@ -2,3 +2,5 @@ form {
   margin: 100px auto;
   display: table;
 }
+/* Ensure body and html have a height of 100% */
+

@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import {NgIf} from "@angular/common";
 import {Router, RouterLink} from "@angular/router";
 import {UsersService} from "../../Service/userService/users.service";
-import {PostComponent} from "../post/post.component";
+import {CreatePostComponent} from "../create-post/create-post.component";
 
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgIf, RouterLink, PostComponent],
+  imports: [NgIf, RouterLink, CreatePostComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })

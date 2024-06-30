@@ -23,7 +23,6 @@ export class CreatePostComponent {
     private postsService: PostsService,
     private router: Router,
     private fb: FormBuilder) {
-    //this.createForm();
     this.createPostForm = this.fb.group({
       userId: localStorage.getItem("id"),
       title: ['', Validators.required],

@@ -51,5 +51,7 @@ export class DashboardComponent implements OnInit
     {
       this.posts = posts
     });
+    console.log("here are posts")
+    console.log(this.posts);
   }
 }

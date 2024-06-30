@@ -3,6 +3,7 @@ import {Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@an
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {PostsService} from "../../Service/postService/posts.service";
 import {UsersService} from "../../Service/userService/users.service";
+import {NgForOf} from "@angular/common";
 
 interface Post {
   postId?: number;
@@ -21,7 +22,8 @@ interface Post {
   imports: [
     ReactiveFormsModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    NgForOf
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -49,9 +51,9 @@ export class DashboardComponent implements OnInit
   {
     this.postsService.getPosts().subscribe(posts =>
     {
-      this.posts = posts
+      this.posts = posts;
     });
-    console.log("here are posts")
+    console.log("here are posts");
     console.log(this.posts);
   }
 }

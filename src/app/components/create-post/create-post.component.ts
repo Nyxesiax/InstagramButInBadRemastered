@@ -39,11 +39,11 @@ export class CreatePostComponent {
   tryUploading(value: {userId: number, title: string, body: string, caption: string, score: number}) {
     this.postsService.addPost(value).subscribe(response => {
       alert("Posted!")
-      this.router.navigate(["/loginWindow"]);
+      this.router.navigate(["/dashboard"]);
     }, error => {
       this.errorMessage = "Couldn't post.";
     });
-    alert("upload btn works")
+    // alert("upload btn works")
   }
 
 }

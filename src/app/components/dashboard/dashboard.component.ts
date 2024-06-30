@@ -16,6 +16,15 @@ interface Post {
   data?: Date;
 }
 
+interface User {
+  id?: number;
+  email: string;
+  username: string;
+  password: string;
+  bio?: string;
+  score?: number;
+}
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -32,13 +41,15 @@ interface Post {
 export class DashboardComponent implements OnInit
 {
   posts: Post[] = [];
+  owner: { [key: number]: string } = {};
   dashboardForm: FormGroup;
   username: string | null;
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private userService: UsersService,
+
+    protected userService: UsersService,
     private postsService: PostsService
   ) {
     this.username = localStorage.getItem('username');
@@ -52,8 +63,16 @@ export class DashboardComponent implements OnInit
     this.postsService.getPosts().subscribe(posts =>
     {
       this.posts = posts;
+      for(let post of posts)
+      {
+        this.userService.getUser(post.userId).subscribe(user =>
+        {
+          this.owner[post.userId] = user.username
+        });
+      }
+
     });
-    console.log("here are posts");
-    console.log(this.posts);
+
+
   }
 }

@@ -25,21 +25,23 @@ export class CreatePostComponent {
     private fb: FormBuilder) {
     //this.createForm();
     this.createPostForm = this.fb.group({
+      userId: localStorage.getItem("id"),
       title: ['', Validators.required],
       body: ['', Validators.required],
       image: [],
       caption: ['', Validators.maxLength(160)]
 
     });
+
   }
 
-  tryUploading(value: {title: string, body: string, caption: string}) {
-    // this.postsService.addPost(value).subscribe(response => {
-    //   alert("Posted!")
-    //   this.router.navigate(["/loginWindow"]);
-    // }, error => {
-    //   this.errorMessage = "The Username or E-Mail address already exists";
-    // });
+  tryUploading(value: {userId: number, title: string, body: string, caption: string, score:0}) {
+    this.postsService.addPost(value).subscribe(response => {
+      alert("Posted!")
+      this.router.navigate(["/loginWindow"]);
+    }, error => {
+      this.errorMessage = "Couldn't post.";
+    });
     alert("upload btn works")
   }
 

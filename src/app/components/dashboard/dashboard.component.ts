@@ -10,7 +10,7 @@ interface Post {
   caption: string
   title: string;
   body: string;
-  image: number;
+  image?: ImageData;
   score: number;
   data?: Date;
 }

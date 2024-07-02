@@ -5,6 +5,7 @@ import {PostsService} from "../../Service/postService/posts.service";
 import {UsersService} from "../../Service/userService/users.service";
 import {NgForOf} from "@angular/common";
 import { DomSanitizer } from '@angular/platform-browser';
+import {from} from "rxjs";
 
 interface Post {
   postId?: number;
@@ -66,7 +67,11 @@ export class DashboardComponent implements OnInit
 
   ngOnInit(): void
   {
-    this.image = "./assets/img/rattig.jpg";
+    // this.postsService.getPosts()
+    //   .subscribe(blob => {
+    //     let objectURL = URL.createObjectURL(this.image);
+    //     this.image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+    //   })
     this.postsService.getPosts().subscribe(posts =>
     {
       this.posts = posts;

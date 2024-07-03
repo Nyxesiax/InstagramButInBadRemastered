@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {UsersService} from "../../Service/userService/users.service";
+import {NavbarComponent} from "../navbar/navbar.component";
 
 @Component({
   selector: 'app-login',
@@ -9,7 +10,8 @@ import {UsersService} from "../../Service/userService/users.service";
   imports: [
     ReactiveFormsModule,
     RouterLinkActive,
-    RouterLink
+    RouterLink,
+    NavbarComponent
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -19,6 +21,8 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage = '';
   username: string | undefined;
+
+  private isAuthenticated = false;
 
   constructor(
     private router: Router,
@@ -34,13 +38,8 @@ export class LoginComponent {
   }
 
   tryLogin(value: {email: string, password: string}) {
-    console.log("E-Mail: " + value.email);
-    console.log("Password: " + value.password);
     this.usersService.authenticateUser(value.email, value.password).subscribe(response => {
-      console.log("TryLogin")
-      console.log(response)
       if (response != null) {
-        alert("Welcome " + response.username)
         localStorage.setItem("id", JSON.stringify(response.id));
         localStorage.setItem("email", response.email);
         localStorage.setItem("username", response.username);

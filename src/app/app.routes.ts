@@ -6,6 +6,7 @@ import {UserProfileComponent} from "./components/user-profile/user-profile.compo
 import {FormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
+import {CreatePostComponent} from "./components/create-post/create-post.component";
 
 export const routes: Routes = [{
   path: "",
@@ -22,8 +23,11 @@ export const routes: Routes = [{
     component: RegisterComponent},
   {
     path: "userProfile",
-    component: UserProfileComponent
-}];
+    component: UserProfileComponent},
+  {
+    path: "createPost",
+    component: CreatePostComponent
+  }];
 
 @NgModule({
   imports: [

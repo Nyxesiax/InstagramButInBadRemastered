@@ -1,48 +1,27 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar">
   <img src="../../../assets/Main_icon.jpg" height="3.5%" width="3.5%"/>
-  <!--<a class="navbar-brand" (click)="signOut()" style="cursor: pointer">Instagram but in bad</a> -->
 
-  <a id="nameMargin" class="navbar-brand" style="cursor: pointer">Instagram but in bad</a>
+  <a id="nameMargin" class="navbar-brand" style="cursor: pointer">Weddit</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div> <!--*ngIf="isAuthenticated() === true; else nothing"---->
+  <div>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <!-- <li class="nav-item active">
-             <a class="nav-link" routerLink="/startScreen" (click)="signOut()" routerLinkActive="active">Home</a>
-           </li> -->
           <li class="nav-item active">
-            <!-- <a class="nav-link" href="#" tabindex="-1" aria-disabled="false">Upload</a> -->
             <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
           </li>
-          <!-- <li>
-            <a class="nav-link" routerLink="/favorites" routerLinkActive="active" (click)="getUserOfPost()">Favorites</a>
-          </li> -->
           <li class="nav-item active">
-            <!-- <a class="nav-link" href="#" tabindex="-1" aria-disabled="false">Upload</a> -->
-            <a class="nav-link" routerLink="/uploadImage" routerLinkActive="active">Upload</a>
+            <a class="nav-link" routerLink="/createPost" routerLinkActive="active">Create Post</a>
           </li>
           <li class="nav-item active">
             <a class="nav-link" routerLink="/userProfile" routerLinkActive="active">Profile</a>
           </li>
-
-          <!--<li class="nav-item active">
-            <a class="nav-link" routerLink="/login" routerLinkActive="active" (click)="signOut()">Logout</a>
-          </li> -->
-         <!-- <li class="nav-item active">
-            <a class="nav-link" routerLink="/userProfile" routerLinkActive="active" (click)="getUserOfPost()">{{user.email}}</a>
-          </li>-->
-          <!--<li *ngIf="user.userProfile" class="nav-item active">
-            <img [src]="user.userProfile" height="40px" width="40px">
-          </li> -->
         </ul>
-        <!-- <input [(ngModel)]="searchterm" type="text">-->
         <input type="text">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search </button>
-        <!--button type="button" class="btn btn-light" (click)="search()">Search</button> -->
         <button (click)="logout()" id="logout" class="btn btn-dark my-2 my-sm-0 "><img src="assets/logout-removebg-preview.png" height="30px" width="30px"> </button>
       </div>
   </div>

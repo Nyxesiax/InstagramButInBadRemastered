@@ -3,6 +3,7 @@ import {Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@an
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {PostsService} from "../../Service/postService/posts.service";
 import {UsersService} from "../../Service/userService/users.service";
+import {NgForOf} from "@angular/common";
 
 interface Post {
   postId?: number;
@@ -10,9 +11,18 @@ interface Post {
   caption: string
   title: string;
   body: string;
-  image: number;
+  image?: ImageData;
   score: number;
   data?: Date;
+}
+
+interface User {
+  id?: number;
+  email: string;
+  username: string;
+  password: string;
+  bio?: string;
+  score?: number;
 }
 
 @Component({
@@ -21,7 +31,8 @@ interface Post {
   imports: [
     ReactiveFormsModule,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    NgForOf
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -30,13 +41,15 @@ interface Post {
 export class DashboardComponent implements OnInit
 {
   posts: Post[] = [];
+  owner: { [key: number]: string } = {};
   dashboardForm: FormGroup;
   username: string | null;
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private userService: UsersService,
+
+    protected userService: UsersService,
     private postsService: PostsService
   ) {
     this.username = localStorage.getItem('username');
@@ -49,7 +62,17 @@ export class DashboardComponent implements OnInit
   {
     this.postsService.getPosts().subscribe(posts =>
     {
-      this.posts = posts
+      this.posts = posts;
+      for(let post of posts)
+      {
+        this.userService.getUser(post.userId).subscribe(user =>
+        {
+          this.owner[post.userId] = user.username
+        });
+      }
+
     });
+
+
   }
 }

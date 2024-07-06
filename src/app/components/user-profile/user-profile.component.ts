@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {Router} from "@angular/router";
+import {PostsService} from "../../Service/postService/posts.service";
 
 @Component({
   selector: 'app-user-profile',
@@ -13,10 +15,14 @@ export class UserProfileComponent {
   bio: string | null;
   score: string | null;
 
-  constructor() {
+  constructor(private router: Router, private postService: PostsService) {
     this.username = localStorage.getItem("username");
     this.email = localStorage.getItem("email");
     this.bio = localStorage.getItem("bio");
     this.score = localStorage.getItem("score");
+  }
+
+  toEdit() {
+    this.router.navigate(["/editProfile"])
   }
 }

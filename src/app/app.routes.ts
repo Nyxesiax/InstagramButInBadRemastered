@@ -7,23 +7,33 @@ import {FormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
 import {NgModule} from "@angular/core";
 import {CreatePostComponent} from "./components/create-post/create-post.component";
+import {EditProfileComponent} from "./components/edit-profile/edit-profile.component";
 
 export const routes: Routes = [{
   path: "",
   redirectTo: "loginWindow",
-  component: LoginComponent},
+  component: LoginComponent
+  },
   {
     path: "loginWindow",
-    component: LoginComponent},
+    component: LoginComponent
+  },
   {
     path: "dashboard",
-    component: DashboardComponent},
+    component: DashboardComponent
+  },
   {
     path: "registerWindow",
-    component: RegisterComponent},
+    component: RegisterComponent
+  },
   {
     path: "userProfile",
-    component: UserProfileComponent},
+    component: UserProfileComponent
+  },
+  {
+    path: "editProfile",
+    component: EditProfileComponent
+  },
   {
     path: "createPost",
     component: CreatePostComponent

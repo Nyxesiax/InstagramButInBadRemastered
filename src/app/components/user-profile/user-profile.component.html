@@ -1,32 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+<div class="wrapper">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Profile</title>
 </head>
 <body>
-<div class="container mt-5">
-  <div class="card">
-    <img class="card-img-top mx-auto mt-4" style="width: 150px; height: 150px; object-fit: cover; border-radius: 50%;" src="https://via.placeholder.com/150" alt="Profile Picture">
-    <div class="card-body text-center">
-      <h2 class="card-title">{{username}}</h2>
-      <p class="card-text">{{bio}}</p>
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <table class="table table-bordered">
+<div>
+  <div>
+    <img alt="Profile Picture">
+    <div>
+      <h2>{{username}}</h2>
+      <p >Bio: {{bio}}</p>
+      <div >
+        <div>
+          <table>
             <tbody>
-            <tr>
-              <th scope="row">Email</th>
-              <td>{{email}}</td>
-            </tr>
             <tr>
               <th scope="row">Score</th>
               <td>{{score}}</td>
             </tr>
+            <tr>
+              <td><button type="submit" class="btn btn-primary" (click)="toEdit()">Edit</button></td>
+            </tr>
             </tbody>
           </table>
         </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item" *ngFor="let post of posts">
+            <div class="card" >
+              <div class="card-body">
+                <h5 class="card-title">{{post.title}}</h5>
+                <p class="card-text">{{post.body}}</p>
+                <p class="card-text">{{post.caption}}</p>
+              </div>
+              <div class="card-footer">
+                <p>Score: {{post.score}} </p>
+               <!-- <p>Owner: {{owner[post.userId]}}</p> -->
+              </div>
+            </div>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -34,4 +48,5 @@
 
 
 </body>
+</div>
 </html>

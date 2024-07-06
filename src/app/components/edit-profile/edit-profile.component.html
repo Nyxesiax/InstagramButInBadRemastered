@@ -1,0 +1,16 @@
+<form [formGroup]="bioForm">
+<div class="wrapper">
+  <form>
+    <div class="form-group">
+      <h1>Profile Picture</h1>
+      <input type="file" class="form-control-file" id="exampleFormControlFile1">
+    </div>
+  </form>
+  <h1> {{username}}</h1>
+  <div class="form-group">
+    <h2>Bio</h2>
+    <textarea class="form-control" formControlName="bio" rows="10" ></textarea>
+  </div>
+  <button class="btn btn-primary" type="submit" (click)="save(bioForm.value)">Save</button>
+</div>
+</form>

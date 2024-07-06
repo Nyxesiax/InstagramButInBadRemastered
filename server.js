@@ -49,15 +49,33 @@ app.get('/posts', (req, res) =>
   })
 })
 
-app.get('/posts/:id', (req, res) =>
+app.get('/posts/userId/:id', (req, res) =>
 {
   const {id} = req.params;
-  con.query('SELECT * FROM posts where id = ?', [id], (err, results) =>
+  console.log("ID: " + id);
+  con.query('SELECT * FROM posts where userId = ?', [id], (err, results) =>
   {
     if(err) throw err;
     if (results.length > 0)
     {
-      res.json(results[0]);
+      //console.log("Result: " + results);
+      res.json(results);
+    } else
+    {
+      res.status(404).json({message: 'Item not found'});
+    }
+  });
+});
+
+app.get('/posts/:id', (req, res) =>
+{
+  const {id} = req.params;
+  con.query('SELECT * FROM posts where Id = ?', [id], (err, results) =>
+  {
+    if(err) throw err;
+    if (results.length > 0)
+    {
+       res.json(results[0]);
     } else
     {
       res.status(404).json({message: 'Item not found'});

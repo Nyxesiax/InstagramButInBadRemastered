@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {Router} from "@angular/router";
 import {PostsService} from "../../Service/postService/posts.service";
 import {NgForOf} from "@angular/common";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 interface Post {
   postId?: number;
@@ -31,6 +32,7 @@ export class UserProfileComponent {
   bio: string | null;
   score: string | null;
   id: number | null;
+  errorMessage: string | undefined;
 
   constructor(private router: Router, private postService: PostsService) {
     this.username = localStorage.getItem("username");
@@ -53,11 +55,13 @@ export class UserProfileComponent {
         {
           this.owner[post.userId] = user.username
         });
-
-
       }
        */
 
+    }, error1 => {
+      if (error1.status === 404) {
+        this.errorMessage = "No posts found."
+      }
     });
   }
 }

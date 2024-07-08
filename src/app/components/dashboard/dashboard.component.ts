@@ -4,6 +4,10 @@ import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {PostsService} from "../../Service/postService/posts.service";
 import {UsersService} from "../../Service/userService/users.service";
 import {NgForOf} from "@angular/common";
+import {MatDialog} from "@angular/material/dialog";
+import {CommentDialogComponent} from "../comment-dialog/comment-dialog.component";
+import {MatIcon} from "@angular/material/icon";
+import {MatFabButton} from "@angular/material/button";
 
 interface Post {
   postId?: number;
@@ -11,7 +15,7 @@ interface Post {
   caption: string
   title: string;
   body: string;
-  image?: ImageData;
+  fileId?: number;
   score: number;
   data?: Date;
 }
@@ -32,7 +36,9 @@ interface User {
     ReactiveFormsModule,
     RouterLink,
     RouterLinkActive,
-    NgForOf
+    NgForOf,
+    MatIcon,
+    MatFabButton
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -49,7 +55,8 @@ export class DashboardComponent implements OnInit
     private router: Router,
     private fb: FormBuilder,
     protected userService: UsersService,
-    private postsService: PostsService
+    private postsService: PostsService,
+    public commentDialog: MatDialog
   ) {
     this.username = localStorage.getItem('username');
     this.dashboardForm = this.fb.nonNullable.group({
@@ -69,9 +76,14 @@ export class DashboardComponent implements OnInit
           this.owner[post.userId] = user.username
         });
       }
-
     });
+  }
 
-
+  showCommentDialog(post: Post){
+    console.log(post);
+    this.commentDialog.open(CommentDialogComponent, {
+      height: '500px',
+      width: '800px'
+    });
   }
 }

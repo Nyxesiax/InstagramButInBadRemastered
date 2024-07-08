@@ -6,13 +6,16 @@
         <div class="card-body">
           <h5 class="card-title">{{post.title}}</h5>
           <p class="card-text">{{post.body}}</p>
-          <img src="{{post.image}}">
+<!--          <img src="{{post.image}}">-->
           <p class="card-text">{{post.caption}}</p>
         </div>
         <div class="card-footer">
           <p>Score: {{post.score}} </p>
           <p>Owner: {{owner[post.userId]}}</p>
-<!--          <button type="submit" class="btn btn-primary" (click)="showCommentDialog(post)">Comment</button> -->
+          <button mat-fab extended (click)="showCommentDialog(post)">
+            <mat-icon>forum</mat-icon>
+            Comment
+          </button>
         </div>
       </div>
     </li>

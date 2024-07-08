@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import {PostsService} from "../../Service/postService/posts.service";
+import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-comment-dialog',
@@ -8,5 +10,9 @@ import { Component } from '@angular/core';
   styleUrl: './comment-dialog.component.css'
 })
 export class CommentDialogComponent {
+
+  constructor(private postsService: PostsService,
+              public commentDialog: MatDialog) {
+  }
 
 }

@@ -8,7 +8,7 @@ interface Post {
   caption: string
   title: string;
   body: string;
-  image?: any;
+  fileId?: number;
   score: number;
   data?: Date;
 }

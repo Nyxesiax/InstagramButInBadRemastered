@@ -4,6 +4,8 @@ import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {PostsService} from "../../Service/postService/posts.service";
 import {UsersService} from "../../Service/userService/users.service";
 import {NgForOf} from "@angular/common";
+import { DomSanitizer } from '@angular/platform-browser';
+import {from} from "rxjs";
 
 interface Post {
   postId?: number;
@@ -11,7 +13,7 @@ interface Post {
   caption: string
   title: string;
   body: string;
-  image?: ImageData;
+  image?: any;
   score: number;
   data?: Date;
 }
@@ -41,13 +43,18 @@ interface User {
 export class DashboardComponent implements OnInit
 {
   posts: Post[] = [];
+  image: any;
   owner: { [key: number]: string } = {};
   dashboardForm: FormGroup;
   username: string | null;
 
+
   constructor(
     private router: Router,
     private fb: FormBuilder,
+
+    private sanitizer: DomSanitizer,
+
     protected userService: UsersService,
     private postsService: PostsService
   ) {
@@ -59,6 +66,11 @@ export class DashboardComponent implements OnInit
 
   ngOnInit(): void
   {
+    // this.postsService.getPosts()
+    //   .subscribe(blob => {
+    //     let objectURL = URL.createObjectURL(this.image);
+    //     this.image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+    //   })
     this.postsService.getPosts().subscribe(posts =>
     {
       this.posts = posts;

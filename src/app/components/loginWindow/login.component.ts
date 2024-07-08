@@ -3,7 +3,6 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {UsersService} from "../../Service/userService/users.service";
 import {NavbarComponent} from "../navbar/navbar.component";
-import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-login',
@@ -22,16 +21,11 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMessage = '';
   username: string | undefined;
-
-  private isAuthenticated = false;
-
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private usersService: UsersService,
-    //private user: User
+    private usersService: UsersService
   ) {
-    //this.createForm()
     this.loginForm = this.fb.nonNullable.group({
       email: ['hallo@test.de', Validators.required],
       password: ['Hallo12345', Validators.required]

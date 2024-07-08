@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {Router} from "@angular/router";
 import {PostsService} from "../../Service/postService/posts.service";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {error} from "@angular/compiler-cli/src/transformers/util";
 
 interface Post {
@@ -19,7 +19,8 @@ interface Post {
   selector: 'app-user-profile',
   standalone: true,
   imports: [
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
@@ -32,7 +33,7 @@ export class UserProfileComponent {
   bio: string | null;
   score: string | null;
   id: number | null;
-  errorMessage: string | undefined;
+  errorMessage = "";
 
   constructor(private router: Router, private postService: PostsService) {
     this.username = localStorage.getItem("username");
@@ -47,6 +48,7 @@ export class UserProfileComponent {
   }
 
   ngOnInit(): void {
+    console.log(this.errorMessage);
     this.postService.getPostsFromUser(<number>this.id).subscribe(posts => {
       this.posts = posts;
       /*for(let post of posts)

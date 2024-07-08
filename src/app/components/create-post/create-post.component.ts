@@ -27,7 +27,6 @@ export class CreatePostComponent {
       userId: localStorage.getItem("id"),
       title: ['', Validators.required],
       body: ['', Validators.required],
-      image: ImageData,
       caption: ['', Validators.maxLength(160)],
       score: 0
 
@@ -35,7 +34,7 @@ export class CreatePostComponent {
 
   }
 
-  tryUploading(value: {userId: number, title: string, body: string, caption: string, score: number}) {
+  tryUploading(value: {userId: number, title: string, body: string, fileId: number, caption: string, score: number}) {
     this.postsService.addPost(value).subscribe(response => {
       alert("Posted!")
       this.router.navigate(["/dashboard"]);
@@ -44,5 +43,7 @@ export class CreatePostComponent {
     });
     // alert("upload btn works")
   }
+
+  uploadImage(){}
 
 }

@@ -52,7 +52,6 @@ app.get('/posts', (req, res) =>
 app.get('/posts/userId/:id', (req, res) =>
 {
   const {id} = req.params;
-  console.log("ID: " + id);
   con.query('SELECT * FROM posts where userId = ?', [id], (err, results) =>
   {
     if(err) throw err;

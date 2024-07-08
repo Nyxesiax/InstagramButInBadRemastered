@@ -21,8 +21,12 @@ export class CommentsService {
     return this.http.get<Comment[]>(this.apiUrl);
   }
 
-  getComment(id: number): Observable<Comment> {
-    return this.http.get<Comment>(`${this.apiUrl}/${id}`);
+  getCommentsOnPost(id: number | undefined): Observable<Comment[]> {
+    return this.http.get<Comment[]>(`${this.apiUrl}/${id}`);
+  }
+
+  getCommentById(id: number): Observable<Comment>{
+    return this.http.get<Comment>(`${this.apiUrl}/singlecomment/${id}`);
   }
 
   addItem(comment: Comment): Observable<Comment> {

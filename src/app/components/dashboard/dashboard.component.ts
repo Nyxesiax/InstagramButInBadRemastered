@@ -82,6 +82,9 @@ export class DashboardComponent implements OnInit
   showCommentDialog(post: Post){
     console.log(post);
     this.commentDialog.open(CommentDialogComponent, {
+      data: {
+        posts: post
+      },
       height: '500px',
       width: '800px'
     });

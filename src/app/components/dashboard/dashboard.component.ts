@@ -10,7 +10,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatFabButton} from "@angular/material/button";
 
 interface Post {
-  postId?: number;
+  postId: number;
   userId: number;
   caption: string
   title: string;
@@ -69,12 +69,10 @@ export class DashboardComponent implements OnInit
     this.postsService.getPosts().subscribe(posts =>
     {
       this.posts = posts;
-      for(let post of posts)
-      {
-        this.userService.getUser(post.userId).subscribe(user =>
-        {
-          this.owner[post.userId] = user.username
-        });
+      console.log(JSON.stringify(this.posts))
+      for(let i = 0; i < posts.length; i++){
+        this.owner[i] = posts[i].username;
+        console.log(this.owner[i])
       }
     });
   }

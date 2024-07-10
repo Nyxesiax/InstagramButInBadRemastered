@@ -4,6 +4,7 @@
     <li class="list-group-item" *ngFor="let post of posts">
       <div class="card">
         <div class="card-body">
+          <h5 class="card-title">{{post.postId}}</h5>
           <h5 class="card-title">{{post.title}}</h5>
           <p class="card-text">{{post.body}}</p>
 <!--          <img src="{{post.image}}">-->
@@ -11,7 +12,7 @@
         </div>
         <div class="card-footer">
           <p>Score: {{post.score}} </p>
-          <p>Owner: {{owner[post.userId]}}</p>
+          <p>Owner: {{owner[post.postId - 1]}}</p>
           <button mat-fab extended (click)="showCommentDialog(post)">
             <mat-icon>forum</mat-icon>
             Comment

@@ -150,6 +150,12 @@ app.get('comments/singlecomment/:id', (req, res) =>{
 app.post('/comments',  (req, res) =>
 {
   const newComment = req.body;
+  const comment = req.body.text;
+  const uid = req.body.user_id;
+  const pid = req.body.post_id;
+  console.log("uid", uid);
+  console.log("Comment", JSON.stringify(newComment));
+  console.log("pid", pid)
   con.query('INSERT INTO comments SET ?', newComment, (err, result) => {
     if (err) throw err;
     return res.json({ id: result.insertId, ...newComment });

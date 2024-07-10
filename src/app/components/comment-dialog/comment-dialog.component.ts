@@ -56,24 +56,31 @@ export class CommentDialogComponent {
   errorMessage: string | null=null;
   successMessage = '';
   commentOwner: { [key: number]: string } = {};
+  specifiedKey = "number";
+  postId: number = 0;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Post,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
               protected commentService: CommentsService,
               protected userService: UsersService,
               protected postsService: PostsService,
               public commentDialog: MatDialog) {
+    Object.keys(data).forEach(key => {
+      if (key === this.specifiedKey) {
+        this.postId = Number(data[key]);
+      }
+    });
     this.commentForm = this.fb.group({
       text: ['', Validators.required],
       user_id: localStorage.getItem("id"),
-      post_id: this.data.postId
+      post_id: this.postId
     });
   }
 
-  ngOnInit(): void {
-    this.commentService.getCommentsOnPost(this.data.postId).subscribe(comments =>{
-      this.comments = comments;
 
+  ngOnInit(): void {
+    this.commentService.getCommentsOnPost(this.postId).subscribe(comments =>{
+      this.comments = comments;
       // for(let comment of comments){
       //   this.userService.getUser(comment.user_id).subscribe(user =>{
       //     this.commentOwner[comment.userId] = user.username
@@ -82,8 +89,7 @@ export class CommentDialogComponent {
     });
   }
 
-  tryCommenting(value: {idcomment?: number, text: string, date?: Date, user_id: number, post_id: number}): void {
-    console.log("postid aus data: " + this.data.postId);
+  tryCommenting(value: {post_id: number, user_id: number, text: string}): void {
     this.commentService.addItem(value).subscribe(response => {
       alert("Posted your comment!")
       this.commentDialog.closeAll();

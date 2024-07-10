@@ -73,6 +73,7 @@ export class CommentDialogComponent {
   ngOnInit(): void {
     this.commentService.getCommentsOnPost(this.data.postId).subscribe(comments =>{
       this.comments = comments;
+
       // for(let comment of comments){
       //   this.userService.getUser(comment.user_id).subscribe(user =>{
       //     this.commentOwner[comment.userId] = user.username
@@ -82,6 +83,7 @@ export class CommentDialogComponent {
   }
 
   tryCommenting(value: {idcomment?: number, text: string, date?: Date, user_id: number, post_id: number}): void {
+    console.log("postid aus data: " + this.data.postId);
     this.commentService.addItem(value).subscribe(response => {
       alert("Posted your comment!")
       this.commentDialog.closeAll();

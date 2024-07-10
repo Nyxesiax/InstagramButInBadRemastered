@@ -24,12 +24,11 @@ export class CreatePostComponent {
     private router: Router,
     private fb: FormBuilder) {
     this.createPostForm = this.fb.group({
-      userId: localStorage.getItem("id"),
+      userId: sessionStorage.getItem("id"),
       title: ['', Validators.required],
       body: ['', Validators.required],
       caption: ['', Validators.maxLength(160)],
       score: 0
-
     });
 
   }

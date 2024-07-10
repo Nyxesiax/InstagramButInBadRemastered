@@ -36,11 +36,11 @@ export class UserProfileComponent {
   errorMessage = "";
 
   constructor(private router: Router, private postService: PostsService) {
-    this.username = localStorage.getItem("username");
-    this.email = localStorage.getItem("email");
-    this.bio = localStorage.getItem("bio");
-    this.score = localStorage.getItem("score");
-    this.id = Number(localStorage.getItem("id"));
+    this.username = sessionStorage.getItem("username");
+    this.email = sessionStorage.getItem("email");
+    this.bio = sessionStorage.getItem("bio");
+    this.score = sessionStorage.getItem("score");
+    this.id = Number(sessionStorage.getItem("id"));
   }
 
   toEdit() {

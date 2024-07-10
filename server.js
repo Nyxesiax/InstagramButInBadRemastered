@@ -94,7 +94,7 @@ app.post('/posts',  (req,res) =>
 app.put('/posts/:id', (req, res) => {
   const updatedPost = req.body;
   const { id } = req.params;
-  con.query('UPDATE posts SET ? WHERE id = ?', [updatedPost, id], (err) => {
+  con.query('UPDATE posts SET score = ? WHERE postId = ?', [updatedPost.score, id], (err) => {
     if (err) throw err;
     res.json({ id, ...updatedPost });
   });

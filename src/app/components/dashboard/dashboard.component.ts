@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {PostsService} from "../../Service/postService/posts.service";
 import {UsersService} from "../../Service/userService/users.service";
@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit
     private postsService: PostsService,
     public commentDialog: MatDialog
   ) {
-    this.username = localStorage.getItem('username');
+    this.username = sessionStorage.getItem('username');
     this.dashboardForm = this.fb.nonNullable.group({
       id: [1, Validators.required]
     });
@@ -76,6 +76,20 @@ export class DashboardComponent implements OnInit
           this.owner[post.userId] = user.username
         });
       }
+    });
+  }
+
+  upvote(post: Post) {
+    post.score += 1;
+    this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
+      console.log("Upvote response ", response);
+    });
+  }
+
+  downvote(post: Post) {
+    post.score -= 1;
+    this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
+      console.log("Downvote response", response);
     });
   }
 

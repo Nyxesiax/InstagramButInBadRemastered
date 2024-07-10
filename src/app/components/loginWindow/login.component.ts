@@ -34,12 +34,12 @@ export class LoginComponent {
 
   tryLogin(value: {email: string, password: string}) {
     this.usersService.authenticateUser(value.email, value.password).subscribe(response => {
-      localStorage.setItem("id", JSON.stringify(response.id));
-      localStorage.setItem("email", response.email);
-      localStorage.setItem("username", response.username);
-      localStorage.setItem("password", response.password);
-      localStorage.setItem("bio", <string>response.bio);
-      localStorage.setItem("score", JSON.stringify(response.score));
+      sessionStorage.setItem("id", JSON.stringify(response.id));
+      sessionStorage.setItem("email", response.email);
+      sessionStorage.setItem("username", response.username);
+      sessionStorage.setItem("password", response.password);
+      sessionStorage.setItem("bio", <string>response.bio);
+      sessionStorage.setItem("score", JSON.stringify(response.score));
 
       this.router.navigate(["/dashboard"]);
 

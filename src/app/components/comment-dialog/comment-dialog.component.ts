@@ -77,7 +77,6 @@ export class CommentDialogComponent {
     });
   }
 
-
   ngOnInit(): void {
     this.commentService.getCommentsOnPost(this.postId).subscribe(comments =>{
       this.comments = comments;

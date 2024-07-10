@@ -124,10 +124,11 @@ app.get('/comments/:id', (req, res) =>
   const {id} = req.params;
   con.query('SELECT * FROM comments WHERE post_id = ?', [id], (err, results) =>
   {
+    console.log(results);
     if(err) throw err;
     if (results.length > 0)
     {
-      res.json(results[0]);
+      res.json(results);
     } else
     {
       res.status(404).json({message: 'Comment not found'});
@@ -150,12 +151,6 @@ app.get('comments/singlecomment/:id', (req, res) =>{
 app.post('/comments',  (req, res) =>
 {
   const newComment = req.body;
-  const comment = req.body.text;
-  const uid = req.body.user_id;
-  const pid = req.body.post_id;
-  console.log("uid", uid);
-  console.log("Comment", JSON.stringify(newComment));
-  console.log("pid", pid)
   con.query('INSERT INTO comments SET ?', newComment, (err, result) => {
     if (err) throw err;
     return res.json({ id: result.insertId, ...newComment });

@@ -16,6 +16,7 @@ import {CreatePostComponent} from "../create-post/create-post.component";
 export class NavbarComponent implements OnInit {
   searchterm: string;
   postToggle: boolean;
+  loggedIn : boolean;
   /*
 
     startAt = new Subject();
@@ -29,7 +30,7 @@ export class NavbarComponent implements OnInit {
   constructor(public usersService: UsersService, public router: Router) {
     this.searchterm = '';
     this.postToggle = false;
-
+    this.loggedIn = true;
   }
 /*
   signOut() {
@@ -67,7 +68,9 @@ export class NavbarComponent implements OnInit {
 
 
   logout() {
+    sessionStorage.clear();
     localStorage.clear();
+    this.loggedIn = false;
     this.router.navigate(['/loginWindow']);
   }
 }

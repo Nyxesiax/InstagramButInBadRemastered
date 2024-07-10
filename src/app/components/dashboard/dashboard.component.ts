@@ -1,17 +1,21 @@
 import {Component, OnInit} from '@angular/core';
-import {Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {PostsService} from "../../Service/postService/posts.service";
 import {UsersService} from "../../Service/userService/users.service";
 import {NgForOf} from "@angular/common";
+import {MatDialog} from "@angular/material/dialog";
+import {CommentDialogComponent} from "../comment-dialog/comment-dialog.component";
+import {MatIcon} from "@angular/material/icon";
+import {MatFabButton} from "@angular/material/button";
 
 interface Post {
-  postId?: number;
+  postId: number;
   userId: number;
   caption: string
   title: string;
   body: string;
-  image?: ImageData;
+  fileId?: number;
   score: number;
   data?: Date;
 }
@@ -32,7 +36,9 @@ interface User {
     ReactiveFormsModule,
     RouterLink,
     RouterLinkActive,
-    NgForOf
+    NgForOf,
+    MatIcon,
+    MatFabButton
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -49,9 +55,10 @@ export class DashboardComponent implements OnInit
     private router: Router,
     private fb: FormBuilder,
     protected userService: UsersService,
-    private postsService: PostsService
+    private postsService: PostsService,
+    public commentDialog: MatDialog
   ) {
-    this.username = localStorage.getItem('username');
+    this.username = sessionStorage.getItem('username');
     this.dashboardForm = this.fb.nonNullable.group({
       id: [1, Validators.required]
     });
@@ -62,16 +69,35 @@ export class DashboardComponent implements OnInit
     this.postsService.getPosts().subscribe(posts =>
     {
       this.posts = posts;
-      for(let post of posts)
-      {
-        this.userService.getUser(post.userId).subscribe(user =>
-        {
-          this.owner[post.userId] = user.username
-        });
+      console.log(JSON.stringify(this.posts))
+      for(let i = 0; i < posts.length; i++){
+        this.owner[i] = posts[i].username;
+        console.log(this.owner[i])
       }
-
     });
+  }
 
+  upvote(post: Post) {
+    post.score += 1;
+    this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
+      console.log("Upvote response ", response);
+    });
+  }
 
+  downvote(post: Post) {
+    post.score -= 1;
+    this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
+      console.log("Downvote response", response);
+    });
+  }
+
+  showCommentDialog(post: Post){
+    this.commentDialog.open(CommentDialogComponent, {
+      data: {
+        number: post.postId
+      },
+      height: '500px',
+      width: '800px'
+    });
   }
 }

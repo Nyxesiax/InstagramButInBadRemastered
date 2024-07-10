@@ -1,0 +1,24 @@
+
+<div id="main">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item" *ngFor="let comment of comments">
+      <div class="card">
+        <p>{{comment.text}}</p>
+      </div>
+    </li>
+    <form [formGroup]="commentForm">
+      <div class="card">
+        <input type="text" formControlName="text" class="form-control">
+        <small id="commentHelp" class="form-text-muted">Please be respectful to other users.</small>
+        <label class="error">{{errorMessage}}</label>
+        <label class="success">{{successMessage}}</label>
+        <br/>
+        <div class="send-button-container">
+          <button mat-mini-fab aria-label="Post your comment" (click)="tryCommenting(commentForm.value)">
+            <mat-icon>send</mat-icon>
+          </button>
+        </div>
+      </div>
+    </form>
+  </ul>
+</div>

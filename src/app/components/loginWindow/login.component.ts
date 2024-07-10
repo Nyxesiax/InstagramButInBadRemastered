@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {UsersService} from "../../Service/userService/users.service";
 import {NavbarComponent} from "../navbar/navbar.component";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-login',
@@ -43,7 +44,6 @@ export class LoginComponent {
       sessionStorage.setItem("score", JSON.stringify(response.score));
       this.navbarComp.loggedIn = true;
       this.router.navigate(["/dashboard"]);
-
     }, error => {
       this.errorMessage = 'Invalid email or password';
     });

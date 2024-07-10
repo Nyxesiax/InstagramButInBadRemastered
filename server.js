@@ -40,9 +40,21 @@ con.connect(err => {
 
 
 // CRUD for posts __________________________________________________________________________________________
-app.get('/posts', (req, res) =>
+/*app.get('/posts', (req, res) =>
 {
   con.query('SELECT * FROM posts', (err, results) =>
+  {
+    if(err) throw err;
+    res.json(results)
+  })
+})
+
+ */
+
+app.get('/posts', (req, res) =>
+{
+  con.query('SELECT users.id, users.username, posts.postId, posts.caption, posts.title, posts.body,' +
+    'posts.score, posts.date FROM users, posts WHERE users.id = posts.userId;', (err, results) =>
   {
     if(err) throw err;
     res.json(results)
@@ -66,6 +78,7 @@ app.get('/posts/userId/:id', (req, res) =>
     }
   });
 });
+
 
 app.get('/posts/:id', (req, res) =>
 {

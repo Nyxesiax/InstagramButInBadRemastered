@@ -80,11 +80,12 @@ export class CommentDialogComponent {
   ngOnInit(): void {
     this.commentService.getCommentsOnPost(this.postId).subscribe(comments =>{
       this.comments = comments;
-      // for(let comment of comments){
-      //   this.userService.getUser(comment.user_id).subscribe(user =>{
-      //     this.commentOwner[comment.userId] = user.username
-      //   });
-      // } TODO: sobald der rest funktioniert das hier auch machen
+      console.log("comments aus db ", comments);
+      for(let comment of comments){
+        this.userService.getUser(comment.user_id).subscribe(user =>{
+          this.commentOwner[comment.user_id] = user.username
+        });
+      }
     });
   }
 

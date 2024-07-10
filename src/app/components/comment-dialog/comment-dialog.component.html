@@ -1,9 +1,11 @@
-
 <div id="main">
   <ul class="list-group list-group-flush">
     <li class="list-group-item" *ngFor="let comment of comments">
       <div class="card">
-        <p>{{comment.text}}</p>
+        <div class="card-body">
+          <h5 class="card-title">{{commentOwner[comment.user_id]}}</h5>
+          <p>{{comment.text}}</p>
+        </div>
       </div>
     </li>
     <form [formGroup]="commentForm">

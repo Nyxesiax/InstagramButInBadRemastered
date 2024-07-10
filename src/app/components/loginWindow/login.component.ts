@@ -24,7 +24,8 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private navbarComp: NavbarComponent
   ) {
     this.loginForm = this.fb.nonNullable.group({
       email: ['hallo@test.de', Validators.required],
@@ -40,7 +41,7 @@ export class LoginComponent {
       sessionStorage.setItem("password", response.password);
       sessionStorage.setItem("bio", <string>response.bio);
       sessionStorage.setItem("score", JSON.stringify(response.score));
-
+      this.navbarComp.loggedIn = true;
       this.router.navigate(["/dashboard"]);
 
     }, error => {

@@ -3,7 +3,7 @@ import {Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@an
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {PostsService} from "../../Service/postService/posts.service";
 import {UsersService} from "../../Service/userService/users.service";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import { DomSanitizer } from '@angular/platform-browser';
 import {from} from "rxjs";
 
@@ -34,7 +34,8 @@ interface User {
     ReactiveFormsModule,
     RouterLink,
     RouterLinkActive,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'

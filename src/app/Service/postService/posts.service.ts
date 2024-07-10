@@ -8,7 +8,7 @@ interface Post {
   caption: string
   title: string;
   body: string;
-  image?: any;
+  fileId?: number;
   score: number;
   data?: Date;
 }
@@ -21,8 +21,8 @@ export class PostsService
   private apiUrl = 'http://localhost:8081/posts';
   constructor(private http: HttpClient) { }
 
-  getPosts(): Observable<Post[]> {
-    return this.http.get<Post[]>(this.apiUrl);
+  getPosts(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
   }
 
   getPostsFromUser(id: number): Observable<Post[]> {

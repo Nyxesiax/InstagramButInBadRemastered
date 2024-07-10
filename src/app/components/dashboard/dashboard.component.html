@@ -14,7 +14,19 @@
         </div>
         <div class="card-footer">
           <p>Score: {{post.score}} </p>
-          <p>Owner: {{owner[post.userId]}}</p>
+          <p>Owner: {{owner[post.postId - 1]}}</p>
+          <button mat-fab extended (click)="showCommentDialog(post)">
+            <mat-icon>forum</mat-icon>
+            Comment
+          </button>
+          <button mat-fab extended (click)="upvote(post)">
+            <mat-icon>arrow_circle_up</mat-icon>
+              Upvote
+          </button>
+          <button mat-fab extended (click)="downvote(post)">
+            <mat-icon>arrow_circle_down</mat-icon>
+              Downvote
+          </button>
         </div>
       </div>
     </li>

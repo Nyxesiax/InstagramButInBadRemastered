@@ -6,11 +6,12 @@ import {DashboardComponent} from "./components/dashboard/dashboard.component";
 import {SidebarComponent} from "./components/sidebar/sidebar.component";
 import {NgIf} from "@angular/common";
 import {CreatePostComponent} from "./components/create-post/create-post.component";
+import {MatDialogModule} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NavbarComponent, LoginComponent, DashboardComponent, SidebarComponent, NgIf, CreatePostComponent],
+  imports: [RouterOutlet, NavbarComponent, LoginComponent, DashboardComponent, SidebarComponent, NgIf, CreatePostComponent, MatDialogModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

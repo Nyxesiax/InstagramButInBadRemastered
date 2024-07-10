@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import { Component } from '@angular/core';
 import {UsersService} from "../../Service/userService/users.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {PostsService} from "../../Service/postService/posts.service";
-//import * as console from "node:console";
 
 @Component({
   selector: 'app-create-post',
@@ -19,13 +18,14 @@ export class CreatePostComponent{
   createPostForm: FormGroup;
   selectedFile: File | null | undefined;
   errorMessage: string | null=null;
+  successMessage = '';
 
   constructor(
     private postsService: PostsService,
     private router: Router,
     private fb: FormBuilder) {
     this.createPostForm = this.fb.group({
-      userId: [localStorage.getItem("id"), Validators.required],
+      userId: [sessionStorage.getItem("id"), Validators.required],
       caption: ['', Validators.required],
       title: ['', Validators.required],
       body: ['', Validators.required],

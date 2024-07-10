@@ -3,12 +3,16 @@ import {Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@an
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {PostsService} from "../../Service/postService/posts.service";
 import {UsersService} from "../../Service/userService/users.service";
+import {MatDialog} from "@angular/material/dialog";
+import {CommentDialogComponent} from "../comment-dialog/comment-dialog.component";
+import {MatIcon} from "@angular/material/icon";
+import {MatFabButton} from "@angular/material/button";
 import {NgForOf, NgIf} from "@angular/common";
 import { DomSanitizer } from '@angular/platform-browser';
 import {from} from "rxjs";
 
 interface Post {
-  postId?: number;
+  postId: number;
   userId: number;
   caption: string
   title: string;
@@ -36,6 +40,8 @@ interface User {
     RouterLinkActive,
     NgForOf,
     NgIf
+    MatIcon,
+    MatFabButton
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -57,9 +63,10 @@ export class DashboardComponent implements OnInit
     private sanitizer: DomSanitizer,
 
     protected userService: UsersService,
-    private postsService: PostsService
+    private postsService: PostsService,
+    public commentDialog: MatDialog
   ) {
-    this.username = localStorage.getItem('username');
+    this.username = sessionStorage.getItem('username');
     this.dashboardForm = this.fb.nonNullable.group({
       id: [1, Validators.required]
     });
@@ -67,24 +74,38 @@ export class DashboardComponent implements OnInit
 
   ngOnInit(): void
   {
-    // this.postsService.getPosts()
-    //   .subscribe(blob => {
-    //     let objectURL = URL.createObjectURL(this.image);
-    //     this.image = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-    //   })
     this.postsService.getPosts().subscribe(posts =>
     {
       this.posts = posts;
-      for(let post of posts)
-      {
-        this.userService.getUser(post.userId).subscribe(user =>
-        {
-          this.owner[post.userId] = user.username
-        });
+      console.log(JSON.stringify(this.posts))
+      for(let i = 0; i < posts.length; i++){
+        this.owner[i] = posts[i].username;
+        console.log(this.owner[i])
       }
-
     });
+  }
 
+  upvote(post: Post) {
+    post.score += 1;
+    this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
+      console.log("Upvote response ", response);
+    });
+  }
 
+  downvote(post: Post) {
+    post.score -= 1;
+    this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
+      console.log("Downvote response", response);
+    });
+  }
+
+  showCommentDialog(post: Post){
+    this.commentDialog.open(CommentDialogComponent, {
+      data: {
+        number: post.postId
+      },
+      height: '500px',
+      width: '800px'
+    });
   }
 }

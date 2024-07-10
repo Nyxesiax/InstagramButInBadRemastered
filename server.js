@@ -66,9 +66,21 @@ function checkFileType(file, cb) {
 }
 
 // CRUD for posts __________________________________________________________________________________________
-app.get('/posts', (req, res) =>
+/*app.get('/posts', (req, res) =>
 {
   con.query('SELECT * FROM posts', (err, results) =>
+  {
+    if(err) throw err;
+    res.json(results)
+  })
+})
+
+ */
+
+app.get('/posts', (req, res) =>
+{
+  con.query('SELECT users.id, users.username, posts.postId, posts.caption, posts.title, posts.body,' +
+    'posts.score, posts.date FROM users, posts WHERE users.id = posts.userId;', (err, results) =>
   {
     if(err) throw err;
     res.json(results)
@@ -78,7 +90,6 @@ app.get('/posts', (req, res) =>
 app.get('/posts/userId/:id', (req, res) =>
 {
   const {id} = req.params;
-  console.log("ID: " + id);
   con.query('SELECT * FROM posts where userId = ?', [id], (err, results) =>
   {
     if(err) throw err;
@@ -92,6 +103,7 @@ app.get('/posts/userId/:id', (req, res) =>
     }
   });
 });
+
 
 app.get('/posts/:id', (req, res) =>
 {
@@ -133,7 +145,7 @@ app.post('/posts', upload.single('image'), (req, res) => {
 app.put('/posts/:id', (req, res) => {
   const updatedPost = req.body;
   const { id } = req.params;
-  con.query('UPDATE posts SET ? WHERE id = ?', [updatedPost, id], (err) => {
+  con.query('UPDATE posts SET score = ? WHERE postId = ?', [updatedPost.score, id], (err) => {
     if (err) throw err;
     res.json({ id, ...updatedPost });
   });
@@ -160,17 +172,30 @@ app.get('/comments', (req, res) =>
 app.get('/comments/:id', (req, res) =>
 {
   const {id} = req.params;
-  con.query('SELECT * FROM comments WHERE id = ?', [id], (err, results) =>
+  con.query('SELECT * FROM comments WHERE post_id = ?', [id], (err, results) =>
   {
+    console.log(results);
     if(err) throw err;
     if (results.length > 0)
     {
-      res.json(results[0]);
+      res.json(results);
     } else
     {
       res.status(404).json({message: 'Comment not found'});
     }
   });
+});
+
+app.get('comments/singlecomment/:id', (req, res) =>{
+  const {id} = req.params;
+  con.query('SELECT * FROM comments WHERE idcomments = ?', [id], (err, results) =>{
+    if(err) throw err;
+    if (results.length > 0) {
+      res.json(results[0]);
+    } else {
+        res.status(404).json({message: 'Comment not found'});
+      }
+  })
 });
 
 app.post('/comments',  (req, res) =>

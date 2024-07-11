@@ -7,6 +7,7 @@ import {MatFabButton, MatMiniFabButton} from "@angular/material/button";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {UsersService} from "../../Service/userService/users.service";
 import {CommentsService} from "../../Service/commentsService/comments.service";
+import {AuthenticationService} from "../../Service/authenticationService/authentication.service";
 
 interface Comment{
   idcomments: number;
@@ -62,6 +63,7 @@ export class CommentDialogComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
               protected commentService: CommentsService,
+              private authervice: AuthenticationService,
               protected userService: UsersService,
               protected postsService: PostsService,
               public commentDialog: MatDialog,
@@ -90,21 +92,29 @@ export class CommentDialogComponent {
     });
   }
 
+  isLoggedIn() {
+    return this.authervice.isLoggedIn();
+  }
+
   tryCommenting(value: {post_id: number, user_id: number, text: string}): void {
-    this.commentService.addItem(value).subscribe(response => {
-      //rücken an der wand
-      //hand an meinem schwanz
-      //andere am ballermann
-      //ganzer körper angespannt
-      //rücken an der wand
-      //gift in der hand
-      //baba material digga tick das kristall
-      this.successMessage = "Posted your comment."
-      // @ts-ignore
-      this.commentForm.get("text").setValue("")
-    }, error => {
-      this.errorMessage = "Couldn't post your comment";
-    });
+    if (this.isLoggedIn()) {
+      this.commentService.addItem(value).subscribe(response => {
+        //rücken an der wand
+        //hand an meinem schwanz
+        //andere am ballermann
+        //ganzer körper angespannt
+        //rücken an der wand
+        //gift in der hand
+        //baba material digga tick das kristall
+        this.successMessage = "Posted your comment."
+        // @ts-ignore
+        this.commentForm.get("text").setValue("")
+      }, error => {
+        this.errorMessage = "Couldn't post your comment";
+      });
+    } else {
+      this.errorMessage = "Please login in order to comment."
+    }
   }
 
 }

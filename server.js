@@ -152,6 +152,26 @@ app.get('/comments', (req, res) =>
 app.get('/comments/:id', (req, res) =>
 {
   const {id} = req.params;
+  con.query('SELECT users.id, users.username, comments.idcomments, comments.text\n' +
+    'FROM users, comments\n' +
+    'WHERE users.id = comments.user_id AND comments.post_id = ?', [id], (err, results) =>
+  {
+    if(err) throw err;
+    if (results.length > 0)
+    {
+      console.log("Results ", results);
+      res.json(results);
+    } else
+    {
+      res.status(404).json({message: 'Comment not found'});
+    }
+  });
+});
+
+/*
+app.get('/comments/:id', (req, res) =>
+{
+  const {id} = req.params;
   con.query('SELECT * FROM comments WHERE post_id = ?', [id], (err, results) =>
   {
     if(err) throw err;
@@ -164,6 +184,7 @@ app.get('/comments/:id', (req, res) =>
     }
   });
 });
+ */
 
 app.get('comments/singlecomment/:id', (req, res) =>{
   const {id} = req.params;

@@ -80,10 +80,13 @@ export class DashboardComponent implements OnInit
       for(let i = 0; i < posts.length; i++){
         this.owner.set(posts[i].postId, posts[i].username);
       }
+      /*
       console.log("posts")
       console.log(this.posts)
       console.log("owner")
       console.log(this.owner)
+
+       */
     });
   }
 

@@ -44,7 +44,6 @@ export class EditProfileComponent {
   }
 
   save(value: {bio: string}) {
-    console.log("Bio: " + value.bio);
     this.userService.updateUser(this.id, {email: <string>this.email, password: <string>this.password, username: <string>this.username, bio: value.bio})
       .subscribe(response => {
       alert("Profile updated successfully");

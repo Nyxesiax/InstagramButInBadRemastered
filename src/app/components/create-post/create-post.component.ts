@@ -37,7 +37,6 @@ export class CreatePostComponent{
   onChange(event:any)
   {
     this.selectedFile = <File>event.target.files[0]
-    console.log(event.target.files[0])
   }
 
   tryUploading() {
@@ -62,9 +61,5 @@ export class CreatePostComponent{
     }, error => {
       this.errorMessage = "Couldn't post.";
     });
-    // alert("upload btn works")
   }
-
-
-
 }

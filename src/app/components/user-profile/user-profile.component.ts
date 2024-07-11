@@ -48,7 +48,6 @@ export class UserProfileComponent {
   }
 
   ngOnInit(): void {
-    console.log(this.errorMessage);
     this.postService.getPostsFromUser(<number>this.id).subscribe(posts => {
       this.posts = posts;
       /*for(let post of posts)

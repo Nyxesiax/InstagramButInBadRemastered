@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {PostsService} from "../../Service/postService/posts.service";
 import {UsersService} from "../../Service/userService/users.service";
@@ -9,7 +9,6 @@ import {MatIcon} from "@angular/material/icon";
 import {MatFabButton} from "@angular/material/button";
 import {NgForOf, NgIf} from "@angular/common";
 import { DomSanitizer } from '@angular/platform-browser';
-import {from} from "rxjs";
 
 interface Post {
   postId: number;
@@ -39,7 +38,7 @@ interface User {
     RouterLink,
     RouterLinkActive,
     NgForOf,
-    NgIf
+    NgIf,
     MatIcon,
     MatFabButton
   ],
@@ -51,7 +50,7 @@ export class DashboardComponent implements OnInit
 {
   posts: Post[] = [];
   image: any;
-  owner: { [key: number]: string } = {};
+  owner: Map<number, string>;     //{ [key: number]: string } = {};
   dashboardForm: FormGroup;
   username: string | null;
 
@@ -66,6 +65,7 @@ export class DashboardComponent implements OnInit
     private postsService: PostsService,
     public commentDialog: MatDialog
   ) {
+    this.owner = new Map<number, string>
     this.username = sessionStorage.getItem('username');
     this.dashboardForm = this.fb.nonNullable.group({
       id: [1, Validators.required]
@@ -77,25 +77,25 @@ export class DashboardComponent implements OnInit
     this.postsService.getPosts().subscribe(posts =>
     {
       this.posts = posts;
-      console.log(JSON.stringify(this.posts))
       for(let i = 0; i < posts.length; i++){
-        this.owner[i] = posts[i].username;
-        console.log(this.owner[i])
+        this.owner.set(posts[i].postId, posts[i].username);
       }
+      console.log("posts")
+      console.log(this.posts)
+      console.log("owner")
+      console.log(this.owner)
     });
   }
 
   upvote(post: Post) {
     post.score += 1;
     this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
-      console.log("Upvote response ", response);
     });
   }
 
   downvote(post: Post) {
     post.score -= 1;
     this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
-      console.log("Downvote response", response);
     });
   }
 

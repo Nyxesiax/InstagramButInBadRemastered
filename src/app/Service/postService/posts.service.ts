@@ -34,7 +34,6 @@ export class PostsService
   }
 
   createPost(post: FormData): Observable<any> {
-    console.log(post)
     return this.http.post(this.apiUrl, post);
   }
 

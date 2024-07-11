@@ -66,20 +66,9 @@ function checkFileType(file, cb) {
 }
 
 // CRUD for posts __________________________________________________________________________________________
-/*app.get('/posts', (req, res) =>
-{
-  con.query('SELECT * FROM posts', (err, results) =>
-  {
-    if(err) throw err;
-    res.json(results)
-  })
-})
-
- */
-
 app.get('/posts', (req, res) =>
 {
-  con.query('SELECT users.id, users.username, posts.postId, posts.caption, posts.title, posts.body,' +
+  con.query('SELECT users.id, users.username, posts.postId, posts.caption, posts.title, posts.body, posts.image,' +
     'posts.score, posts.date FROM users, posts WHERE users.id = posts.userId;', (err, results) =>
   {
     if(err) throw err;
@@ -95,7 +84,6 @@ app.get('/posts/userId/:id', (req, res) =>
     if(err) throw err;
     if (results.length > 0)
     {
-      //console.log("Result: " + results);
       res.json(results);
     } else
     {
@@ -133,14 +121,6 @@ app.post('/posts', upload.single('image'), (req, res) => {
   });
 });
 
-// app.post('/posts',  (req,res) =>
-// {
-//   const newPost = req.body;
-//   con.query('INSERT INTO posts SET ?', newPost, (err, result) => {
-//     if (err) throw err;
-//     res.json({ id: result.insertId, ...newPost });
-//   });
-// });
 
 app.put('/posts/:id', (req, res) => {
   const updatedPost = req.body;
@@ -174,7 +154,6 @@ app.get('/comments/:id', (req, res) =>
   const {id} = req.params;
   con.query('SELECT * FROM comments WHERE post_id = ?', [id], (err, results) =>
   {
-    console.log(results);
     if(err) throw err;
     if (results.length > 0)
     {

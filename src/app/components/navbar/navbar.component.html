@@ -13,10 +13,10 @@
           <li class="nav-item active">
             <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item active" *ngIf="isLoggedIn()">
             <a class="nav-link" routerLink="/createPost" routerLinkActive="active">Create Post</a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item active" *ngIf="isLoggedIn()">
             <a class="nav-link" routerLink="/userProfile" routerLinkActive="active">Profile</a>
           </li>
       <!--    @if (loggedIn) {

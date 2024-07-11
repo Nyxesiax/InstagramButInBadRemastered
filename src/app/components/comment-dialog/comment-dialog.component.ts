@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, ElementRef, Inject, Renderer2, ViewChild} from '@angular/core';
 import {PostsService} from "../../Service/postService/posts.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {NgForOf} from "@angular/common";
@@ -64,7 +64,8 @@ export class CommentDialogComponent {
               protected commentService: CommentsService,
               protected userService: UsersService,
               protected postsService: PostsService,
-              public commentDialog: MatDialog) {
+              public commentDialog: MatDialog,
+              private renderer: Renderer2) {
     Object.keys(data).forEach(key => {
       if (key === this.specifiedKey) {
         this.postId = Number(data[key]);

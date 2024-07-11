@@ -9,6 +9,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatFabButton} from "@angular/material/button";
 import {NgForOf, NgIf} from "@angular/common";
 import { DomSanitizer } from '@angular/platform-browser';
+import {AuthenticationService} from "../../Service/authenticationService/authentication.service";
 
 interface Post {
   postId: number;
@@ -58,7 +59,7 @@ export class DashboardComponent implements OnInit
   constructor(
     private router: Router,
     private fb: FormBuilder,
-
+    private authservice: AuthenticationService,
     private sanitizer: DomSanitizer,
 
     protected userService: UsersService,
@@ -90,16 +91,28 @@ export class DashboardComponent implements OnInit
     });
   }
 
+  isLoggedIn() {
+    return this.authservice.isLoggedIn();
+  }
+
   upvote(post: Post) {
-    post.score += 1;
-    this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
-    });
+    if (this.isLoggedIn()) {
+      post.score += 1;
+      this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
+      });
+    } else {
+      alert("Please login in order to vote.")
+    }
   }
 
   downvote(post: Post) {
+    if (this.isLoggedIn()) {
     post.score -= 1;
     this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
     });
+    } else {
+      alert("Please login in order to vote.")
+    }
   }
 
   showCommentDialog(post: Post){
@@ -108,6 +121,8 @@ export class DashboardComponent implements OnInit
       data: {
         number: post.postId
       },
+      exitAnimationDuration: '120ms',
+      enterAnimationDuration: '300ms',
       height: '500px',
       width: '800px'
     });

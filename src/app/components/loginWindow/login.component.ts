@@ -4,6 +4,7 @@ import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {UsersService} from "../../Service/userService/users.service";
 import {NavbarComponent} from "../navbar/navbar.component";
 import {error} from "@angular/compiler-cli/src/transformers/util";
+import {AuthenticationService} from "../../Service/authenticationService/authentication.service";
 
 @Component({
   selector: 'app-login',
@@ -26,6 +27,7 @@ export class LoginComponent {
     private router: Router,
     private fb: FormBuilder,
     private usersService: UsersService,
+    private authService: AuthenticationService,
     private navbarComp: NavbarComponent
   ) {
     this.loginForm = this.fb.nonNullable.group({
@@ -42,7 +44,7 @@ export class LoginComponent {
       sessionStorage.setItem("password", response.password);
       sessionStorage.setItem("bio", <string>response.bio);
       sessionStorage.setItem("score", JSON.stringify(response.score));
-      this.navbarComp.loggedIn = true;
+      this.authService.login();
       this.router.navigate(["/dashboard"]);
     }, error => {
       this.errorMessage = 'Invalid email or password';

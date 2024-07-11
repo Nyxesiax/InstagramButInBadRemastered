@@ -100,6 +100,8 @@ export class DashboardComponent implements OnInit
       post.score += 1;
       this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
       });
+    } else {
+      alert("Please login in order to vote.")
     }
   }
 
@@ -108,6 +110,8 @@ export class DashboardComponent implements OnInit
     post.score -= 1;
     this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
     });
+    } else {
+      alert("Please login in order to vote.")
     }
   }
 

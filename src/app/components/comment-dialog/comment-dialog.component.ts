@@ -1,4 +1,4 @@
-import {Component, Inject, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, Renderer2, ViewChild} from '@angular/core';
 import {PostsService} from "../../Service/postService/posts.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {NgForOf} from "@angular/common";
@@ -64,7 +64,8 @@ export class CommentDialogComponent {
               protected commentService: CommentsService,
               protected userService: UsersService,
               protected postsService: PostsService,
-              public commentDialog: MatDialog) {
+              public commentDialog: MatDialog,
+              private renderer: Renderer2) {
     Object.keys(data).forEach(key => {
       if (key === this.specifiedKey) {
         this.postId = Number(data[key]);
@@ -81,27 +82,28 @@ export class CommentDialogComponent {
   ngOnInit(): void {
     this.commentService.getCommentsOnPost(this.postId).subscribe(comments =>{
       this.comments = comments;
-      console.log("Comments ", this.comments);
       for(let i = 0; i < comments.length; i++){
         this.commentowner.set(comments[i].idcomments, comments[i].username);
       }
       console.log("Comment owner");
       console.log(this.commentowner);
-      // for(let comment of comments){
-      //   this.userService.getUser(comment.user_id).subscribe(user =>{
-      //     this.commentOwner[comment.userId] = user.username
-      //   });
-      // } TODO: sobald der rest funktioniert das hier auch machen
     });
   }
 
   tryCommenting(value: {post_id: number, user_id: number, text: string}): void {
     this.commentService.addItem(value).subscribe(response => {
-      this.successMessage = "Comment posted."
+      //rücken an der wand
+      //hand an meinem schwanz
+      //andere am ballermann
+      //ganzer körper angespannt
+      //rücken an der wand
+      //gift in der hand
+      //baba material digga tick das kristall
+      this.successMessage = "Posted your comment."
       // @ts-ignore
       this.commentForm.get("text").setValue("")
     }, error => {
-      this.errorMessage = "Couldn't post your comment.";
+      this.errorMessage = "Couldn't post your comment";
     });
   }
 

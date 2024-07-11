@@ -3,6 +3,7 @@ import {NgIf} from "@angular/common";
 import {Router, RouterLink} from "@angular/router";
 import {UsersService} from "../../Service/userService/users.service";
 import {CreatePostComponent} from "../create-post/create-post.component";
+import {AuthenticationService} from "../../Service/authenticationService/authentication.service";
 
 
 @Component({
@@ -16,21 +17,26 @@ import {CreatePostComponent} from "../create-post/create-post.component";
 export class NavbarComponent implements OnInit {
   searchterm: string;
   postToggle: boolean;
-  loggedIn : boolean;
 
-  constructor(public usersService: UsersService, public router: Router) {
+  constructor(public usersService: UsersService,
+              public router: Router,
+              private authService: AuthenticationService) {
     this.searchterm = '';
     this.postToggle = false;
-    this.loggedIn = true;
   }
 
   ngOnInit() {
+
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 
   logout() {
     sessionStorage.clear();
     localStorage.clear();
-    this.loggedIn = false;
+    this.authService.logout();
     this.router.navigate(['/loginWindow']);
   }
 }

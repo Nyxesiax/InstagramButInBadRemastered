@@ -103,12 +103,16 @@ export class DashboardComponent implements OnInit
   }
 
   showCommentDialog(post: Post){
-    this.commentDialog.open(CommentDialogComponent, {
+    let test = this.commentDialog.open(CommentDialogComponent, {
+      disableClose: true,
       data: {
         number: post.postId
       },
       height: '500px',
       width: '800px'
     });
+    test.backdropClick().subscribe(b => {
+      test.close();
+    })
   }
 }

@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, ViewChild} from '@angular/core';
 import {PostsService} from "../../Service/postService/posts.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {NgForOf} from "@angular/common";
@@ -97,8 +97,9 @@ export class CommentDialogComponent {
 
   tryCommenting(value: {post_id: number, user_id: number, text: string}): void {
     this.commentService.addItem(value).subscribe(response => {
-      alert("Posted your comment!")
-      this.commentDialog.closeAll();
+      this.successMessage = "Comment posted."
+      // @ts-ignore
+      this.commentForm.get("text").setValue("")
     }, error => {
       this.errorMessage = "Couldn't post your comment.";
     });

@@ -72,7 +72,7 @@ export class CommentDialogComponent {
     });
     this.commentForm = this.fb.group({
       text: ['', Validators.required],
-      user_id: localStorage.getItem("id"),
+      user_id: sessionStorage.getItem("id"),
       post_id: this.postId
     });
   }

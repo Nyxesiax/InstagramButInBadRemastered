@@ -32,23 +32,22 @@ export class EditProfileComponent {
   bioForm : FormGroup;
 
   constructor(private router: Router, private fb: FormBuilder, private userService: UsersService) {
-    this.username = localStorage.getItem("username");
-    this.password = localStorage.getItem("password");
-    this.email = localStorage.getItem("email");
-    this.bio = localStorage.getItem("bio");
-    this.score = localStorage.getItem("score");
-    this.id = Number(localStorage.getItem("id"));
+    this.username = sessionStorage.getItem("username");
+    this.password = sessionStorage.getItem("password");
+    this.email = sessionStorage.getItem("email");
+    this.bio = sessionStorage.getItem("bio");
+    this.score = sessionStorage.getItem("score");
+    this.id = Number(sessionStorage.getItem("id"));
     this.bioForm = this.fb.group({
       bio: ['', Validators.required]
     });
   }
 
   save(value: {bio: string}) {
-    console.log("Bio: " + value.bio);
     this.userService.updateUser(this.id, {email: <string>this.email, password: <string>this.password, username: <string>this.username, bio: value.bio})
       .subscribe(response => {
       alert("Profile updated successfully");
-      localStorage.setItem("bio", value.bio);
+        sessionStorage.setItem("bio", value.bio);
       this.router.navigate(["/userProfile"])
     })
   }

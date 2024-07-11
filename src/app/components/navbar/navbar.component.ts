@@ -16,59 +16,22 @@ import {CreatePostComponent} from "../create-post/create-post.component";
 export class NavbarComponent implements OnInit {
   searchterm: string;
   postToggle: boolean;
-  /*
+  loggedIn : boolean;
 
-    startAt = new Subject();
-    endAt = new Subject();
-
-    clubs;
-    allclubs;
-
-    startobs = this.startAt.asObservable();
-    endobs = this.endAt.asObservable(); */
   constructor(public usersService: UsersService, public router: Router) {
     this.searchterm = '';
     this.postToggle = false;
-
+    this.loggedIn = true;
   }
-/*
-  signOut() {
-    this.authService.signOut();
-  }
-
-
- */
-  isAuthenticated() {
-    // console.log(this.authService.isAuthenticated());
-    //return this.authService.isAuthenticated();
-  }
-
-  /*
-  getUserOfPost() {
-    this.userService.ownerOfPost = this.user.email;
-    // this.router.navigateByUrl('/userProfile');
-  }
-*/
-
 
   ngOnInit() {
 
   }
 
-/*
-  search() {
-    console.log(this.searchterm);
-    this.userService.ownerOfPost = this.searchterm;
-    this.searchterm = '';
-    this.router.navigateByUrl('/userProfile');
-  }
-
- */
-
-
-
   logout() {
+    sessionStorage.clear();
     localStorage.clear();
+    this.loggedIn = false;
     this.router.navigate(['/loginWindow']);
   }
 }

@@ -2,6 +2,7 @@
 var express  = require('express');
 var app      = express();                               // create our app w/ express
 var path     = require('path');
+const multer = require('multer');
 var mysql    = require('mysql');
 
 bodyParser = require('body-parser');
@@ -15,6 +16,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // configuration =================
 app.use(express.static(path.join(__dirname, '/dist/instagram-but-in-bad-remastered/browser/')));  //TODO rename to your app-name
+
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // listen (start app with node server.js) ======================================
 app.listen(8081, function(){
@@ -38,22 +41,34 @@ con.connect(err => {
   console.log('MySQL connected...');
 });
 
+// Multer setup for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
+
+function checkFileType(file, cb) {
+  const filetypes = /jpeg|jpg|png|gif/;
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = filetypes.test(file.mimetype);
+
+  if (mimetype && extname) {
+    return cb(null, true);
+  } else {
+    cb('Error: Images Only!');
+  }
+}
 
 // CRUD for posts __________________________________________________________________________________________
-/*app.get('/posts', (req, res) =>
-{
-  con.query('SELECT * FROM posts', (err, results) =>
-  {
-    if(err) throw err;
-    res.json(results)
-  })
-})
-
- */
-
 app.get('/posts', (req, res) =>
 {
-  con.query('SELECT users.id, users.username, posts.postId, posts.caption, posts.title, posts.body,' +
+  con.query('SELECT users.id, users.username, posts.postId, posts.caption, posts.title, posts.body, posts.image,' +
     'posts.score, posts.date FROM users, posts WHERE users.id = posts.userId;', (err, results) =>
   {
     if(err) throw err;
@@ -64,13 +79,11 @@ app.get('/posts', (req, res) =>
 app.get('/posts/userId/:id', (req, res) =>
 {
   const {id} = req.params;
-  console.log("ID: " + id);
   con.query('SELECT * FROM posts where userId = ?', [id], (err, results) =>
   {
     if(err) throw err;
     if (results.length > 0)
     {
-      //console.log("Result: " + results);
       res.json(results);
     } else
     {
@@ -96,19 +109,23 @@ app.get('/posts/:id', (req, res) =>
   });
 });
 
-app.post('/posts',  (req,res) =>
-{
-  const newPost = req.body;
-  con.query('INSERT INTO posts SET ?', newPost, (err, result) => {
-    if (err) throw err;
-    res.json({ id: result.insertId, ...newPost });
+app.post('/posts', upload.single('image'), (req, res) => {
+  const { userId, caption, title, body, score } = req.body;
+  const image = req.file ? req.file.filename : null;
+  const query = `INSERT INTO posts (userId, caption, title, body, image, score) VALUES (?, ?, ?, ?, ?, ?)`;
+  con.query(query, [userId, caption, title, body, image, score], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(201).json({ message: 'Post created successfully', postId: result.insertId });
   });
 });
+
 
 app.put('/posts/:id', (req, res) => {
   const updatedPost = req.body;
   const { id } = req.params;
-  con.query('UPDATE posts SET ? WHERE id = ?', [updatedPost, id], (err) => {
+  con.query('UPDATE posts SET score = ? WHERE postId = ?', [updatedPost.score, id], (err) => {
     if (err) throw err;
     res.json({ id, ...updatedPost });
   });
@@ -137,7 +154,6 @@ app.get('/comments/:id', (req, res) =>
   const {id} = req.params;
   con.query('SELECT * FROM comments WHERE post_id = ?', [id], (err, results) =>
   {
-    console.log(results);
     if(err) throw err;
     if (results.length > 0)
     {

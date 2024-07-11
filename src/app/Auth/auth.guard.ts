@@ -6,14 +6,13 @@ export const authGuard: CanActivateFn = (route, state) => {
 
 import { Injectable } from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthenticationService} from '../Service/authentication.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuardGuard {
 
-  constructor(private authService: AuthenticationService, private router: Router) {}
+ // constructor(private authService: AuthenticationService, private router: Router) {}
   /*
     canActivate(
       next: ActivatedRouteSnapshot,

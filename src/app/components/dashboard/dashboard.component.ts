@@ -104,6 +104,8 @@ export class DashboardComponent implements OnInit
       data: {
         number: post.postId
       },
+      exitAnimationDuration: '120ms',
+      enterAnimationDuration: '300ms',
       height: '500px',
       width: '800px'
     });

@@ -91,10 +91,16 @@ export class CommentDialogComponent {
 
   tryCommenting(value: {post_id: number, user_id: number, text: string}): void {
     this.commentService.addItem(value).subscribe(response => {
-      alert("Posted your comment!")
-      this.commentDialog.closeAll();
+      //rücken an der wand
+      //hand an meinem schwanz
+      //andere am ballermann
+      //ganzer körper angespannt
+      //rücken an der wand
+      //gift in der hand
+      //baba material digga tick das kristall
+      this.successMessage = "Posted your comment";
     }, error => {
-      this.errorMessage = "Couldn't post your comment.";
+      this.errorMessage = "Couldn't post your comment";
     });
   }
 

@@ -10,16 +10,15 @@
     </li>
     <form [formGroup]="commentForm">
       <div class="card">
-        <input type="text" formControlName="text" class="form-control">
-        <small id="commentHelp" class="form-text-muted">Please be respectful to other users.</small>
+        <form class="form-check-inline sticky-bottom end-0 bottom-0">
+            <input type="text" formControlName="text" class="form-control">
+            <button mat-mini-fab aria-label="Post your comment" (click)="tryCommenting(commentForm.value)">
+              <mat-icon>send</mat-icon>
+            </button>
+        </form>
+        <small id="commentHelp" class="form-text-muted" style="align-self: center;">Please be respectful to other users.</small>
         <label class="error">{{errorMessage}}</label>
         <label class="success">{{successMessage}}</label>
-        <br/>
-        <div class="send-button-container">
-          <button mat-mini-fab aria-label="Post your comment" (click)="tryCommenting(commentForm.value)">
-            <mat-icon>send</mat-icon>
-          </button>
-        </div>
       </div>
     </form>
   </ul>

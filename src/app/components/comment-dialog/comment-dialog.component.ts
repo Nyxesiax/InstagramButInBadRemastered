@@ -99,7 +99,9 @@ export class CommentDialogComponent {
       //rücken an der wand
       //gift in der hand
       //baba material digga tick das kristall
-      this.successMessage = "Posted your comment";
+      this.successMessage = "Posted your comment."
+      // @ts-ignore
+      this.commentForm.get("text").setValue("")
     }, error => {
       this.errorMessage = "Couldn't post your comment";
     });

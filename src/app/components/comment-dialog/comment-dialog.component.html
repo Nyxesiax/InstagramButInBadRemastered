@@ -3,7 +3,7 @@
   <ul class="list-group list-group-flush">
     <li class="list-group-item" *ngFor="let comment of comments">
       <div class="card">
-        <p>{{comment.text}}</p>
+        <p>{{commentowner.get(comment.idcomments)}}: {{comment.text}}</p>
       </div>
     </li>
     <form [formGroup]="commentForm">

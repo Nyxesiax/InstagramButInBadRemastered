@@ -9,7 +9,7 @@ import {UsersService} from "../../Service/userService/users.service";
 import {CommentsService} from "../../Service/commentsService/comments.service";
 
 interface Comment{
-  idcomment?: number;
+  idcomments: number;
   text: string;
   date?: Date;
   user_id: number;
@@ -55,9 +55,9 @@ export class CommentDialogComponent {
   comments: Comment[] = [];
   errorMessage: string | null=null;
   successMessage = '';
-  commentOwner: { [key: number]: string } = {};
   specifiedKey = "number";
   postId: number = 0;
+  commentowner: Map<number, string>;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
@@ -70,6 +70,7 @@ export class CommentDialogComponent {
         this.postId = Number(data[key]);
       }
     });
+    this.commentowner = new Map<number, string>
     this.commentForm = this.fb.group({
       text: ['', Validators.required],
       user_id: sessionStorage.getItem("id"),
@@ -80,6 +81,12 @@ export class CommentDialogComponent {
   ngOnInit(): void {
     this.commentService.getCommentsOnPost(this.postId).subscribe(comments =>{
       this.comments = comments;
+      console.log("Comments ", this.comments);
+      for(let i = 0; i < comments.length; i++){
+        this.commentowner.set(comments[i].idcomments, comments[i].username);
+      }
+      console.log("Comment owner");
+      console.log(this.commentowner);
       // for(let comment of comments){
       //   this.userService.getUser(comment.user_id).subscribe(user =>{
       //     this.commentOwner[comment.userId] = user.username

@@ -21,3 +21,13 @@ form{
 #nameMargin{
   margin-left: 1%;
 }
+
+#loginIcon{
+  margin-top: 8px;
+  color: white;
+}
+
+#logoutIcon{
+  margin-top: 8px;
+  color: coral;
+}

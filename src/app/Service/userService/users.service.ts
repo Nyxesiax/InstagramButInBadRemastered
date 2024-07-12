@@ -47,6 +47,7 @@ export class UsersService {
 
   uploadProfilePicture(form: FormData): Observable<any> {
     let id = form.get("userId")
+    console.log("Form img", form.get("image"));
     return this.http.put(`${this.apiUrl}/profilePicture/${id}`, form);
   }
 

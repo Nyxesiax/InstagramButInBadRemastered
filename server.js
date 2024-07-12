@@ -259,11 +259,11 @@ app.post('/users/authenticate', (req, res) => {
   });
 });
 
-app.put('/users/profilePicture/:id', (req, res) => {
+app.put('/users/profilePicture/:id', upload.single('image'), (req, res) => {
   const { id } = req.params;
   console.log("Id", id)
   const data = req.body;
-  console.log("Data",data)
+  console.log("Data", data)
   con.query('UPDATE users SET profilePicture = ? WHERE id = ?', [data, id], (err, results) => {
     console.log("Result server ", results);
     if (err) throw err;

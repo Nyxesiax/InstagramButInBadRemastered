@@ -82,11 +82,11 @@ export class UserProfileComponent {
     formData.append('userId', this.pictureForm.get('userId').value);
     if (this.selectedFile) {
       formData.append("image", this.selectedFile, this.selectedFile.name);
+      console.log("Formdata", formData)
+      console.log("Img data ", this.selectedFile);
+      this.userservice.uploadProfilePicture(formData).subscribe(response => {
+        console.log("Response from upload", response);
+      })
     }
-    console.log("Formdata", formData)
-    console.log("Img data ", this.selectedFile);
-    this.userservice.uploadProfilePicture(formData).subscribe(response => {
-      console.log("Response from upload", response);
-    })
   }
 }

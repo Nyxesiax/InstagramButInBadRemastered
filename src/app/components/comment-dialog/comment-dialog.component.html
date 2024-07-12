@@ -1,25 +1,52 @@
+<!--<div id="main" class="d-flex flex-column vh-100">-->
+<!--  <div id="message-container" class="flex-grow-1 overflow-auto">-->
+<!--    <ul class="list-group list-group-flush">-->
+<!--      <li class="list-group-item" *ngFor="let comment of comments">-->
+<!--        <div class="card">-->
+<!--          <div class="card-body">-->
+<!--            <h5 class="card-title">{{commentowner.get(comment.idcomments)}}</h5>-->
+<!--            <p>{{comment.text}}</p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </li>-->
+<!--    </ul>-->
+<!--  </div>-->
+<!--  <div id="messageInputArea" class="bg-light p-3 position-sticky bottom-0 w-100">-->
+<!--    <form [formGroup]="commentForm" class="d-flex">-->
+<!--      <input type="text" formControlName="text" class="form-control me-2">-->
+<!--      <button mat-mini-fab aria-label="Post your comment" (click)="tryCommenting(commentForm.value)">-->
+<!--        <mat-icon>send</mat-icon>-->
+<!--      </button>-->
+<!--    </form>-->
+<!--    <small id="commentHelp" class="form-text text-muted">Please be respectful to other users.</small>-->
+<!--    <label class="error">{{errorMessage}}</label>-->
+<!--    <label class="success">{{successMessage}}</label>-->
+<!--  </div>-->
+<!--</div>-->
+
 <div id="main" class="d-flex flex-column vh-100">
   <div id="message-container" class="flex-grow-1 overflow-auto">
     <ul class="list-group list-group-flush">
       <li class="list-group-item" *ngFor="let comment of comments">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">{{commentowner.get(comment.idcomments)}}</h5>
-            <p>{{comment.text}}</p>
+            <h5 class="card-title">{{ commentowner.get(comment.idcomments) }}</h5>
+            <p class="card-text">{{ comment.text }}</p>
           </div>
         </div>
       </li>
     </ul>
   </div>
   <div id="messageInputArea" class="bg-light p-3 position-sticky bottom-0 w-100">
-    <form [formGroup]="commentForm" class="d-flex">
-      <input type="text" formControlName="text" class="form-control me-2">
+    <form [formGroup]="commentForm" class="d-flex align-items-center">
+      <input type="text" formControlName="text" class="form-control me-2" placeholder="Write your comment...">
       <button mat-mini-fab aria-label="Post your comment" (click)="tryCommenting(commentForm.value)">
         <mat-icon>send</mat-icon>
       </button>
     </form>
     <small id="commentHelp" class="form-text text-muted">Please be respectful to other users.</small>
-    <label class="error">{{errorMessage}}</label>
-    <label class="success">{{successMessage}}</label>
+    <div class="text-danger">{{ errorMessage }}</div>
+    <div class="text-success">{{ successMessage }}</div>
   </div>
 </div>
+

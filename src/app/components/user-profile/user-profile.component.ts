@@ -3,6 +3,9 @@ import {Router} from "@angular/router";
 import {PostsService} from "../../Service/postService/posts.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {error} from "@angular/compiler-cli/src/transformers/util";
+import {MatIcon} from "@angular/material/icon";
+import {MatFabButton, MatMiniFabButton} from "@angular/material/button";
+import {MatTooltip} from "@angular/material/tooltip";
 
 interface Post {
   postId?: number;
@@ -20,7 +23,11 @@ interface Post {
   standalone: true,
   imports: [
     NgForOf,
-    NgIf
+    NgIf,
+    MatIcon,
+    MatMiniFabButton,
+    MatTooltip,
+    MatFabButton
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'

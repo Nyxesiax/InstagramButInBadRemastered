@@ -5,12 +5,13 @@ import {UsersService} from "../../Service/userService/users.service";
 import {CreatePostComponent} from "../create-post/create-post.component";
 import {AuthenticationService} from "../../Service/authenticationService/authentication.service";
 import {MatIcon} from "@angular/material/icon";
+import {MatTooltip} from "@angular/material/tooltip";
 
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [NgIf, RouterLink, CreatePostComponent, MatIcon],
+  imports: [NgIf, RouterLink, CreatePostComponent, MatIcon, MatTooltip],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })

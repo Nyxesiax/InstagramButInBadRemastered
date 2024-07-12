@@ -10,6 +10,7 @@ import {MatFabButton} from "@angular/material/button";
 import {NgForOf, NgIf} from "@angular/common";
 import { DomSanitizer } from '@angular/platform-browser';
 import {AuthenticationService} from "../../Service/authenticationService/authentication.service";
+import {MatTooltip} from "@angular/material/tooltip";
 
 interface Post {
   postId: number;
@@ -41,7 +42,8 @@ interface User {
     NgForOf,
     NgIf,
     MatIcon,
-    MatFabButton
+    MatFabButton,
+    MatTooltip
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'

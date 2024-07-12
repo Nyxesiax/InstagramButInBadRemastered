@@ -7,7 +7,11 @@ export class AuthenticationService {
 
   private loggedIn: boolean = false;
 
-  constructor() {}
+  constructor() {
+    if (sessionStorage.length != 0) {
+      this.loggedIn = true;
+    }
+  }
 
   isLoggedIn(): boolean {
     return this.loggedIn;

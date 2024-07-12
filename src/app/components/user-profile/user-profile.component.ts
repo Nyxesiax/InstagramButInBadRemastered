@@ -31,7 +31,7 @@ export class UserProfileComponent {
   username: string | null;
   email: string | null;
   bio: string | null;
-  score: string | null;
+  score: number;
   id: number | null;
   errorMessage = "";
 
@@ -39,8 +39,9 @@ export class UserProfileComponent {
     this.username = sessionStorage.getItem("username");
     this.email = sessionStorage.getItem("email");
     this.bio = sessionStorage.getItem("bio");
-    this.score = sessionStorage.getItem("score");
+    this.score = Number(sessionStorage.getItem("score"));
     this.id = Number(sessionStorage.getItem("id"));
+    console.log("score ", this.score)
   }
 
   toEdit() {
@@ -50,15 +51,10 @@ export class UserProfileComponent {
   ngOnInit(): void {
     this.postService.getPostsFromUser(<number>this.id).subscribe(posts => {
       this.posts = posts;
-      /*for(let post of posts)
-      {
-        this.userService.getUser(post.userId).subscribe(user =>
-        {
-          this.owner[post.userId] = user.username
-        });
+      for(let i = 0; i < posts.length; i++){
+        this.score += posts[i].score;
       }
-       */
-
+      console.log(this.score)
     }, error1 => {
       if (error1.status === 404) {
         this.errorMessage = "No posts found."

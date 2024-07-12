@@ -3,6 +3,8 @@ import {Router} from "@angular/router";
 import {PostsService} from "../../Service/postService/posts.service";
 import {NgForOf, NgIf} from "@angular/common";
 import {error} from "@angular/compiler-cli/src/transformers/util";
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {UsersService} from "../../Service/userService/users.service";
 
 interface Post {
   postId?: number;
@@ -20,7 +22,9 @@ interface Post {
   standalone: true,
   imports: [
     NgForOf,
-    NgIf
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
@@ -32,19 +36,30 @@ export class UserProfileComponent {
   email: string | null;
   bio: string | null;
   score: number;
-  id: number | null;
+  id: number;
   errorMessage = "";
+  selectedFile: File | null | undefined;
+  pictureForm : FormGroup
 
-  constructor(private router: Router, private postService: PostsService) {
+  constructor(private router: Router, private postService: PostsService, private userservice: UsersService, private fb: FormBuilder, private userService: UsersService) {
     this.username = sessionStorage.getItem("username");
     this.email = sessionStorage.getItem("email");
     this.bio = sessionStorage.getItem("bio");
     this.score = Number(sessionStorage.getItem("score"));
     this.id = Number(sessionStorage.getItem("id"));
+    this.pictureForm = this.fb.group({
+      userId: [this.id, Validators.required],
+      image: [null],
+    });
   }
 
   toEdit() {
     this.router.navigate(["/editProfile"])
+  }
+
+  onChange(event:any)
+  {
+    this.selectedFile = <File>event.target.files[0]
   }
 
   ngOnInit(): void {
@@ -53,12 +68,25 @@ export class UserProfileComponent {
       for(let i = 0; i < posts.length; i++){
         this.score += posts[i].score;
       }
-      console.log("Score string",this.score.toString())
       sessionStorage.setItem("score", this.score.toString());
     }, error1 => {
       if (error1.status === 404) {
         this.errorMessage = "No posts found."
       }
     });
+  }
+
+  tryUploading() {
+    const formData = new FormData();
+    // @ts-ignore
+    formData.append('userId', this.pictureForm.get('userId').value);
+    if (this.selectedFile) {
+      formData.append("image", this.selectedFile, this.selectedFile.name);
+    }
+    console.log("Formdata", formData)
+    console.log("Img data ", this.selectedFile);
+    this.userservice.uploadProfilePicture(formData).subscribe(response => {
+      console.log("Response from upload", response);
+    })
   }
 }

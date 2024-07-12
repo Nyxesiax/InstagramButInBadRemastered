@@ -1,59 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <div class="wrapper">
-<head>
-  <meta charset="UTF-8">
-  <title>User Profile</title>
-</head>
-<body>
-<div>
+  <head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+  </head>
+  <body>
   <div>
-    <img alt="Profile Picture">
-    <div>
-      <h2>{{username}}</h2>
-      <p >Bio: {{bio}}</p>
-      <div >
-        <div>
-          <table>
-            <tbody>
-            <tr>
-              <th scope="row">Score</th>
-              <td>{{score}}</td>
-            </tr>
-            <tr>
-              <td><button type="submit" class="btn btn-primary" (click)="toEdit()">Edit</button></td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-        <ul class="list-group list-group-flush">
-          @if(errorMessage == "") {
-            <li class="list-group-item" *ngFor="let post of posts">
-              <div class="card">
-                <div class="card-header">
-                  <img *ngIf="post.image" [src]="'http://localhost:8081/uploads/'+ post.image" alt="Post Image" width="800" height="420" style="object-fit: contain;">
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">{{post.title}}</h5>
-                  <p class="card-text">{{post.body}}</p>
-                  <p class="card-text">{{post.caption}}</p>
-                </div>
-                <div class="card-footer">
-                  <p>Score: {{post.score}} </p>
-                  <!-- <p>Owner: {{owner[post.userId]}}</p> -->
-                </div>
-              </div>
-            </li>
-          } @else {
-            <li>{{errorMessage}}</li>
-          }
-        </ul>
+    <form [formGroup]="pictureForm">
+      <div class="form-group">
+        <img alt="Profile Picture">
+        <label>Image (optional)</label>
+        <input type="file" (change)="onChange($event)" class="form-control" formControlName="image">
+        <button type="submit" class="btn btn-primary" (click)="tryUploading()">Upload</button>
       </div>
+    </form>
+    <h2>{{username}}</h2>
+    <p >Bio: {{bio}}</p>
+    <div >
+      <div>
+        <table>
+          <tbody>
+          <tr>
+            <th scope="row">Score</th>
+            <td>{{score}}</td>
+          </tr>
+          <tr>
+            <td><button type="submit" class="btn btn-primary" (click)="toEdit()">Edit</button></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="list-group list-group-flush">
+        @if(errorMessage == "") {
+          <li class="list-group-item" *ngFor="let post of posts">
+            <div class="card">
+              <div class="card-header">
+                <img *ngIf="post.image" [src]="'http://localhost:8081/uploads/'+ post.image" alt="Post Image" width="800" height="420" style="object-fit: contain;">
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">{{post.title}}</h5>
+                <p class="card-text">{{post.body}}</p>
+                <p class="card-text">{{post.caption}}</p>
+              </div>
+              <div class="card-footer">
+                <p>Score: {{post.score}} </p>
+                <!-- <p>Owner: {{owner[post.userId]}}</p> -->
+              </div>
+            </div>
+          </li>
+        } @else {
+          <li>{{errorMessage}}</li>
+        }
+      </ul>
     </div>
   </div>
-</div>
-
-
 </body>
 </div>
 </html>

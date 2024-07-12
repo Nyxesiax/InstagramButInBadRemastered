@@ -259,6 +259,22 @@ app.post('/users/authenticate', (req, res) => {
   });
 });
 
+app.put('/users/profilePicture/:id', (req, res) => {
+  const { id } = req.params;
+  console.log("Id", id)
+  const data = req.body;
+  console.log("Data",data)
+  con.query('UPDATE users SET profilePicture = ? WHERE id = ?', [data, id], (err, results) => {
+    console.log("Result server ", results);
+    if (err) throw err;
+    if (results.length > 0) {
+      res.json(results[0]);
+    } else {
+      res.status(401).json({ message: 'Invalid credentials' });
+    }
+  });
+});
+
 app.post('/users',  (req, res) =>
 {
   const newUser = req.body;
@@ -276,7 +292,7 @@ app.post('/users',  (req, res) =>
   });
 });
 
-app.put('/users/:id', (req, res) => {
+app.put('/users/:id', upload.single('image'), (req, res) => {
   const updatedUser = req.body;
   const { id } = req.params;
   con.query('UPDATE users SET ? WHERE id = ?', [updatedUser, id], (err) => {

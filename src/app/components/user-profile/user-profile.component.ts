@@ -86,6 +86,7 @@ export class UserProfileComponent {
       console.log("Img data ", this.selectedFile);
       this.userservice.uploadProfilePicture(formData).subscribe(response => {
         console.log("Response from upload", response);
+
       })
     }
   }

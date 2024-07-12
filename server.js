@@ -262,9 +262,9 @@ app.post('/users/authenticate', (req, res) => {
 app.put('/users/profilePicture/:id', upload.single('image'), (req, res) => {
   const { id } = req.params;
   console.log("Id", id)
-  const data = req.body;
-  console.log("Data", data)
-  con.query('UPDATE users SET profilePicture = ? WHERE id = ?', [data, id], (err, results) => {
+  const image = req.file ? req.file.filename: null;
+  console.log("Data", image)
+  con.query('UPDATE users SET profilePicture = ? WHERE id = ?', [image, id], (err, results) => {
     console.log("Result server ", results);
     if (err) throw err;
     if (results.length > 0) {

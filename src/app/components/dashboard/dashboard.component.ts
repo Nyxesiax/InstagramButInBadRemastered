@@ -9,6 +9,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatFabButton} from "@angular/material/button";
 import {NgForOf, NgIf} from "@angular/common";
 import { DomSanitizer } from '@angular/platform-browser';
+import {AuthenticationService} from "../../Service/authenticationService/authentication.service";
 
 interface Post {
   postId: number;

@@ -41,7 +41,6 @@ export class UserProfileComponent {
     this.bio = sessionStorage.getItem("bio");
     this.score = Number(sessionStorage.getItem("score"));
     this.id = Number(sessionStorage.getItem("id"));
-    console.log("score ", this.score)
   }
 
   toEdit() {
@@ -54,7 +53,8 @@ export class UserProfileComponent {
       for(let i = 0; i < posts.length; i++){
         this.score += posts[i].score;
       }
-      console.log(this.score)
+      console.log("Score string",this.score.toString())
+      sessionStorage.setItem("score", this.score.toString());
     }, error1 => {
       if (error1.status === 404) {
         this.errorMessage = "No posts found."

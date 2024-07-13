@@ -1,3 +1,10 @@
 .wrapper {
   margin-top: 60px;
 }
+
+.circlePicture {
+  height: 100px;
+  max-width: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}

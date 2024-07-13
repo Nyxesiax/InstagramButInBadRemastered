@@ -17,6 +17,16 @@ interface Post {
   data?: Date;
 }
 
+interface User {
+  id?: number;
+  email: string;
+  username: string;
+  password: string;
+  bio?: string;
+  score?: number;
+  profilePicture?: ImageData;
+}
+
 @Component({
   selector: 'app-user-profile',
   standalone: true,
@@ -40,8 +50,9 @@ export class UserProfileComponent {
   errorMessage = "";
   selectedFile: File | null | undefined;
   pictureForm : FormGroup
+  user: User | null = null;
 
-  constructor(private router: Router, private postService: PostsService, private userservice: UsersService, private fb: FormBuilder, private userService: UsersService) {
+  constructor(private router: Router, private postService: PostsService, private usersService: UsersService, private fb: FormBuilder) {
     this.username = sessionStorage.getItem("username");
     this.email = sessionStorage.getItem("email");
     this.bio = sessionStorage.getItem("bio");
@@ -63,6 +74,10 @@ export class UserProfileComponent {
   }
 
   ngOnInit(): void {
+    this.usersService.getUser(this.id).subscribe(user => {
+      this.user = user;
+      console.log("Image ", this.user.profilePicture)
+    })
     this.postService.getPostsFromUser(<number>this.id).subscribe(posts => {
       this.posts = posts;
       for(let i = 0; i < posts.length; i++){
@@ -84,7 +99,7 @@ export class UserProfileComponent {
       formData.append("image", this.selectedFile, this.selectedFile.name);
       console.log("Formdata", formData)
       console.log("Img data ", this.selectedFile);
-      this.userservice.uploadProfilePicture(formData).subscribe(response => {
+      this.usersService.uploadProfilePicture(formData).subscribe(response => {
         console.log("Response from upload", response);
 
       })

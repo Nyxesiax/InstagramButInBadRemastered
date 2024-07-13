@@ -13,7 +13,7 @@
         </div>
         <div class="card-footer">
           <p>Score: {{post.score}} </p>
-          <p>Owner: {{owner.get(post.postId)}}</p>
+          <p>Owner: <img *ngIf="post?.profilePicture" [src]="'http://localhost:8081/uploads/'+ post?.profilePicture" alt="Post Image" class="circlePicture">{{post.username}}</p>
           <button mat-fab extended (click)="upvote(post)">
             <mat-icon>arrow_circle_up</mat-icon>
               Upvote

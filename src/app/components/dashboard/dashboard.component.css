@@ -16,3 +16,10 @@ div.post {
 .wrapper {
   margin-top: 60px;
 }
+
+.circlePicture {
+  height: 75px;
+  max-width: 75px;
+  border-radius: 50%;
+  object-fit: cover;
+}

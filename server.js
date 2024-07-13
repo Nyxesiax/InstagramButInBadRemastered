@@ -68,7 +68,7 @@ function checkFileType(file, cb) {
 // CRUD for posts __________________________________________________________________________________________
 app.get('/posts', (req, res) =>
 {
-  con.query('SELECT users.id, users.username, posts.postId, posts.caption, posts.title, posts.body, posts.image,' +
+  con.query('SELECT users.id, users.username, users.profilePicture, posts.postId, posts.caption, posts.title, posts.body, posts.image,' +
     'posts.score, posts.date FROM users, posts WHERE users.id = posts.userId;', (err, results) =>
   {
     if(err) throw err;

@@ -15,7 +15,7 @@
         <button type="submit" class="btn btn-primary" (click)="tryUploading()">Upload</button>
       </div>
     </form>
-    <h2>Hier profilbild</h2>
+    <img *ngIf="user?.profilePicture" [src]="'http://localhost:8081/uploads/'+ user?.profilePicture" alt="Post Image" class="circlePicture">
     <h2>{{username}}</h2>
     <p >Bio: {{bio}}</p>
     <div >

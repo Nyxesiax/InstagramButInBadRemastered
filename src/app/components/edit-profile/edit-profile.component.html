@@ -6,9 +6,10 @@
         <h4>{{ username }}</h4>
       </div>
       <div class="card-body">
-        <div class="form-group">
-          <h4>Profile Picture</h4>
-          <input type="file" class="form-control-file" id="exampleFormControlFile1">
+        <div>
+            <div class="form-group">
+              <input type="file" (change)="onChange($event)" class="form-control" formControlName="image">
+            </div>
         </div>
         <br>
         <div class="form-group">

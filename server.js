@@ -268,9 +268,9 @@ app.put('/users/profilePicture/:id', upload.single('image'), (req, res) => {
     console.log("Result server ", results);
     if (err) throw err;
     if (results.length > 0) {
-      res.json(results[0]);
+      res.json(results);
     } else {
-      res.status(401).json({ message: 'Invalid credentials' });
+      res.status(401).json({ message: 'Something went wrong' });
     }
   });
 });

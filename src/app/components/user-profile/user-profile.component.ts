@@ -55,29 +55,18 @@ export class UserProfileComponent {
   score: number;
   id: number;
   errorMessage = "";
-  selectedFile: File | null | undefined;
-  pictureForm : FormGroup
   user: User | null = null;
 
   constructor(private router: Router, private postService: PostsService, private usersService: UsersService, private fb: FormBuilder) {
     this.username = sessionStorage.getItem("username");
     this.email = sessionStorage.getItem("email");
     this.bio = sessionStorage.getItem("bio");
-    this.score = Number(sessionStorage.getItem("score"));
     this.id = Number(sessionStorage.getItem("id"));
-    this.pictureForm = this.fb.group({
-      userId: [this.id, Validators.required],
-      image: [null],
-    });
+    this.score = 0;
   }
 
   toEdit() {
     this.router.navigate(["/editProfile"])
-  }
-
-  onChange(event:any)
-  {
-    this.selectedFile = <File>event.target.files[0]
   }
 
   ngOnInit(): void {
@@ -95,20 +84,5 @@ export class UserProfileComponent {
         this.errorMessage = "No posts found."
       }
     });
-  }
-
-  tryUploading() {
-    const formData = new FormData();
-    // @ts-ignore
-    formData.append('userId', this.pictureForm.get('userId').value);
-    if (this.selectedFile) {
-      formData.append("image", this.selectedFile, this.selectedFile.name);
-      console.log("Formdata", formData)
-      console.log("Img data ", this.selectedFile);
-      this.usersService.uploadProfilePicture(formData).subscribe(response => {
-        console.log("Response from upload", response);
-
-      })
-    }
   }
 }

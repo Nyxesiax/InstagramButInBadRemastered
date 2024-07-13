@@ -27,7 +27,7 @@ interface User {
   password: string;
   bio?: string;
   score?: number;
-  profilePicture?: ImageData;
+  profilePicture?: any;
 }
 
 @Component({

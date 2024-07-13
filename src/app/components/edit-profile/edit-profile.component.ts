@@ -45,27 +45,39 @@ export class EditProfileComponent {
       image: [null],
     });
   }
+  // this.userService.updateUser(this.id, {email: <string>this.email, password: <string>this.password, username: <string>this.username, bio: value.bio})
+  //   .subscribe(response => {
+  //   alert("Profile updated successfully");
+  //     sessionStorage.setItem("bio", value.bio);
+  // });
 
   onChange(event:any)
   {
     this.selectedFile = <File>event.target.files[0]
   }
 
-  save(value: {bio: string}) {
-    this.userService.updateUser(this.id, {email: <string>this.email, password: <string>this.password, username: <string>this.username, bio: value.bio})
-      .subscribe(response => {
-      alert("Profile updated successfully");
-        sessionStorage.setItem("bio", value.bio);
-    });
+  save() {
     const formData = new FormData();
     // @ts-ignore
     formData.append('userId', this.bioForm.get('userId').value);
+    // @ts-ignore
+    formData.append('bio', this.bioForm.get('bio').value);
+    // @ts-ignore
+    sessionStorage.setItem("bio", this.bioForm.get('bio').value);
+
     if (this.selectedFile) {
       formData.append("image", this.selectedFile, this.selectedFile.name);
-      this.userService.uploadProfilePicture(formData).subscribe(response => {
-        console.log("Response from upload", response);
-      })
     }
-    this.router.navigate(["/userProfile"])
+
+    this.userService.updateUser(formData).subscribe(
+      response => {
+        console.log("Response from upload", response);
+        this.router.navigate(["/userProfile"]);
+      },
+      error => {
+        console.error("Error updating profile", error);
+        // Handle the error appropriately here
+      }
+    );
   }
 }

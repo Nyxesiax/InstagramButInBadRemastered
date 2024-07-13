@@ -29,7 +29,7 @@ export class CommentsService {
     return this.http.get<Comment>(`${this.apiUrl}/singlecomment/${id}`);
   }
 
-  addItem(comment: Comment): Observable<Comment> {
+  addComment(comment: Comment): Observable<Comment> {
     return this.http.post<Comment>(this.apiUrl, comment);
   }
 

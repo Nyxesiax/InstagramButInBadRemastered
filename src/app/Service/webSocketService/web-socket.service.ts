@@ -23,7 +23,7 @@ export class WebSocketService {
     this.socket = io('http://localhost:8081');
   }
 
-  onEvent(event: string): Observable<Post> {
+  onEvent(event: string): Observable<any> {
     return new Observable((observer) => {
       this.socket.on(event, (data) => {
         observer.next(data);

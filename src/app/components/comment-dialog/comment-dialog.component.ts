@@ -8,6 +8,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {UsersService} from "../../Service/userService/users.service";
 import {CommentsService} from "../../Service/commentsService/comments.service";
 import {AuthenticationService} from "../../Service/authenticationService/authentication.service";
+import {WebSocketService} from "../../Service/webSocketService/web-socket.service";
 
 interface Comment{
   idcomments: number;
@@ -65,6 +66,7 @@ export class CommentDialogComponent {
               private fb: FormBuilder,
               protected commentService: CommentsService,
               private authervice: AuthenticationService,
+              private webSocketService: WebSocketService,
               protected userService: UsersService,
               protected postsService: PostsService,
               public commentDialog: MatDialog,
@@ -83,18 +85,27 @@ export class CommentDialogComponent {
   }
 
   ngOnInit(): void {
+    this.loadComments()
+    this.webSocketService.onEvent('newComment').subscribe((comment: Comment) => {
+      this.userService.getUser(comment.user_id).subscribe(user => {
+        this.comments.unshift({
+          text: comment.text,
+          username: user.username,
+          profilePicture: user.profilePicture,
+        })
+      })
+    })
+  }
+
+
+  loadComments()
+  {
     this.commentService.getCommentsOnPost(this.postId).subscribe(comments =>{
       this.comments = comments;
-      /*
-      for(let i = 0; i < comments.length; i++){
-        this.commentowner.set(comments[i].idcomments, comments[i].username);
-      }
-      console.log("Comment owner");
-      console.log(this.commentowner);
-
-       */
     });
   }
+
+
 
   isLoggedIn() {
     return this.authervice.isLoggedIn();
@@ -102,14 +113,8 @@ export class CommentDialogComponent {
 
   tryCommenting(value: {post_id: number, user_id: number, text: string}): void {
     if (this.isLoggedIn()) {
-      this.commentService.addItem(value).subscribe(response => {
-        //rücken an der wand
-        //hand an meinem schwanz
-        //andere am ballermann
-        //ganzer körper angespannt
-        //rücken an der wand
-        //gift in der hand
-        //baba material digga tick das kristall
+      this.commentService.addComment(value).subscribe(response => {
+
         this.successMessage = "Posted your comment."
         // @ts-ignore
         this.commentForm.get("text").setValue("")

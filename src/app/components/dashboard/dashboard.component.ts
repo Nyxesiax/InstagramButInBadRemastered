@@ -70,7 +70,7 @@ export class DashboardComponent implements OnInit
   image: any;     //{ [key: number]: string } = {};
   dashboardForm: FormGroup;
   username: string | null;
-  postables: Postable[];
+  posts: any[];
 
 
   constructor(
@@ -83,7 +83,7 @@ export class DashboardComponent implements OnInit
     private postsService: PostsService,
     public commentDialog: MatDialog
   ) {
-    this.postables = [];
+    this.posts = [];
     this.username = sessionStorage.getItem('username');
     this.dashboardForm = this.fb.nonNullable.group({
       id: [1, Validators.required]
@@ -93,9 +93,13 @@ export class DashboardComponent implements OnInit
   ngOnInit(): void
   {
     this.loadPosts()
+    this.webSocketService.onEvent("updateProfile").subscribe(bio => {
+      this.loadPosts()
+    })
+
     this.webSocketService.onEvent('newPost').subscribe((post: Post) => {
-      this.userService.getUser(post.userId ).subscribe(user => {
-        this.postables.unshift({
+      this.userService.getUser(post.userId).subscribe(user => {
+        this.posts.unshift({
           postId: post.postId,
           userId: post.userId,
           body: post.body,
@@ -105,35 +109,17 @@ export class DashboardComponent implements OnInit
           score: post.score,
           title: post.title,
           username: user.username
-        });
+        })
       });
     });
-
-
   }
 
   loadPosts()
   {
     this.postsService.getPosts().subscribe(posts =>
     {
-      for(let post of posts)
-      {
-        this.userService.getUser(post.userId ).subscribe(user => {
-          if (post.postId != null) {
-            this.postables.push({
-              postId: post.postId,
-              userId: post.userId,
-              body: post.body,
-              caption: post.caption,
-              image: post.image,
-              profilePicture: user.profilePicture,
-              score: post.score,
-              title: post.title,
-              username: user.username
-            })
-          }
-        });
-      }
+      this.posts = posts;
+      console.log("posts: ", posts)
     });
   }
 

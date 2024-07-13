@@ -70,18 +70,6 @@ function notifyClients(event, data) {
   io.emit(event, data);
 }
 
-// Multer setup for file uploads
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
-  }
-});
-
-const upload = multer({ storage: storage });
-
 function checkFileType(file, cb) {
   const filetypes = /jpeg|jpg|png|gif/;
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
@@ -94,25 +82,43 @@ function checkFileType(file, cb) {
   }
 }
 
-// CRUD for posts __________________________________________________________________________________________
-app.get('/posts', (req, res) =>
-{
-  con.query('SELECT * FROM posts ORDER BY date DESC', (err, results) =>
-  {
-    if(err) throw err;
-    res.json(results)
-  })
-})
+// Multer setup for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
+});
 
+const upload = multer({
+  storage: storage,
+  fileFilter: function(req, file, cb) {
+    checkFileType(file, cb);
+  }
+});
+
+
+// CRUD for posts __________________________________________________________________________________________
 // app.get('/posts', (req, res) =>
 // {
-//   con.query('SELECT users.id, users.username, posts.postId, posts.caption, posts.title, posts.body, posts.image,' +
-//     'posts.score, posts.date FROM users, posts WHERE users.id = posts.userId;', (err, results) =>
+//   con.query('SELECT * FROM posts ORDER BY date DESC', (err, results) =>
 //   {
 //     if(err) throw err;
 //     res.json(results)
 //   })
 // })
+
+app.get('/posts', (req, res) =>
+{
+  con.query('SELECT users.id, users.username, users.profilePicture, posts.postId, posts.caption, posts.title, posts.body, posts.image,' +
+    'posts.score, posts.date FROM users, posts WHERE users.id = posts.userId ORDER BY date DESC;', (err, results) =>
+  {
+    if(err) throw err;
+    res.json(results)
+  })
+})
 
 app.get('/posts/userId/:id', (req, res) =>
 {
@@ -194,12 +200,11 @@ app.get('/comments/:id', (req, res) =>
   const {id} = req.params;
   con.query('SELECT users.id, users.username, users.profilePicture, comments.idcomments, comments.text\n' +
     'FROM users, comments\n' +
-    'WHERE users.id = comments.user_id AND comments.post_id = ?', [id], (err, results) =>
+    'WHERE users.id = comments.user_id AND comments.post_id = ? ORDER BY date DESC', [id], (err, results) =>
   {
     if(err) throw err;
     if (results.length > 0)
     {
-      console.log("Results ", results);
       res.json(results);
     } else
     {
@@ -240,10 +245,15 @@ app.get('comments/singlecomment/:id', (req, res) =>{
 
 app.post('/comments',  (req, res) =>
 {
-  const newComment = req.body;
-  con.query('INSERT INTO comments SET ?', newComment, (err, result) => {
-    if (err) throw err;
-    return res.json({ id: result.insertId, ...newComment });
+  const {text, user_id, post_id} = req.body;
+  con.query('INSERT INTO comments (text, user_id, post_id) VALUES (?, ?, ?)', [text, user_id, post_id], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    const newComment = {idcomments: result.insertId,  text, date: new Date(), user_id, post_id}
+    notifyClients("newComment", newComment)
+    res.status(201).json({message: "Comment created successfully", idcomments: result.insertId })
+    //return res.json({ id: result.insertId, ...newComment });
   });
 });
 
@@ -299,21 +309,32 @@ app.post('/users/authenticate', (req, res) => {
   });
 });
 
-app.put('/users/profilePicture/:id', upload.single('image'), (req, res) => {
+app.put('/users/:id', upload.single('image'), (req, res) => {
   const { id } = req.params;
-  console.log("Id", id)
-  const image = req.file ? req.file.filename: null;
-  console.log("Data", image)
-  con.query('UPDATE users SET profilePicture = ? WHERE id = ?', [image, id], (err, results) => {
-    console.log("Result server ", results);
-    if (err) throw err;
-    if (results.length > 0) {
-      res.json(results);
+  const { bio } = req.body;
+  const image = req.file ? req.file.filename : null;
+
+  con.query('UPDATE users SET profilePicture = ?, bio = ? WHERE id = ?', [image, bio, id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+    if (results.affectedRows > 0) {
+      notifyClients("updateProfile", id);
+      res.json({ message: 'Profile updated successfully', results });
     } else {
-      res.status(401).json({ message: 'Something went wrong' });
+      res.status(401).json({ message: 'No matching user found or no changes detected' });
     }
   });
 });
+
+// app.put('/users/:id', upload.single('image'), (req, res) => {
+//   const updatedUser = req.body;
+//   const { id } = req.params;
+//   con.query('UPDATE users SET ? WHERE id = ?', [updatedUser, id], (err) => {
+//     if (err) throw err;
+//     res.json({ id, ...updatedUser });
+//   });
+// });
 
 app.post('/users',  (req, res) =>
 {
@@ -329,15 +350,6 @@ app.post('/users',  (req, res) =>
     } else {
       return res.json({ id: result.insertId, ...newUser })
     }
-  });
-});
-
-app.put('/users/:id', upload.single('image'), (req, res) => {
-  const updatedUser = req.body;
-  const { id } = req.params;
-  con.query('UPDATE users SET ? WHERE id = ?', [updatedUser, id], (err) => {
-    if (err) throw err;
-    res.json({ id, ...updatedUser });
   });
 });
 

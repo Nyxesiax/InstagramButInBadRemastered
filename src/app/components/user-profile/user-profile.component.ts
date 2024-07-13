@@ -8,6 +8,7 @@ import {MatFabButton, MatMiniFabButton} from "@angular/material/button";
 import {MatTooltip} from "@angular/material/tooltip";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {UsersService} from "../../Service/userService/users.service";
+import {WebSocketService} from "../../Service/webSocketService/web-socket.service";
 
 interface Post {
   postId?: number;
@@ -57,7 +58,13 @@ export class UserProfileComponent {
   errorMessage = "";
   user: User | null = null;
 
-  constructor(private router: Router, private postService: PostsService, private usersService: UsersService, private fb: FormBuilder) {
+  constructor(
+    private router: Router,
+    private postService: PostsService,
+    private webSocketService: WebSocketService,
+    private usersService: UsersService,
+    private fb: FormBuilder
+  ) {
     this.username = sessionStorage.getItem("username");
     this.email = sessionStorage.getItem("email");
     this.bio = sessionStorage.getItem("bio");
@@ -73,6 +80,13 @@ export class UserProfileComponent {
     this.usersService.getUser(this.id).subscribe(user => {
       this.user = user;
     })
+
+    this.webSocketService.onEvent("updateProfile").subscribe(id => {
+      this.usersService.getUser(id).subscribe(user => {
+        this.user = user;
+      })
+    })
+
     this.postService.getPostsFromUser(<number>this.id).subscribe(posts => {
       this.posts = posts;
       for(let i = 0; i < posts.length; i++){

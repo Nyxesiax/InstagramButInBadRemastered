@@ -38,18 +38,16 @@ export class UsersService {
     );
   };
 
-  updateUser(id: number, user: User): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/${id}`, user);
-  }
+  // updateUser(id: number, user: User): Observable<User> {
+  //   return this.http.put<User>(`${this.apiUrl}/${id}`, user);
+  // }
 
   deleteUser(id: number): Observable<{ message: string }> {
     return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`);
   }
 
-  uploadProfilePicture(form: FormData): Observable<any> {
-    let id = form.get("userId")
-    console.log("Form img", form.get("image"));
-    return this.http.put(`${this.apiUrl}/profilePicture/${id}`, form);
+  updateUser(form: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${form.get("userId")}`, form);
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {

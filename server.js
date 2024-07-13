@@ -79,7 +79,7 @@ app.get('/posts', (req, res) =>
 app.get('/posts/userId/:id', (req, res) =>
 {
   const {id} = req.params;
-  con.query('SELECT * FROM posts where userId = ?', [id], (err, results) =>
+  con.query('SELECT * FROM posts where userId = ? ORDER BY date DESC', [id], (err, results) =>
   {
     if(err) throw err;
     if (results.length > 0)

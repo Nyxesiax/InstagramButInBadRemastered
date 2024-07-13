@@ -2,13 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {PostsService} from "../../Service/postService/posts.service";
-import {UsersService} from "../../Service/userService/users.service";
 import {MatDialog} from "@angular/material/dialog";
 import {CommentDialogComponent} from "../comment-dialog/comment-dialog.component";
 import {MatIcon} from "@angular/material/icon";
 import {MatFabButton} from "@angular/material/button";
 import {NgForOf, NgIf} from "@angular/common";
-import { DomSanitizer } from '@angular/platform-browser';
+import {WebSocketService} from "../../Service/webSocketService/web-socket.service";
+import {UsersService} from "../../Service/userService/users.service";
+
 
 interface Post {
   postId: number;
@@ -48,7 +49,7 @@ interface User {
 
 export class DashboardComponent implements OnInit
 {
-  posts: Post[] = [];
+  posts: any[] = [];
   image: any;
   owner: Map<number, string>;     //{ [key: number]: string } = {};
   dashboardForm: FormGroup;
@@ -58,11 +59,9 @@ export class DashboardComponent implements OnInit
   constructor(
     private router: Router,
     private fb: FormBuilder,
-
-    private sanitizer: DomSanitizer,
-
-    protected userService: UsersService,
+    private webSocketService: WebSocketService,
     private postsService: PostsService,
+    private userService: UsersService,
     public commentDialog: MatDialog
   ) {
     this.owner = new Map<number, string>
@@ -74,16 +73,32 @@ export class DashboardComponent implements OnInit
 
   ngOnInit(): void
   {
+    this.loadPosts()
+    this.webSocketService.onEvent('newPost').subscribe((post: Post) => {
+      this.posts.unshift(post);
+      this.userService.getUser(post.userId ).subscribe(user => {
+        if (post.postId != null) {
+          this.owner.set(post.postId, user.username);
+        }
+      });
+    });
+
+
+  }
+
+  loadPosts()
+  {
     this.postsService.getPosts().subscribe(posts =>
     {
       this.posts = posts;
-      for(let i = 0; i < posts.length; i++){
-        this.owner.set(posts[i].postId, posts[i].username);
+      for(let post of posts)
+      {
+        this.userService.getUser(post.userId ).subscribe(user => {
+          if (post.postId != null) {
+            this.owner.set(post.postId, user.username);
+          }
+        });
       }
-      console.log("posts")
-      console.log(this.posts)
-      console.log("owner")
-      console.log(this.owner)
     });
   }
 

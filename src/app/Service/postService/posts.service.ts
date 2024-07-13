@@ -21,8 +21,8 @@ export class PostsService
   private apiUrl = 'http://localhost:8081/posts';
   constructor(private http: HttpClient) { }
 
-  getPosts(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  getPosts(): Observable<Post[]> {
+    return this.http.get<Post[]>(this.apiUrl);
   }
 
   getPostsFromUser(id: number): Observable<Post[]> {

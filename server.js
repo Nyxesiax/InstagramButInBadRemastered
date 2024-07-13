@@ -1,18 +1,33 @@
 // set up ========================
-var express  = require('express');
-var app      = express();                               // create our app w/ express
-var path     = require('path');
+const express = require('express');
+const http = require('http');
+const mysql = require('mysql');
+const socketIo = require('socket.io'); // Import Socket.io
+const cors = require("cors");
+
+const app = express();
+const server = http.createServer(app);
+
+app.use(
+  cors({
+    origin: "*",
+  })
+);
+
+const io = socketIo(server, {
+  cors: {
+    origin: "http://localhost:4200",
+    methods: ["GET", "POST"]
+  }
+}); // Create a Socket.io server instance
+
+const bodyParser = require('body-parser');
+const path = require('path');
 const multer = require('multer');
-var mysql    = require('mysql');
 
-bodyParser = require('body-parser');
-
-
-// support parsing of application/json type post data
 app.use(bodyParser.json());
-
-//support parsing of application/x-www-form-urlencoded post data
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 // configuration =================
 app.use(express.static(path.join(__dirname, '/dist/instagram-but-in-bad-remastered/browser/')));  //TODO rename to your app-name
@@ -20,10 +35,15 @@ app.use(express.static(path.join(__dirname, '/dist/instagram-but-in-bad-remaster
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // listen (start app with node server.js) ======================================
-app.listen(8081, function(){
+server.listen(8081, function(){
   console.log("App listening on port 8081");
   console.log("http://localhost:8081")
 });
+
+// server.listen(3000, () => {
+//   console.log("App listening on port 3000");
+//   console.log("http://localhost:3000")
+// })
 
 const con = mysql.createConnection({
   database: "instagram_bad",
@@ -40,6 +60,20 @@ con.connect(err => {
   if (err) throw err;
   console.log('MySQL connected...');
 });
+
+// When a client connects
+io.on('connection', (socket) => {
+  console.log('New client connected');
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected');
+  });
+});
+
+// Emit events when posts are created, updated, or deleted
+function notifyClients(event, data) {
+  io.emit(event, data);
+}
 
 // Multer setup for file uploads
 const storage = multer.diskStorage({
@@ -68,13 +102,22 @@ function checkFileType(file, cb) {
 // CRUD for posts __________________________________________________________________________________________
 app.get('/posts', (req, res) =>
 {
-  con.query('SELECT users.id, users.username, posts.postId, posts.caption, posts.title, posts.body, posts.image,' +
-    'posts.score, posts.date FROM users, posts WHERE users.id = posts.userId;', (err, results) =>
+  con.query('SELECT * FROM posts ORDER BY date DESC', (err, results) =>
   {
     if(err) throw err;
     res.json(results)
   })
 })
+
+// app.get('/posts', (req, res) =>
+// {
+//   con.query('SELECT users.id, users.username, posts.postId, posts.caption, posts.title, posts.body, posts.image,' +
+//     'posts.score, posts.date FROM users, posts WHERE users.id = posts.userId;', (err, results) =>
+//   {
+//     if(err) throw err;
+//     res.json(results)
+//   })
+// })
 
 app.get('/posts/userId/:id', (req, res) =>
 {
@@ -117,6 +160,8 @@ app.post('/posts', upload.single('image'), (req, res) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
+    const newPost = {postId: result.insertId, userId, caption, title, body, image, score, date: new Date()};
+    notifyClients("newPost", newPost)
     res.status(201).json({ message: 'Post created successfully', postId: result.insertId });
   });
 });

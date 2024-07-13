@@ -30,6 +30,9 @@
           @if(errorMessage == "") {
             <li class="list-group-item" *ngFor="let post of posts">
               <div class="card">
+                <div class="card-header">
+                  <img *ngIf="post.image" [src]="'http://localhost:8081/uploads/'+ post.image" alt="Post Image">
+                </div>
                 <div class="card-body">
                   <h5 class="card-title">{{post.title}}</h5>
                   <p class="card-text">{{post.body}}</p>
@@ -37,7 +40,6 @@
                 </div>
                 <div class="card-footer">
                   <p>Score: {{post.score}} </p>
-                  <!-- <p>Owner: {{owner[post.userId]}}</p> -->
                 </div>
               </div>
             </li>

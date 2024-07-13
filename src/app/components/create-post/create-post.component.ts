@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UsersService} from "../../Service/userService/users.service";
 import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {PostsService} from "../../Service/postService/posts.service";
+
+
 
 @Component({
   selector: 'app-create-post',
@@ -23,6 +25,7 @@ export class CreatePostComponent{
   constructor(
     private postsService: PostsService,
     private router: Router,
+
     private fb: FormBuilder) {
     this.createPostForm = this.fb.group({
       userId: [sessionStorage.getItem("id"), Validators.required],

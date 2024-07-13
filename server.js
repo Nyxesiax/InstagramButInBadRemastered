@@ -69,7 +69,7 @@ function checkFileType(file, cb) {
 app.get('/posts', (req, res) =>
 {
   con.query('SELECT users.id, users.username, users.profilePicture, posts.postId, posts.caption, posts.title, posts.body, posts.image,' +
-    'posts.score, posts.date FROM users, posts WHERE users.id = posts.userId;', (err, results) =>
+    'posts.score, posts.date FROM users, posts WHERE users.id = posts.userId ORDER BY date DESC;', (err, results) =>
   {
     if(err) throw err;
     res.json(results)

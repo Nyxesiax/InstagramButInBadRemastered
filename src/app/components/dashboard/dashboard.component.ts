@@ -32,7 +32,20 @@ interface User {
   password: string;
   bio?: string;
   score?: number;
-  profilePicture?: ImageData;
+  profilePicture?: any;
+}
+
+interface Postable
+{
+  postId: number;
+  userId: number;
+  username: string;
+  caption: string
+  title: string;
+  body: string;
+  image?: any;
+  score: number;
+  profilePicture?: any;
 }
 
 @Component({
@@ -54,11 +67,10 @@ interface User {
 
 export class DashboardComponent implements OnInit
 {
-  posts: any[] = [];
-  image: any;
-  owner: Map<number, string>;     //{ [key: number]: string } = {};
+  image: any;     //{ [key: number]: string } = {};
   dashboardForm: FormGroup;
   username: string | null;
+  postables: Postable[];
 
 
   constructor(
@@ -71,7 +83,7 @@ export class DashboardComponent implements OnInit
     private postsService: PostsService,
     public commentDialog: MatDialog
   ) {
-    this.owner = new Map<number, string>
+    this.postables = [];
     this.username = sessionStorage.getItem('username');
     this.dashboardForm = this.fb.nonNullable.group({
       id: [1, Validators.required]
@@ -82,11 +94,18 @@ export class DashboardComponent implements OnInit
   {
     this.loadPosts()
     this.webSocketService.onEvent('newPost').subscribe((post: Post) => {
-      this.posts.unshift(post);
       this.userService.getUser(post.userId ).subscribe(user => {
-        if (post.postId != null) {
-          this.owner.set(post.postId, user.username);
-        }
+        this.postables.unshift({
+          postId: post.postId,
+          userId: post.userId,
+          body: post.body,
+          caption: post.caption,
+          image: post.image,
+          profilePicture: user.profilePicture,
+          score: post.score,
+          title: post.title,
+          username: user.username
+        });
       });
     });
 
@@ -97,12 +116,21 @@ export class DashboardComponent implements OnInit
   {
     this.postsService.getPosts().subscribe(posts =>
     {
-      this.posts = posts;
       for(let post of posts)
       {
         this.userService.getUser(post.userId ).subscribe(user => {
           if (post.postId != null) {
-            this.owner.set(post.postId, user.username);
+            this.postables.push({
+              postId: post.postId,
+              userId: post.userId,
+              body: post.body,
+              caption: post.caption,
+              image: post.image,
+              profilePicture: user.profilePicture,
+              score: post.score,
+              title: post.title,
+              username: user.username
+            })
           }
         });
       }
@@ -113,7 +141,7 @@ export class DashboardComponent implements OnInit
     return this.authservice.isLoggedIn();
   }
 
-  upvote(post: Post) {
+  upvote(post: Postable) {
     if (this.isLoggedIn()) {
       post.score += 1;
       this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
@@ -123,7 +151,7 @@ export class DashboardComponent implements OnInit
     }
   }
 
-  downvote(post: Post) {
+  downvote(post: Postable) {
     if (this.isLoggedIn()) {
     post.score -= 1;
     this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
@@ -133,7 +161,7 @@ export class DashboardComponent implements OnInit
     }
   }
 
-  showCommentDialog(post: Post){
+  showCommentDialog(post: Postable){
     let test = this.commentDialog.open(CommentDialogComponent, {
       disableClose: true,
       data: {

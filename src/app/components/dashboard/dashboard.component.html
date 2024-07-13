@@ -1,36 +1,36 @@
 <div class="wrapper">
   <h1 *ngIf="isLoggedIn()">Welcome back, {{username}}</h1>
   <ul class="list-group list-group-flush">
-    <li class="list-group-item" *ngFor="let post of posts">
+    <li class="list-group-item" *ngFor="let postable of postables">
       <div class="card">
         <div class="card-header">
-          <h2 class="card-title">{{post.title}}</h2>
+          <h2 class="card-title">{{postable.title}}</h2>
           <h3 class="post-owner">posted by
-            <img *ngIf="post?.profilePicture" [src]="'http://localhost:8081/uploads/'+ post?.profilePicture" alt="Post Image" class="circlePicture">
+            <img *ngIf="postable?.profilePicture" [src]="'http://localhost:8081/uploads/'+ postable?.profilePicture" alt="Post Image" class="circlePicture">
             <!--<mat-icon id="person-icon">person</mat-icon>-->
-            {{post.username}}</h3>
+            {{postable.username}}</h3>
         </div>
-        <div class="card-img" *ngIf="post.image">
-          <img *ngIf="post.image" [src]="'http://localhost:8081/uploads/'+ post.image" alt="If you were looking for the image of this post, it went to 404-land" class="post-image">
-          <p class="card-text post-caption">{{post.caption}}</p>
+        <div class="card-img" *ngIf="postable.image">
+          <img *ngIf="postable.image" [src]="'http://localhost:8081/uploads/'+ postable.image" alt="If you were looking for the image of this post, it went to 404-land" class="post-image">
+          <p class="card-text post-caption">{{postable.caption}}</p>
         </div>
         <div class="card-body">
-          <p class="card-text post-body">{{post.body}}</p>
+          <p class="card-text post-body">{{postable.body}}</p>
         </div>
         <div class="card-footer">
           <div class="button-group">
-            <button mat-fab extended (click)="upvote(post)" matTooltip="Upvote this post!">
+            <button mat-fab extended (click)="upvote(postable)" matTooltip="Upvote this post!">
               <mat-icon>arrow_circle_up</mat-icon>
               Upvote
             </button>
-            <button mat-fab (click)="downvote(post)" matTooltip="Downvote this post!">
+            <button mat-fab (click)="downvote(postable)" matTooltip="Downvote this post!">
               <mat-icon>arrow_circle_down</mat-icon>
             </button>
-            <button mat-fab (click)="showCommentDialog(post)" matTooltip="Comment on this post!">
+            <button mat-fab (click)="showCommentDialog(postable)" matTooltip="Comment on this post!">
               <mat-icon>forum</mat-icon>
             </button>
           </div>
-          <p class="post-score">Score: {{post.score}}</p>
+          <p class="post-score">Score: {{postable.score}}</p>
         </div>
       </div>
     </li>

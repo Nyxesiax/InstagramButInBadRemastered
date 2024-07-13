@@ -9,6 +9,7 @@ interface User {
   password: string;
   bio?: string;
   score?: number;
+  profilePicture?: any;
 }
 
 @Injectable({

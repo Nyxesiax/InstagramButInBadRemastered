@@ -15,7 +15,7 @@ interface Post {
   caption: string
   title: string;
   body: string;
-  image?: ImageData;
+  image?: any;
   score: number;
   data?: Date;
 }
@@ -27,7 +27,7 @@ interface User {
   password: string;
   bio?: string;
   score?: number;
-  profilePicture?: ImageData;
+  profilePicture?: any;
 }
 
 @Component({

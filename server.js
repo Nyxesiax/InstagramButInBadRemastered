@@ -40,11 +40,6 @@ server.listen(8081, function(){
   console.log("http://localhost:8081")
 });
 
-// server.listen(3000, () => {
-//   console.log("App listening on port 3000");
-//   console.log("http://localhost:3000")
-// })
-
 const con = mysql.createConnection({
   database: "instagram_bad",
   host: "127.0.0.1",
@@ -122,7 +117,7 @@ app.get('/posts', (req, res) =>
 app.get('/posts/userId/:id', (req, res) =>
 {
   const {id} = req.params;
-  con.query('SELECT * FROM posts where userId = ?', [id], (err, results) =>
+  con.query('SELECT * FROM posts where userId = ? ORDER BY date DESC', [id], (err, results) =>
   {
     if(err) throw err;
     if (results.length > 0)
@@ -197,6 +192,26 @@ app.get('/comments', (req, res) =>
 app.get('/comments/:id', (req, res) =>
 {
   const {id} = req.params;
+  con.query('SELECT users.id, users.username, users.profilePicture, comments.idcomments, comments.text\n' +
+    'FROM users, comments\n' +
+    'WHERE users.id = comments.user_id AND comments.post_id = ?', [id], (err, results) =>
+  {
+    if(err) throw err;
+    if (results.length > 0)
+    {
+      console.log("Results ", results);
+      res.json(results);
+    } else
+    {
+      res.status(404).json({message: 'Comment not found'});
+    }
+  });
+});
+
+/*
+app.get('/comments/:id', (req, res) =>
+{
+  const {id} = req.params;
   con.query('SELECT * FROM comments WHERE post_id = ?', [id], (err, results) =>
   {
     if(err) throw err;
@@ -209,6 +224,7 @@ app.get('/comments/:id', (req, res) =>
     }
   });
 });
+ */
 
 app.get('comments/singlecomment/:id', (req, res) =>{
   const {id} = req.params;
@@ -283,6 +299,22 @@ app.post('/users/authenticate', (req, res) => {
   });
 });
 
+app.put('/users/profilePicture/:id', upload.single('image'), (req, res) => {
+  const { id } = req.params;
+  console.log("Id", id)
+  const image = req.file ? req.file.filename: null;
+  console.log("Data", image)
+  con.query('UPDATE users SET profilePicture = ? WHERE id = ?', [image, id], (err, results) => {
+    console.log("Result server ", results);
+    if (err) throw err;
+    if (results.length > 0) {
+      res.json(results);
+    } else {
+      res.status(401).json({ message: 'Something went wrong' });
+    }
+  });
+});
+
 app.post('/users',  (req, res) =>
 {
   const newUser = req.body;
@@ -300,7 +332,7 @@ app.post('/users',  (req, res) =>
   });
 });
 
-app.put('/users/:id', (req, res) => {
+app.put('/users/:id', upload.single('image'), (req, res) => {
   const updatedUser = req.body;
   const { id } = req.params;
   con.query('UPDATE users SET ? WHERE id = ?', [updatedUser, id], (err) => {

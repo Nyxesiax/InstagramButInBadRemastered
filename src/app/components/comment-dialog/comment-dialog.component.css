@@ -1,3 +1,90 @@
-#main{
-  background-color: white;
+/*
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
 }
+
+#main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#message-container {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+#messageInputArea {
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+}
+*/
+
+#main {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+}
+
+#message-container {
+  flex-grow: 1; /* Grow to fill remaining space */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding: 20px;
+}
+
+.card {
+  margin-bottom: 10px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 15px;
+}
+
+#messageInputArea {
+  background-color: #f8f9fa; /* Light gray background */
+  padding: 10px 20px; /* Padding for content */
+  border-top: 1px solid #ddd; /* Gray border at the top */
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1); /* Shadow at the bottom */
+  position: fixed; /* Fixed position */
+  bottom: 0; /* Stick to the bottom */
+  width: 100%; /* Full width */
+}
+
+.form-control {
+  border-radius: 20px;
+}
+
+.mat-mini-fab {
+  margin-left: 10px;
+}
+
+.text-muted {
+  font-size: 0.9rem;
+}
+
+.text-danger,
+.text-success {
+  font-size: 0.9rem;
+  margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+  #messageInputArea {
+    padding: 10px;
+  }
+}
+
+.circlePicture {
+  height: 50px;
+  max-width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+

@@ -11,8 +11,8 @@ import {EditProfileComponent} from "./components/edit-profile/edit-profile.compo
 
 export const routes: Routes = [{
   path: "",
-  redirectTo: "loginWindow",
-  component: LoginComponent
+  redirectTo: "dashboard",
+  component: DashboardComponent
   },
   {
     path: "loginWindow",

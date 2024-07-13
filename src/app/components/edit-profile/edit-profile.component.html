@@ -1,16 +1,26 @@
-<form [formGroup]="bioForm">
 <div class="wrapper">
-  <form>
-    <div class="form-group">
-      <h1>Profile Picture</h1>
-      <input type="file" class="form-control-file" id="exampleFormControlFile1">
+  <form [formGroup]="bioForm" style="width: 100%;">
+    <div class="card">
+      <div class="card-header">
+        <h2>Edit Profile</h2>
+        <h4>{{ username }}</h4>
+      </div>
+      <div class="card-body">
+        <div>
+            <div class="form-group">
+              <input type="file" (change)="onChange($event)" class="form-control" formControlName="image">
+            </div>
+        </div>
+        <br>
+        <div class="form-group">
+          <label for="bio"><h4>Bio</h4></label>
+          <textarea id="bio" class="form-control" formControlName="bio" rows="5"></textarea>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-primary" type="submit" (click)="save(bioForm.value)">Save</button>
+      </div>
     </div>
   </form>
-  <h1> {{username}}</h1>
-  <div class="form-group">
-    <h2>Bio</h2>
-    <textarea class="form-control" formControlName="bio" rows="10" ></textarea>
-  </div>
-  <button class="btn btn-primary" type="submit" (click)="save(bioForm.value)">Save</button>
 </div>
-</form>
+

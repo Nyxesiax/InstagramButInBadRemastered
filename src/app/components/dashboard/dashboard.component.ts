@@ -10,6 +10,9 @@ import {NgForOf, NgIf} from "@angular/common";
 import {WebSocketService} from "../../Service/webSocketService/web-socket.service";
 import {UsersService} from "../../Service/userService/users.service";
 
+import { DomSanitizer } from '@angular/platform-browser';
+import {AuthenticationService} from "../../Service/authenticationService/authentication.service";
+import {MatTooltip} from "@angular/material/tooltip";
 
 interface Post {
   postId: number;
@@ -29,6 +32,7 @@ interface User {
   password: string;
   bio?: string;
   score?: number;
+  profilePicture?: ImageData;
 }
 
 @Component({
@@ -41,7 +45,8 @@ interface User {
     NgForOf,
     NgIf,
     MatIcon,
-    MatFabButton
+    MatFabButton,
+    MatTooltip
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -59,9 +64,11 @@ export class DashboardComponent implements OnInit
   constructor(
     private router: Router,
     private fb: FormBuilder,
+    private authservice: AuthenticationService,
+
+    protected userService: UsersService,
     private webSocketService: WebSocketService,
     private postsService: PostsService,
-    private userService: UsersService,
     public commentDialog: MatDialog
   ) {
     this.owner = new Map<number, string>
@@ -102,25 +109,43 @@ export class DashboardComponent implements OnInit
     });
   }
 
+  isLoggedIn() {
+    return this.authservice.isLoggedIn();
+  }
+
   upvote(post: Post) {
-    post.score += 1;
-    this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
-    });
+    if (this.isLoggedIn()) {
+      post.score += 1;
+      this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
+      });
+    } else {
+      alert("Please login in order to vote.")
+    }
   }
 
   downvote(post: Post) {
+    if (this.isLoggedIn()) {
     post.score -= 1;
     this.postsService.updatePost(Number(post.postId), post).subscribe(response => {
     });
+    } else {
+      alert("Please login in order to vote.")
+    }
   }
 
   showCommentDialog(post: Post){
-    this.commentDialog.open(CommentDialogComponent, {
+    let test = this.commentDialog.open(CommentDialogComponent, {
+      disableClose: true,
       data: {
         number: post.postId
       },
+      exitAnimationDuration: '120ms',
+      enterAnimationDuration: '300ms',
       height: '500px',
       width: '800px'
     });
+    test.backdropClick().subscribe(b => {
+      test.close();
+    })
   }
 }

@@ -1,3 +1,37 @@
+<!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar">-->
+<!--  <img src="../../../assets/Main_icon.jpg" height="3.5%" width="3.5%"/>-->
+
+<!--  <a id="nameMargin" class="navbar-brand" style="cursor: pointer">Weddit</a>-->
+<!--  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"-->
+<!--          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--    <span class="navbar-toggler-icon"></span>-->
+<!--  </button>-->
+
+<!--  <div>-->
+<!--      <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+<!--        <ul class="navbar-nav mr-auto">-->
+<!--          <li class="nav-item active">-->
+<!--            <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>-->
+<!--          </li>-->
+<!--          <li class="nav-item active" *ngIf="isLoggedIn()">-->
+<!--            <a class="nav-link" routerLink="/createPost" routerLinkActive="active">Create Post</a>-->
+<!--          </li>-->
+<!--          <li class="nav-item active" *ngIf="isLoggedIn()">-->
+<!--            <a class="nav-link" routerLink="/userProfile" routerLinkActive="active">Profile</a>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--        <input type="text">-->
+<!--        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search </button>-->
+<!--        <button (click)="logout()" id="logout" class="btn btn-dark my-2 my-sm-0 ">-->
+<!--          <mat-icon id="loginIcon" *ngIf="!isLoggedIn()" matTooltip="Login or register">login</mat-icon>-->
+<!--          <mat-icon id="logoutIcon" *ngIf="isLoggedIn()" matTooltip="Logout">logout</mat-icon>-->
+<!--        </button>-->
+<!--      </div>-->
+<!--  </div>-->
+<!--</nav>-->
+<!--<ng-template #nothing>-->
+<!--</ng-template>-->
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="navbar">
   <img src="../../../assets/Main_icon.jpg" height="3.5%" width="3.5%"/>
 
@@ -8,34 +42,24 @@
   </button>
 
   <div>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" routerLink="/createPost" routerLinkActive="active">Create Post</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" routerLink="/userProfile" routerLinkActive="active">Profile</a>
-          </li>
-      <!--    @if (loggedIn) {
-            <li class="nav-item active">
-              <a class="nav-link" routerLink="/createPost" routerLinkActive="active">Create Post</a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" routerLink="/userProfile" routerLinkActive="active">Profile</a>
-            </li>
-          } @else {
-
-          }-->
-        </ul>
-        <input type="text">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search </button>
-        <button (click)="logout()" id="logout" class="btn btn-dark my-2 my-sm-0 "><img src="assets/logout-removebg-preview.png" height="30px" width="30px"> </button>
-      </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+        </li>
+        <li class="nav-item active" *ngIf="isLoggedIn()">
+          <a class="nav-link" routerLink="/createPost" routerLinkActive="active">Create Post</a>
+        </li>
+        <li class="nav-item active" *ngIf="isLoggedIn()">
+          <a class="nav-link" routerLink="/userProfile" routerLinkActive="active">Profile</a>
+        </li>
+      </ul>
+      <button (click)="logout()" id="logout" class="btn btn-dark my-2 my-sm-0 ">
+        <mat-icon id="loginIcon" *ngIf="!isLoggedIn()" matTooltip="Login or register">login</mat-icon>
+        <mat-icon id="logoutIcon" *ngIf="isLoggedIn()" matTooltip="Logout">logout</mat-icon>
+      </button>
+    </div>
   </div>
 </nav>
-<ng-template #nothing>
-</ng-template>
+<ng-template #nothing></ng-template>
 

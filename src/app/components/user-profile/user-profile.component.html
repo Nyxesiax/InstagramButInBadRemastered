@@ -1,58 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
 <div class="wrapper">
-<head>
-  <meta charset="UTF-8">
-  <title>User Profile</title>
-</head>
-<body>
-<div>
-  <div>
-    <img alt="Profile Picture">
-    <div>
-      <h2>{{username}}</h2>
-      <p >Bio: {{bio}}</p>
-      <div >
-        <div>
-          <table>
-            <tbody>
-            <tr>
-              <th scope="row">Score</th>
-              <td>{{score}}</td>
-            </tr>
-            <tr>
-              <td><button type="submit" class="btn btn-primary" (click)="toEdit()">Edit</button></td>
-            </tr>
-            </tbody>
-          </table>
+  <head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+  </head>
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header">
+            <h2><img *ngIf="user?.profilePicture" [src]="'http://localhost:8081/uploads/'+ user?.profilePicture" alt="Post Image" class="circlePicture">{{ username }}</h2>
+            <h4 class="card-title">Posts made by this user</h4>
+          </div>
+          <div class="card-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item" *ngFor="let post of posts">
+                <div class="card">
+                  <div class="card-header">
+                    <h2 class="card-title">{{post.title}}</h2>
+                  </div>
+                  <div class="card-img" *ngIf="post.image">
+                    <img *ngIf="post.image" [src]="'http://localhost:8081/uploads/'+ post.image" alt="If you were looking for the image of this post, it went to 404-land" class="post-image">
+                    <p class="card-text post-caption">{{post.caption}}</p>
+                  </div>
+                  <div class="card-body">
+                    <p class="card-text post-body">{{post.body}}</p>
+                  </div>
+                  <div class="card-footer">
+                    <p class="post-score">Score: {{post.score}}</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <div *ngIf="errorMessage !== ''" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+          </div>
         </div>
-        <ul class="list-group list-group-flush">
-          @if(errorMessage == "") {
-            <li class="list-group-item" *ngFor="let post of posts">
-              <div class="card">
-                <div class="card-header">
-                  <img *ngIf="post.image" [src]="'http://localhost:8081/uploads/'+ post.image" alt="Post Image">
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">{{post.title}}</h5>
-                  <p class="card-text">{{post.body}}</p>
-                  <p class="card-text">{{post.caption}}</p>
-                </div>
-                <div class="card-footer">
-                  <p>Score: {{post.score}} </p>
-                </div>
-              </div>
-            </li>
-          } @else {
-            <li>{{errorMessage}}</li>
-          }
-        </ul>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-header">
+            <h4>Profile Information</h4>
+          </div>
+          <div class="card-body">
+            <table class="table">
+              <tbody>
+              <tr>
+                <th scope="row">Score</th>
+                <td>{{ score }}</td>
+              </tr>
+              <tr>
+                <th scope="row">Bio</th>
+                <td>
+                  <p class="card-text">{{ bio }}</p>
+                  <button mat-mini-fab aria-label="Button to edit user profile" (click)="toEdit()" matTooltip="Edit your biography">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
-
-</body>
-</div>
-</html>

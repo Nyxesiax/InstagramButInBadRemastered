@@ -30,7 +30,7 @@
       <li class="list-group-item" *ngFor="let comment of comments">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">{{ commentowner.get(comment.idcomments) }}</h5>
+            <h4 class="card-title"><img *ngIf="comment?.profilePicture" [src]="'http://localhost:8081/uploads/'+ comment?.profilePicture" alt="Post Image" class="circlePicture"> {{ comment.username }}</h4>
             <p class="card-text">{{ comment.text }}</p>
           </div>
         </div>

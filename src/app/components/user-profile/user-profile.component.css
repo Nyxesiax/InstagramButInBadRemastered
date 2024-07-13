@@ -76,8 +76,8 @@
 }
 
 .circlePicture {
-  height: 100px;
-  max-width: 100px;
+  height: 75px;
+  max-width: 75px;
   border-radius: 50%;
   object-fit: cover;
 }

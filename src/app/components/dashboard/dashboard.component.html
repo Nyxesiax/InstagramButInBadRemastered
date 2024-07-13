@@ -7,7 +7,7 @@
           <h2 class="card-title">{{post.title}}</h2>
           <h3 class="post-owner">posted by
             <img *ngIf="post?.profilePicture" [src]="'http://localhost:8081/uploads/'+ post?.profilePicture" alt="Post Image" class="circlePicture">
-            <mat-icon id="person-icon">person</mat-icon>
+            <!--<mat-icon id="person-icon">person</mat-icon>-->
             {{post.username}}</h3>
         </div>
         <div class="card-img" *ngIf="post.image">

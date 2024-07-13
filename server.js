@@ -152,7 +152,7 @@ app.get('/comments', (req, res) =>
 app.get('/comments/:id', (req, res) =>
 {
   const {id} = req.params;
-  con.query('SELECT users.id, users.username, comments.idcomments, comments.text\n' +
+  con.query('SELECT users.id, users.username, users.profilePicture, comments.idcomments, comments.text\n' +
     'FROM users, comments\n' +
     'WHERE users.id = comments.user_id AND comments.post_id = ?', [id], (err, results) =>
   {

@@ -6,6 +6,7 @@
         <div class="card-header">
           <h2 class="card-title">{{post.title}}</h2>
           <h3 class="post-owner">posted by
+            <img *ngIf="post?.profilePicture" [src]="'http://localhost:8081/uploads/'+ post?.profilePicture" alt="Post Image" class="circlePicture">
             <mat-icon id="person-icon">person</mat-icon>
             {{owner.get(post.postId)}}</h3>
         </div>

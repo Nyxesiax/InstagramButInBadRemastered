@@ -30,6 +30,7 @@ interface User {
   password: string;
   bio?: string;
   score?: number;
+  profilePicture?: ImageData;
 }
 
 @Component({
@@ -51,9 +52,8 @@ interface User {
 
 export class DashboardComponent implements OnInit
 {
-  posts: Post[] = [];
+  posts: any[] = [];
   image: any;
-  owner: Map<number, string>;     //{ [key: number]: string } = {};
   dashboardForm: FormGroup;
   username: string | null;
 
@@ -62,13 +62,12 @@ export class DashboardComponent implements OnInit
     private router: Router,
     private fb: FormBuilder,
     private authservice: AuthenticationService,
-    private sanitizer: DomSanitizer,
 
     protected userService: UsersService,
     private postsService: PostsService,
     public commentDialog: MatDialog
   ) {
-    this.owner = new Map<number, string>
+    //this.owner = new Map<number, string>
     this.username = sessionStorage.getItem('username');
     this.dashboardForm = this.fb.nonNullable.group({
       id: [1, Validators.required]
@@ -80,16 +79,6 @@ export class DashboardComponent implements OnInit
     this.postsService.getPosts().subscribe(posts =>
     {
       this.posts = posts;
-      for(let i = 0; i < posts.length; i++){
-        this.owner.set(posts[i].postId, posts[i].username);
-      }
-      /*
-      console.log("posts")
-      console.log(this.posts)
-      console.log("owner")
-      console.log(this.owner)
-
-       */
     });
   }
 

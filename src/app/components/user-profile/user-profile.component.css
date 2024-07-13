@@ -74,3 +74,10 @@
   color: #333;
   margin: 0;
 }
+
+.circlePicture {
+  height: 100px;
+  max-width: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+}

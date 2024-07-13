@@ -97,3 +97,10 @@ h1 {
   color: #333;
   margin: 0;
 }
+
+.circlePicture {
+  height: 75px;
+  max-width: 75px;
+  border-radius: 50%;
+  object-fit: cover;
+}

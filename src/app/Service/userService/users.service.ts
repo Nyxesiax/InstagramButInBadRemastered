@@ -45,6 +45,12 @@ export class UsersService {
     return this.http.delete<{ message: string }>(`${this.apiUrl}/${id}`);
   }
 
+  uploadProfilePicture(form: FormData): Observable<any> {
+    let id = form.get("userId")
+    console.log("Form img", form.get("image"));
+    return this.http.put(`${this.apiUrl}/profilePicture/${id}`, form);
+  }
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An unknown error occurred!';
     if (error.status === 409) {

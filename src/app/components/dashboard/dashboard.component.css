@@ -1,18 +1,106 @@
-img {
-  /* width:18rem;
-   height: 250px; */
-  width: 100%;
-}
-
-
-button {
-  margin-left: 0.5%;
-  margin-top: 0.5%;
-}
-
-div.post {
+#person-icon {
+  vertical-align: middle;
+  horiz-align: center;
 }
 
 .wrapper {
-  margin-top: 60px;
+  padding: calc(10px + 70px) 20px 20px;
+  background-color: #f5f5f5;
+  z-index: 1;
+  position: relative;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.list-group-item {
+  border: none;
+  margin-bottom: 20px;
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.card-header {
+  background-color: darksalmon;
+  color: white;
+  padding: 15px;
+}
+
+.card-title {
+  margin: 0;
+}
+
+.post-owner {
+  margin: 0;
+  font-size: 1rem;
+  color: #f8f9fa;
+}
+
+.card-img {
+  position: relative;
+  background-color: #f0f0f0;
+  text-align: center;
+  padding: 15px;
+}
+
+.post-image {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  object-fit: contain;
+}
+
+.post-caption {
+  margin-top: 10px;
+  font-style: italic;
+  color: #555;
+}
+
+.card-body {
+  padding: 15px;
+  background-color: #fff;
+}
+
+.post-body {
+  margin: 0;
+  line-height: 1.6;
+  color: #333;
+}
+
+.card-footer {
+  background-color: #f8f9fa;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button-group {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.card-footer button {
+  margin-right: 10px;
+}
+
+.post-score {
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+.circlePicture {
+  height: 50px;
+  max-width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
 }

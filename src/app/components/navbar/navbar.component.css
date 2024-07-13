@@ -1,8 +1,19 @@
-nav{
+#navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #343a40;
+  color: #fff;
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/*nav{
   position: fixed;
   top: 0px;
   width: 100%;
-}
+}*/
 
 form{
   color: black;
@@ -20,4 +31,14 @@ form{
 
 #nameMargin{
   margin-left: 1%;
+}
+
+#loginIcon{
+  margin-top: 8px;
+  color: white;
+}
+
+#logoutIcon{
+  margin-top: 8px;
+  color: coral;
 }

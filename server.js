@@ -68,8 +68,8 @@ function checkFileType(file, cb) {
 // CRUD for posts __________________________________________________________________________________________
 app.get('/posts', (req, res) =>
 {
-  con.query('SELECT users.id, users.username, posts.postId, posts.caption, posts.title, posts.body, posts.image,' +
-    'posts.score, posts.date FROM users, posts WHERE users.id = posts.userId;', (err, results) =>
+  con.query('SELECT users.id, users.username, users.profilePicture, posts.postId, posts.caption, posts.title, posts.body, posts.image,' +
+    'posts.score, posts.date FROM users, posts WHERE users.id = posts.userId ORDER BY date DESC;', (err, results) =>
   {
     if(err) throw err;
     res.json(results)
@@ -152,7 +152,7 @@ app.get('/comments', (req, res) =>
 app.get('/comments/:id', (req, res) =>
 {
   const {id} = req.params;
-  con.query('SELECT users.id, users.username, comments.idcomments, comments.text\n' +
+  con.query('SELECT users.id, users.username, users.profilePicture, comments.idcomments, comments.text\n' +
     'FROM users, comments\n' +
     'WHERE users.id = comments.user_id AND comments.post_id = ?', [id], (err, results) =>
   {
@@ -259,6 +259,22 @@ app.post('/users/authenticate', (req, res) => {
   });
 });
 
+app.put('/users/profilePicture/:id', upload.single('image'), (req, res) => {
+  const { id } = req.params;
+  console.log("Id", id)
+  const image = req.file ? req.file.filename: null;
+  console.log("Data", image)
+  con.query('UPDATE users SET profilePicture = ? WHERE id = ?', [image, id], (err, results) => {
+    console.log("Result server ", results);
+    if (err) throw err;
+    if (results.length > 0) {
+      res.json(results);
+    } else {
+      res.status(401).json({ message: 'Something went wrong' });
+    }
+  });
+});
+
 app.post('/users',  (req, res) =>
 {
   const newUser = req.body;
@@ -276,7 +292,7 @@ app.post('/users',  (req, res) =>
   });
 });
 
-app.put('/users/:id', (req, res) => {
+app.put('/users/:id', upload.single('image'), (req, res) => {
   const updatedUser = req.body;
   const { id } = req.params;
   con.query('UPDATE users SET ? WHERE id = ?', [updatedUser, id], (err) => {

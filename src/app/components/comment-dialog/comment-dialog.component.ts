@@ -1,7 +1,7 @@
 import {Component, ElementRef, Inject, Renderer2, ViewChild} from '@angular/core';
 import {PostsService} from "../../Service/postService/posts.service";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogModule} from "@angular/material/dialog";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
 import {MatFabButton, MatMiniFabButton} from "@angular/material/button";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -45,7 +45,8 @@ interface Post {
     MatIcon,
     MatFabButton,
     ReactiveFormsModule,
-    MatMiniFabButton
+    MatMiniFabButton,
+    NgIf
   ],
   templateUrl: './comment-dialog.component.html',
   styleUrl: './comment-dialog.component.css'
@@ -53,12 +54,12 @@ interface Post {
 export class CommentDialogComponent {
 
   commentForm: FormGroup;
-  comments: Comment[] = [];
+  comments: any[] = [];
   errorMessage: string | null=null;
   successMessage = '';
   specifiedKey = "number";
   postId: number = 0;
-  commentowner: Map<number, string>;
+  //commentowner: Map<number, string>;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private fb: FormBuilder,
@@ -73,7 +74,7 @@ export class CommentDialogComponent {
         this.postId = Number(data[key]);
       }
     });
-    this.commentowner = new Map<number, string>
+    //this.commentowner = new Map<number, string>
     this.commentForm = this.fb.group({
       text: ['', Validators.required],
       user_id: sessionStorage.getItem("id"),
@@ -84,11 +85,14 @@ export class CommentDialogComponent {
   ngOnInit(): void {
     this.commentService.getCommentsOnPost(this.postId).subscribe(comments =>{
       this.comments = comments;
+      /*
       for(let i = 0; i < comments.length; i++){
         this.commentowner.set(comments[i].idcomments, comments[i].username);
       }
       console.log("Comment owner");
       console.log(this.commentowner);
+
+       */
     });
   }
 

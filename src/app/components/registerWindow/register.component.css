@@ -1,6 +1,35 @@
 form {
   margin: 100px auto;
   display: table;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-/* Ensure body and html have a height of 100% */
 
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.btn-primary {
+  background-color: darksalmon;
+  border-color: beige;
+}
+
+.btn-primary:hover {
+  background-color: coral;
+  border-color: beige;
+}
+
+.loginLink{
+  color: darksalmon;
+}

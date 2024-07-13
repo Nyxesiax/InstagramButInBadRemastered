@@ -2,30 +2,35 @@
   <h1 *ngIf="isLoggedIn()">Welcome back, {{username}}</h1>
   <ul class="list-group list-group-flush">
     <li class="list-group-item" *ngFor="let post of posts">
-      <div class="card" >
+      <div class="card">
         <div class="card-header">
-          <img *ngIf="post.image" [src]="'http://localhost:8081/uploads/'+ post.image" alt="Post Image" width="800" height="420" style="object-fit: contain;">
+          <h2 class="card-title">{{post.title}}</h2>
+          <h3 class="post-owner">posted by
+            <img *ngIf="post?.profilePicture" [src]="'http://localhost:8081/uploads/'+ post?.profilePicture" alt="Post Image" class="circlePicture">
+            <!--<mat-icon id="person-icon">person</mat-icon>-->
+            {{post.username}}</h3>
+        </div>
+        <div class="card-img" *ngIf="post.image">
+          <img *ngIf="post.image" [src]="'http://localhost:8081/uploads/'+ post.image" alt="If you were looking for the image of this post, it went to 404-land" class="post-image">
+          <p class="card-text post-caption">{{post.caption}}</p>
         </div>
         <div class="card-body">
-          <h5 class="card-title">{{post.title}}</h5>
-          <p class="card-text">{{post.body}}</p>
-          <p class="card-text">{{post.caption}}</p>
+          <p class="card-text post-body">{{post.body}}</p>
         </div>
         <div class="card-footer">
-          <p>Score: {{post.score}} </p>
-          <p>Owner: {{owner.get(post.postId)}}</p>
-          <button mat-fab extended (click)="upvote(post)">
-            <mat-icon>arrow_circle_up</mat-icon>
+          <div class="button-group">
+            <button mat-fab extended (click)="upvote(post)" matTooltip="Upvote this post!">
+              <mat-icon>arrow_circle_up</mat-icon>
               Upvote
-          </button>
-          <button mat-fab (click)="downvote(post)">
-            <mat-icon>arrow_circle_down</mat-icon>
-<!--              Downvote-->
-          </button>
-          <button mat-fab (click)="showCommentDialog(post)">
-            <mat-icon>forum</mat-icon>
-<!--            Comment-->
-          </button>
+            </button>
+            <button mat-fab (click)="downvote(post)" matTooltip="Downvote this post!">
+              <mat-icon>arrow_circle_down</mat-icon>
+            </button>
+            <button mat-fab (click)="showCommentDialog(post)" matTooltip="Comment on this post!">
+              <mat-icon>forum</mat-icon>
+            </button>
+          </div>
+          <p class="post-score">Score: {{post.score}}</p>
         </div>
       </div>
     </li>

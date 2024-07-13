@@ -76,7 +76,6 @@ export class UserProfileComponent {
   ngOnInit(): void {
     this.usersService.getUser(this.id).subscribe(user => {
       this.user = user;
-      console.log("Image ", this.user.profilePicture)
     })
     this.postService.getPostsFromUser(<number>this.id).subscribe(posts => {
       this.posts = posts;

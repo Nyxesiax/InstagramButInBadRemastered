@@ -3,23 +3,12 @@ const express = require('express');
 const http = require('http');
 const mysql = require('mysql');
 const socketIo = require('socket.io'); // Import Socket.io
-const cors = require("cors");
 
 const app = express();
 const server = http.createServer(app);
 
-app.use(
-  cors({
-    origin: "*",
-  })
-);
 
-const io = socketIo(server, {
-  cors: {
-    origin: "http://localhost:4200",
-    methods: ["GET", "POST"]
-  }
-}); // Create a Socket.io server instance
+const io = socketIo(server); // Create a Socket.io server instance
 
 const bodyParser = require('body-parser');
 const path = require('path');

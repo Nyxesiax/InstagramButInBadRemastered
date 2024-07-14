@@ -97,6 +97,10 @@ export class DashboardComponent implements OnInit
       this.loadPosts()
     })
 
+    this.webSocketService.onEvent("updatePost").subscribe(bio => {
+      this.loadPosts()
+    })
+
     this.webSocketService.onEvent('newPost').subscribe((post: Post) => {
       this.userService.getUser(post.userId).subscribe(user => {
         this.posts.unshift({
@@ -119,7 +123,6 @@ export class DashboardComponent implements OnInit
     this.postsService.getPosts().subscribe(posts =>
     {
       this.posts = posts;
-      console.log("posts: ", posts)
     });
   }
 

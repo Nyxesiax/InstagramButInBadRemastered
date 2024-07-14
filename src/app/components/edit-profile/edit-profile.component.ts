@@ -71,11 +71,9 @@ export class EditProfileComponent {
 
     this.userService.updateUser(formData).subscribe(
       response => {
-        console.log("Response from upload", response);
         this.router.navigate(["/userProfile"]);
       },
       error => {
-        console.error("Error updating profile", error);
         // Handle the error appropriately here
       }
     );

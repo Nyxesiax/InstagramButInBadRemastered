@@ -167,7 +167,21 @@ app.post('/posts', upload.single('image'), (req, res) => {
   });
 });
 
-
+app.put('/posts/:id', (req, res) => {
+  const updatedPost = req.body;
+  const { id } = req.params;
+  con.query('UPDATE posts SET score = ? WHERE postId = ?', [updatedPost.score, id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ message: 'Internal server error' });
+    }
+    if (results.affectedRows > 0) {
+      notifyClients("updatePost", id);
+      res.json({ message: 'Post updated successfully', results});
+    } else {
+      res.status(401).json({ message: 'No matching Post found or no changes detected' });
+    }
+  });
+});
 app.put('/posts/:id', (req, res) => {
   const updatedPost = req.body;
   const { id } = req.params;
@@ -212,24 +226,6 @@ app.get('/comments/:id', (req, res) =>
     }
   });
 });
-
-/*
-app.get('/comments/:id', (req, res) =>
-{
-  const {id} = req.params;
-  con.query('SELECT * FROM comments WHERE post_id = ?', [id], (err, results) =>
-  {
-    if(err) throw err;
-    if (results.length > 0)
-    {
-      res.json(results);
-    } else
-    {
-      res.status(404).json({message: 'Comment not found'});
-    }
-  });
-});
- */
 
 app.get('comments/singlecomment/:id', (req, res) =>{
   const {id} = req.params;
